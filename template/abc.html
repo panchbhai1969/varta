@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Hello Bulma!</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("button").click(function(){
+    $.get("https://nearfit.in/nfrun/api/pseudo/", function(data, status){
+        
+        var accum = ""  
+        
+        for (i = 0; i < data.results.length; i++){
+            console.log(i)
+            //alert("name: " + data.results.name[i] + "\nsteps: " + data.results.step_count[i]);
+            accum='<tr> <th><tag class="is-danger tag is-large">'+data.results[i].name+'</tag></th> '+' <th>'+data.results[i].step_count+'</th>'+' <th>'+data.results[i].android_id+'</th> </tr>'
+            $("table").append(accum);
+        }
+        
+    });
+  });
+});
+</script>
+</head>
+<body>
+
+<button>Send an HTTP GET request to a page and get the result back</button>
+<div style="margin:1em" class="box">
+<table class ="table "id="table">
+    <tr>
+       <th>Name</th>
+       <th>steps</th>
+       <th>id</th>
+       
+    </tr>
+</div>   
+
+<form action="url" method="POST">
+    <input class="input" name ="name" placeholder="Name" type="text"/>
+    <input style ="margin:.25em" class="button is-success "type="submit"/>
+</form >
+</table>
+</body>
+</html>

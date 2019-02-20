@@ -24,6 +24,8 @@ class Sellable(models.Model):
 
 suppliers=[]
 categ=None
+
+
 def GiveResponse(msg,number):
     global suppliers
     global categ

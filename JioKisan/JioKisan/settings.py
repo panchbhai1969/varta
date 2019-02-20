@@ -28,7 +28,7 @@ SECRET_KEY = '&alxe!l_c0k+0eck+3=%_&3or3i@)_prmdcp$dit9!&kn$h^f@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.3.5.231']
 
 
 # Application definition
@@ -132,4 +132,5 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     '127.0.0.1:9000',
     'http://192.168.43.194:8000/'
+    
 )

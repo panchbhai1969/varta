@@ -6,6 +6,9 @@ from . forms import UserRequest
 from . models import *
 
 
+def home_screen(request):
+     return render(request,template_name='template/index.html')
+
 def speechtotext(request):
     if(request.method == 'POST'):
         if 'finalTranscripts' in request.POST:

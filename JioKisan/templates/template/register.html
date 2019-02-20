@@ -19,6 +19,19 @@
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
+<script>
+  $(document).ready(function(){
+  $("button").click(function(){
+    alert("i am here.");
+    var formData = JSON.stringify($("#myForm").serializeArray());
+    $.post("http://10.3.5.231:8000/new_reg/",
+     formData,
+     function(data, status){
+      alert("Data: " + data + "\nStatus: " + status);
+    });
+  });
+});
+</script> 
 
 <body class="bg-gradient-primary">
 
@@ -34,25 +47,25 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
               </div>
-              <form class="user">
+              <form id ="myForm" enctype="application/json"  class="user" method="POST">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">
+                    <input type="text" name="first" class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name">
+                    <input type="text" name="last" class="form-control form-control-user" id="exampleLastName" placeholder="Last Name">
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="number" class="form-control form-control-user" id="exampleInputEmail" placeholder="Mobile Number">
+                  <input type="number" name="mobile" class="form-control form-control-user" id="exampleInputEmail" placeholder="Mobile Number">
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="examplepan" placeholder="PAN card number">
+                    <input type="text" name="PAN" class="form-control form-control-user" id="examplepan" placeholder="PAN card number">
                   </div>
-                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                  Next
-                </a>
+                
               </form>
+              <button id="next" >Next</button>
+                 
             </div>
           </div>
         </div>

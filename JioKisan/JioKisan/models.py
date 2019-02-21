@@ -1,4 +1,5 @@
 from django.db import models
+
 ####### states
 # 0  first msg
 # 1  Buyers available
@@ -7,6 +8,13 @@ from django.db import models
 #   
 #
 #######
+STATUS_CHOICES = {
+    1 :  "Farmer",
+    2: "Truck drivers",
+    3: "Mandis",
+    4: "Farm tool Sellers"
+}
+
 
 class PhoneUser(models.Model):
     phone_number=models.IntegerField(primary_key=True)
@@ -21,6 +29,13 @@ class Sellable(models.Model):
     cost=models.IntegerField()
     seller=models.ForeignKey(PhoneUser,on_delete=models.CASCADE,db_column='phone_number')
     categary=models.ForeignKey(Categary,on_delete=models.CASCADE,db_column='cid')
+class User_reg(models.Model):
+    name = models.CharField(max_length=40)
+    phone_number = models.CharField(max_length=40)
+    role = models.IntegerField(default=0)
+    address = models.CharField(max_length=100,)
+    PAN = models.CharField(max_length=10,primary_key=True)
+
 
 suppliers=[]
 categ=None

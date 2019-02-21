@@ -1,13 +1,20 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import json
+from django.views.decorators.csrf import csrf_exempt
 
 from . forms import UserRequest
 from . models import *
 
-
-def home_screen(request):
-     return render(request,template_name='template/index.html')
+@csrf_exempt
+def new_registration(request):
+    if request.method == 'POST':
+            print ('Raw Data: "%s"' % request.body )
+    response = JsonResponse(
+        # your stuff here
+    )
+    response['Access-Control-Allow-Origin'] = '*'
+    return response       
 
 def speechtotext(request):
     if(request.method == 'POST'):

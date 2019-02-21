@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('trade/',include('trade.urls')),
-    path('',views.home_screen,name='Response Page'),
+    path('',views.ResponsePage,name='Response Page'),
     path('stt/',views.speechtotext, name='Speech to Text'),
+    path('new_reg/',views.new_registration, name='Speech to Text'),
 ]

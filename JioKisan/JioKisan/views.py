@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import json
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from . forms import UserRequest
@@ -10,9 +11,7 @@ from . models import *
 def new_registration(request):
     if request.method == 'POST':
             print ('Raw Data: "%s"' % request.body )
-    response = JsonResponse(
-        # your stuff here
-    )
+    response = JsonResponse({'newTheme': "Hey" })
     response['Access-Control-Allow-Origin'] = '*'
     return response       
 

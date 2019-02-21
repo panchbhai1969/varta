@@ -1,40 +1,33 @@
 from django.db import models
 
-####### states
-# 0  first msg
-# 1  Buyers available
-# 
-# 2  buying price
-#   
-#
-#######
 STATUS_CHOICES = {
-    1 :  "Farmer",
+    1:"Farmer",
     2: "Truck drivers",
     3: "Mandis",
     4: "Farm tool Sellers"
 }
 
-
-class PhoneUser(models.Model):
-    phone_number=models.IntegerField(primary_key=True)
-    name=models.CharField(max_length=40)
-    chat_state=models.CharField(max_length=10)
-
-class Categary(models.Model):
-    name=models.CharField(max_length=40,primary_key=True)
-    MSP=models.IntegerField()
-    cid=models.IntegerField(default=5)
-class Sellable(models.Model):
-    cost=models.IntegerField()
-    seller=models.ForeignKey(PhoneUser,on_delete=models.CASCADE,db_column='phone_number')
-    categary=models.ForeignKey(Categary,on_delete=models.CASCADE,db_column='cid')
 class User_reg(models.Model):
     name = models.CharField(max_length=40)
-    phone_number = models.CharField(max_length=40)
+    phone_number = models.CharField(max_length=40,unique=True)
     role = models.IntegerField(default=0)
     address = models.CharField(max_length=100,)
     PAN = models.CharField(max_length=10,primary_key=True)
+    license_number=models.CharField(max_length=20)
+    vehicle_number=models.CharField(max_length=20)
+    vehicle_model=models.CharField(max_length=40)
+    vehicle_capacity=models.IntegerField()
+    organisation_name=models.CharField(max_length=80)
+    bank_account_number=models.CharField(max_length=20)
+
+class FarmEntity(models.Model):
+    id = models.CharField(max_length=80,primary_key=True)
+    name =models.CharField(max_length==40)
+    price=models.IntegerField()
+    PTS=models.CharField()
+    measured_in=models.CharField()
+    MSP=models.IntegerField()
+
 
 
 suppliers=[]

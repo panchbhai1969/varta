@@ -31,9 +31,19 @@
     });
   });
 });
+
+function send_test(){
+    alert("i am here.");
+    var formData = JSON.stringify($("#myForm").serializeArray());
+    $.post("http://10.3.5.231:8000/new_reg/",
+     formData,
+     function(data, status){
+      alert("Data: " + data + "\nStatus: " + status);
+    });
+  };
 </script> 
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-success">
 
   <div class="container">
 
@@ -64,8 +74,7 @@
                   </div>
                 
               </form>
-              <button id="next" >Next</button>
-                 
+              <button onclick="send_test()" id="next"  class="btn btn-primary btn-user btn-block" >Next</button>    
             </div>
           </div>
         </div>

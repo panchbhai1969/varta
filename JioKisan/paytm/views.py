@@ -10,7 +10,7 @@ from . import Checksum
 from paytm.models import PaytmHistory
 # Create your views here.
 
-@login_required
+#@login_required
 def home(request):
     return HttpResponse("<html><a href='"+ settings.HOST_URL +"/paytm/payment'>PayNow</html>")
 

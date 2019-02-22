@@ -1,9 +1,10 @@
-from django.urls import path,include
+# from django.urls import path,include
+from django.conf.urls import include, url
 
 from . import views
 
 urlpatterns = [
-    path('buy',views.BuyPage,name='BuyPage'),
-    path('sell',views.SellPage,name='SellPage'),
-    path('',views.TradePage,name='TradePage'),
+    url('buy',views.BuyPage,name='BuyPage'),
+    url('sell',views.SellPage,name='SellPage'),
+    url('',views.TradePage,name='TradePage'),
 ]

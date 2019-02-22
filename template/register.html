@@ -31,19 +31,9 @@
     });
   });
 });
-
-function send_test(){
-    alert("i am here.");
-    var formData = JSON.stringify($("#myForm").serializeArray());
-    $.post("http://10.3.5.231:8000/new_reg/",
-     formData,
-     function(data, status){
-      alert("Data: " + data.newTheme + "\nStatus: " + status);
-    });
-  };
 </script> 
 
-<body class="bg-gradient-success">
+<body class="bg-gradient-primary">
 
   <div class="container">
 
@@ -74,7 +64,8 @@ function send_test(){
                   </div>
                 
               </form>
-              <button onclick="send_test()" id="next"  class="btn btn-primary btn-user btn-block" >Next</button>    
+              <button id="next" >Next</button>
+                 
             </div>
           </div>
         </div>

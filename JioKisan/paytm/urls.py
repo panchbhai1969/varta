@@ -1,10 +1,11 @@
 from django.conf.urls import include, url
+from django.urls import include, path
 from . import views
 
 urlpatterns = [
     # Examples:
-    url(r'$^', views.home, name='home'),
-    url(r'^payment/', views.payment, name='payment'),
-    url(r'^response/', views.response, name='response'),
-    url(r'^responses', views.responses, name = 'responses')
+    path('', views.home, name='home'),
+    path('payment/', views.payment, name='payment'),
+    path('response/', views.response, name='response'),
+    path('responses', views.responses, name = 'responses')
 ]

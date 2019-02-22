@@ -22,11 +22,32 @@ class User_reg(models.Model):
 
 class FarmEntity(models.Model):
     id = models.CharField(max_length=80,primary_key=True)
-    name =models.CharField(max_length==40)
+    name =models.CharField(max_length=40)
     price=models.IntegerField()
-    PTS=models.CharField()
-    measured_in=models.CharField()
+    PTS=models.CharField(max_length=40)
+    measured_in=models.CharField(max_length=40)
     MSP=models.IntegerField()
+
+class  Produce(models.Model):
+    upid=models.IntegerField(primary_key=True)
+    amount=models.IntegerField()
+    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE)
+    farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE)
+
+class Request(models.Model):
+    urid=models.IntegerField(primary_key=True)
+    amount=models.IntegerField()
+    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE)
+    mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE)
+    current_bid=models.IntegerField()
+    before_date=models.DateField()
+class Consignment(models.Model):
+    ucid=models.IntegerField(primary_key=True)
+    req=models.ForeignKey(Request,on_delete=models.CASCADE)
+    prod=models.ForeignKey(Produce,on_delete=models.CASCADE)
+    expected_delivery=models.DateField()
+    truck=models.ForeignKey(User_reg,on_delete=models.CASCADE)
+    cost=models.IntegerField()
 
 
 

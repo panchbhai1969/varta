@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'trade',
     'JioKisan',
+    'trucks',
 ]
 
 MIDDLEWARE = [

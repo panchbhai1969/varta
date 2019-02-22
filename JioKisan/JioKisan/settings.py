@@ -16,17 +16,18 @@ SECRET_KEY = '&alxe!l_c0k+0eck+3=%_&3or3i@)_prmdcp$dit9!&kn$h^f@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['10.3.5.231','0.0.0.0']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.3.5.231','0.0.0.0']
+# ALLOWED_HOSTS = []
 
 
 # Application definition
 
 INSTALLED_APPS = [
-        'corsheaders',
+    'corsheaders',
     'trade',
     'JioKisan',
-    'paytm',
+    'trucks',
+    # 'paytm',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,17 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-        'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-            'django.middleware.security.SecurityMiddleware',
 ]
 
 ROOT_URLCONF = 'JioKisan.urls'

@@ -1,10 +1,21 @@
 from django.db import models
+import uuid
 
 STATUS_CHOICES = {
     1:"Farmer",
     2: "Truck drivers",
     3: "Mandis",
     4: "Farm tool Sellers"
+}
+VEHICLE_MODELS= {
+    1:'AC',
+    2:'NON AC'
+}
+MEASUREMENT_TYPES = {
+    1:'KG',
+    2:'METRIC TON',
+    3:'DOZENS',
+    4:'LITRES'
 }
 
 class User_reg(models.Model):
@@ -15,17 +26,15 @@ class User_reg(models.Model):
     PAN = models.CharField(max_length=10,primary_key=True)
     license_number=models.CharField(max_length=20)
     vehicle_number=models.CharField(max_length=20)
-    vehicle_model=models.CharField(max_length=40)
+    vehicle_model=models.IntegerField()
     vehicle_capacity=models.IntegerField()
     organisation_name=models.CharField(max_length=80)
     bank_account_number=models.CharField(max_length=20)
 
 class FarmEntity(models.Model):
-    id = models.CharField(max_length=80,primary_key=True)
-    name =models.CharField(max_length=40)
-    price=models.IntegerField()
-    PTS=models.CharField(max_length=40)
-    measured_in=models.CharField(max_length=40)
+    ufid = models.IntegerField(primary_key=True)
+    name =models.CharField(max_length=40,unique=True)
+    measured_in=models.IntegerField()
     MSP=models.IntegerField()
 
 class  Produce(models.Model):
@@ -49,10 +58,23 @@ class Consignment(models.Model):
     truck=models.ForeignKey(User_reg,on_delete=models.CASCADE)
     cost=models.IntegerField()
 
+def AddFarmEntity(mname,mMSP,mMeasured_in):
+    exists=FarmEntity.objects.filter(name=mname).count()
+    if exists !=0:
+        return 'already exists'
+    fe=FarmEntity()
+    fe.name=mname
+    fe.ufid=uuid
+    fe.MSP=mMSP
+    fe.measured_in=mMeasured_in
+    fe.save()
+
 
 
 suppliers=[]
 categ=None
+
+
 
 
 def GiveResponse(msg,number):

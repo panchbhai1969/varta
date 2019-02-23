@@ -15,9 +15,6 @@ def create_dict(data_rec):
         diction[val['name']] = val['value']
     return diction
 
-
-
-
 @csrf_exempt
 def new_registration(request):
     data_rec = []
@@ -28,7 +25,18 @@ def new_registration(request):
     response = JsonResponse({'newTheme': "Hey" })
     response['Access-Control-Allow-Origin'] = '*'
     diction = create_dict(data_rec)
-    print(diction)
+    return response 
+  
+@csrf_exempt
+def otp_check(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+            #print ('Raw Data: "%s"' % str(data_rec) )
+    
+    response = JsonResponse({'newTheme': "Hey" })
+    response['Access-Control-Allow-Origin'] = '*'
+    diction = create_dict(data_rec)
     return response       
 
 def speechtotext(request):

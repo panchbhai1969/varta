@@ -31,6 +31,8 @@ class User_reg(models.Model):
     vehicle_capacity=models.IntegerField()
     organisation_name=models.CharField(max_length=80)
     bank_account_number=models.CharField(max_length=20)
+    GST_number=models.CharField(max_length=20)
+    isVerified=models.BooleanField()
 
 class FarmEntity(models.Model):
     ufid = models.IntegerField(primary_key=True)
@@ -69,6 +71,22 @@ def AddFarmEntity(mname,mMSP,mMeasured_in):
     fe.ufid=uuid.uuid1().int%1000000000
     fe.measured_in=mMeasured_in
     fe.save()
+
+def RegisterUser(mdict):
+    try:
+        exists=User_reg.objects.filter(PAN=mdict['PAN']).count()
+        unver=False
+        if exists!=0:
+            nu=User_reg.objects.get(PAN=mdict['PAN'])
+            if nu.isVerified:
+                return 'fail user already exists'
+            else:
+                unver=True
+        if unver:
+        return 'success'
+    except:
+        print ('fail exception occured')
+        return 'fail exception occured'
 
 
 

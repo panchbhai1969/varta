@@ -30,7 +30,7 @@
     function send_test() {
       alert("i am here.");
       var formData = JSON.stringify($("#myForm").serializeArray());
-    $.post("http://10.3.5.231:8000/new_reg/",
+    $.post("http://127.0.0.1:8000/new_reg/",
      formData,
      function(data, status){
       alert("Data: " + data + "\nStatus: " + status);

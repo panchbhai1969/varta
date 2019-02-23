@@ -11,6 +11,11 @@ from . models import *
 def new_registration(request):
     if request.method == 'POST':
             print ('Raw Data: "%s"' % request.body )
+            # pan=request.POST.get('PAN')1
+            # if (pan is None):
+            #     print("invalid request")1
+            # isAlready=User_reg.objects.filter(PAN=pan).count()
+            
     response = JsonResponse({'newTheme': "Hey" })
     response['Access-Control-Allow-Origin'] = '*'
     return response       

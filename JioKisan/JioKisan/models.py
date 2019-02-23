@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+import time
 
 STATUS_CHOICES = {
     1:"Farmer",
@@ -33,29 +34,29 @@ class User_reg(models.Model):
 
 class FarmEntity(models.Model):
     ufid = models.IntegerField(primary_key=True)
-    name =models.CharField(max_length=40,unique=True)
+    name =models.CharField(max_length=40)
     measured_in=models.IntegerField()
     MSP=models.IntegerField()
 
 class  Produce(models.Model):
     upid=models.IntegerField(primary_key=True)
     amount=models.IntegerField()
-    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE)
+    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE)
 
 class Request(models.Model):
     urid=models.IntegerField(primary_key=True)
     amount=models.IntegerField()
-    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE)
-    mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE)
+    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
+    mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
     current_bid=models.IntegerField()
     before_date=models.DateField()
 class Consignment(models.Model):
     ucid=models.IntegerField(primary_key=True)
-    req=models.ForeignKey(Request,on_delete=models.CASCADE)
-    prod=models.ForeignKey(Produce,on_delete=models.CASCADE)
+    req=models.ForeignKey(Request,on_delete=models.CASCADE,db_column='urid')
+    prod=models.ForeignKey(Produce,on_delete=models.CASCADE,db_column='upid')
     expected_delivery=models.DateField()
-    truck=models.ForeignKey(User_reg,on_delete=models.CASCADE)
+    truck=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
     cost=models.IntegerField()
 
 def AddFarmEntity(mname,mMSP,mMeasured_in):
@@ -64,8 +65,8 @@ def AddFarmEntity(mname,mMSP,mMeasured_in):
         return 'already exists'
     fe=FarmEntity()
     fe.name=mname
-    fe.ufid=uuid
     fe.MSP=mMSP
+    fe.ufid=uuid.uuid1().int%1000000000
     fe.measured_in=mMeasured_in
     fe.save()
 

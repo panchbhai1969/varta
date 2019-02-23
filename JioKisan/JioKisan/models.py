@@ -1,10 +1,22 @@
 from django.db import models
+import uuid
+import time
 
 STATUS_CHOICES = {
     1:"Farmer",
     2: "Truck drivers",
     3: "Mandis",
     4: "Farm tool Sellers"
+}
+VEHICLE_MODELS= {
+    1:'AC',
+    2:'NON AC'
+}
+MEASUREMENT_TYPES = {
+    1:'KG',
+    2:'METRIC TON',
+    3:'DOZENS',
+    4:'LITRES'
 }
 
 class User_reg(models.Model):
@@ -15,44 +27,55 @@ class User_reg(models.Model):
     PAN = models.CharField(max_length=10,primary_key=True)
     license_number=models.CharField(max_length=20)
     vehicle_number=models.CharField(max_length=20)
-    vehicle_model=models.CharField(max_length=40)
+    vehicle_model=models.IntegerField()
     vehicle_capacity=models.IntegerField()
     organisation_name=models.CharField(max_length=80)
     bank_account_number=models.CharField(max_length=20)
 
 class FarmEntity(models.Model):
-    id = models.CharField(max_length=80,primary_key=True)
+    ufid = models.IntegerField(primary_key=True)
     name =models.CharField(max_length=40)
-    price=models.IntegerField()
-    PTS=models.CharField(max_length=40)
-    measured_in=models.CharField(max_length=40)
+    measured_in=models.IntegerField()
     MSP=models.IntegerField()
 
 class  Produce(models.Model):
     upid=models.IntegerField(primary_key=True)
     amount=models.IntegerField()
-    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE)
+    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE)
 
 class Request(models.Model):
     urid=models.IntegerField(primary_key=True)
     amount=models.IntegerField()
-    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE)
-    mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE)
+    FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
+    mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
     current_bid=models.IntegerField()
     before_date=models.DateField()
 class Consignment(models.Model):
     ucid=models.IntegerField(primary_key=True)
-    req=models.ForeignKey(Request,on_delete=models.CASCADE)
-    prod=models.ForeignKey(Produce,on_delete=models.CASCADE)
+    req=models.ForeignKey(Request,on_delete=models.CASCADE,db_column='urid')
+    prod=models.ForeignKey(Produce,on_delete=models.CASCADE,db_column='upid')
     expected_delivery=models.DateField()
-    truck=models.ForeignKey(User_reg,on_delete=models.CASCADE)
+    truck=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
     cost=models.IntegerField()
+
+def AddFarmEntity(mname,mMSP,mMeasured_in):
+    exists=FarmEntity.objects.filter(name=mname).count()
+    if exists !=0:
+        return 'already exists'
+    fe=FarmEntity()
+    fe.name=mname
+    fe.MSP=mMSP
+    fe.ufid=uuid.uuid1().int%1000000000
+    fe.measured_in=mMeasured_in
+    fe.save()
 
 
 
 suppliers=[]
 categ=None
+
+
 
 
 def GiveResponse(msg,number):

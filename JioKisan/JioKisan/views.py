@@ -7,16 +7,28 @@ from django.views.decorators.csrf import csrf_exempt
 from . forms import UserRequest
 from . models import *
 
+def create_dict(data_rec):
+    diction = {}
+    for val in data_rec:
+        if(val['name'] =='' or val['value'] ==''):
+            continue
+        diction[val['name']] = val['value']
+    return diction
+
+
+
+
 @csrf_exempt
 def new_registration(request):
     data_rec = []
     if request.method == 'POST':
             data_rec = json.loads(request.body)
-            print ('Raw Data: "%s"' % str(data_rec) )
+            #print ('Raw Data: "%s"' % str(data_rec) )
     
     response = JsonResponse({'newTheme': "Hey" })
     response['Access-Control-Allow-Origin'] = '*'
-    print(data_rec[0]['name'])
+    diction = create_dict(data_rec)
+    print(diction)
     return response       
 
 def speechtotext(request):

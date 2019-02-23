@@ -72,23 +72,6 @@ def AddFarmEntity(mname,mMSP,mMeasured_in):
     fe.measured_in=mMeasured_in
     fe.save()
 
-def RegisterUser(mdict):
-    try:
-        exists=User_reg.objects.filter(PAN=mdict['PAN']).count()
-        unver=False
-        if exists!=0:
-            nu=User_reg.objects.get(PAN=mdict['PAN'])
-            if nu.isVerified:
-                return 'fail user already exists'
-            else:
-                unver=True
-        if unver:
-        return 'success'
-    except:
-        print ('fail exception occured')
-        return 'fail exception occured'
-
-
 
 suppliers=[]
 categ=None

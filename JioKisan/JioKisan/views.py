@@ -9,10 +9,14 @@ from . models import *
 
 @csrf_exempt
 def new_registration(request):
+    data_rec = []
     if request.method == 'POST':
-            print ('Raw Data: "%s"' % request.body )
+            data_rec = json.loads(request.body)
+            print ('Raw Data: "%s"' % str(data_rec) )
+    
     response = JsonResponse({'newTheme': "Hey" })
     response['Access-Control-Allow-Origin'] = '*'
+    print(data_rec[0]['name'])
     return response       
 
 def speechtotext(request):

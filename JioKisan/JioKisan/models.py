@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 import time
+from pymemcache.client import base
 
 STATUS_CHOICES = {
     1:"Farmer",
@@ -31,6 +32,8 @@ class User_reg(models.Model):
     vehicle_capacity=models.IntegerField()
     organisation_name=models.CharField(max_length=80)
     bank_account_number=models.CharField(max_length=20)
+    GST_number=models.CharField(max_length=20)
+    isVerified=models.BooleanField()
 
 class FarmEntity(models.Model):
     ufid = models.IntegerField(primary_key=True)
@@ -59,6 +62,12 @@ class Consignment(models.Model):
     truck=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
     cost=models.IntegerField()
 
+##
+#Requirements for cacheing
+# install memcached for linux
+# pip install pymemcached
+# run memcached before running the server
+##
 def AddFarmEntity(mname,mMSP,mMeasured_in):
     exists=FarmEntity.objects.filter(name=mname).count()
     if exists !=0:
@@ -69,6 +78,32 @@ def AddFarmEntity(mname,mMSP,mMeasured_in):
     fe.ufid=uuid.uuid1().int%1000000000
     fe.measured_in=mMeasured_in
     fe.save()
+
+def RegisterUser(mdict):
+    client = base.Client(('localhost', 11211))
+    try:
+        nu=None
+        exists=User_reg.objects.filter(phone_number=mdict['phone_number']).count()
+        if exists!=0:
+            nu=User_reg.objects.get(phone_number=mdict['phone_number'])
+            if nu.isVerified:
+                return 'fail phone already exists'
+        exists=User_reg.objects.filter(PAN=mdict['PAN']).count()
+        if exists!=0:
+            nu=User_reg.objects.get(PAN=mdict['PAN'])
+            if nu.isVerified:
+                return 'fail user already exists'
+        if nu is None:
+            nu=User_reg()
+        nu.name=mdict['name']
+        nu.name=mdict['name']
+        nu.name=mdict['name']
+        nu.name=mdict['name']
+        
+        return 'success'
+    except:
+        print ('fail exception occured')
+        return 'fail exception occured'
 
 
 

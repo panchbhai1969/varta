@@ -106,7 +106,6 @@ def RegisterUser(mdict):
         return 'fail exception occured'
 
 
-
 suppliers=[]
 categ=None
 

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Truck Drivers</title>
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Varta<sup>4</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item - Dashboard -->
+      <li class="nav-item">
+        <a class="nav-link" href="index.html">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span></a>
+      </li>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Interface
+      </div>
+      <!-- Nav Item - Tables -->
+      <li class="nav-item active">
+        <a class="nav-link" href="Farmers.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Home</span></a>
+      </li>
+
+      <li class="nav-item">
+            <a class="nav-link" href="">
+              <i class="fas fa-fw fa-table"></i>
+              <span>Buy</span></a>
+        </li>
+
+        <li class="nav-item">
+                <a class="nav-link" href="">
+                  <i class="fas fa-fw fa-table"></i>
+                  <span>Sell</span></a>
+            </li>
+        
+        <li class="nav-item">
+                <a class="nav-link" href="">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Profile</span></a>
+            </li>
+            
+        <!-- Nav Item - Charts -->
+      <li class="nav-item">
+            <a class="nav-link" href="">
+              <i class="fas fa-fw fa-chart-area"></i>
+              <span>Stats</span></a>
+          </li>
+    
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Gracia</span>
+                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Activity Log
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <div class="card-body">
+              <div style="margin:auto;" class="BuyButton" >
+                  <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg">
+                      <span class="text" >   Buy Farm Tools  </span>
+                    </a>
+                    <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg">
+                          <span class="text">   Sell Your Farm   </span>
+                        </a>
+                        </div>
+                <div class="my-2"></div>
+                
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                    <div class="dropdown mb-4">
+                            <button style="margin-left: 45%" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      Farm tools
+                            </button>
+                            <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                              <a class="dropdown-item" href="#">Fertilizers</a>
+                            </div>
+                          </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                    <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                              <h6 class="m-0 font-weight-bold text-primary">All</h6>
+                            </div>
+                            <div class="card-body">
+                                    <div class="product-sec1">
+                                            <h3 class="heading-tittle">All</h3>
+                                            <div class="col-md-4 product-men">
+                                                <div class="men-pro-item simpleCart_shelfItem">
+                                                    <div class="men-thumb-item">
+                                                        <img src="data:image/jpeg;base64,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" alt="">
+                                                        <div class="men-cart-pro">
+                                                            <div class="inner-men-cart-pro">
+                                                                <a href="single.html" class="link-product-add-cart">Quick View</a>
+                                                            </div>
+                                                        </div>
+                                                        <span class="product-new-top">New</span>
+                                                    </div>
+                                                    <div class="item-info-product ">
+                                                        <h4>
+                                                            <a href="single.html">Tomatoes/10kg</a>
+                                                        </h4>
+                                                        <div class="info-product-price">
+                                                            <span class="item_price">Rs.160</span>
+                                                            <del>$280.00</del>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                          </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Logout Modal-->
+  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-primary" href="login.html">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="js/demo/datatables-demo.js"></script>
+
+</body>
+
+</html>

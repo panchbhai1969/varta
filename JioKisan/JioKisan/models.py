@@ -26,7 +26,7 @@ class User_reg(models.Model):
     role = models.IntegerField(default=0)
     address = models.CharField(max_length=100,)
     PAN = models.CharField(max_length=10,primary_key=True)
-    license_number=models.CharField(max_length=20)
+    licence_number=models.CharField(max_length=20)
     vehicle_number=models.CharField(max_length=20)
     vehicle_model=models.IntegerField()
     vehicle_capacity=models.IntegerField()
@@ -65,7 +65,7 @@ class Consignment(models.Model):
 ##
 #Requirements for cacheing
 # install memcached for linux
-# pip install pymemcached
+# pip install pymemcache
 # run memcached before running the server
 ##
 def AddFarmEntity(mname,mMSP,mMeasured_in):
@@ -96,16 +96,47 @@ def RegisterUser(mdict):
         if nu is None:
             nu=User_reg()
         nu.name=mdict['name']
-        nu.name=mdict['name']
-        nu.name=mdict['name']
-        nu.name=mdict['name']
-        
+        nu.phone_number=mdict['phone_number']
+        nu.role=int(mdict['role'])
+        nu.PAN=mdict['PAN']
+        if nu.role==1:# is Farmer
+            pass
+        elif nu.role==2:
+            nu.vehicle_model=int(mdict['vehicle_model'])
+            nu.vehicle_capacity=int(mdict['vehicle_capacity'])
+            nu.vehicle_number=mdict['vehicle_number']
+            nu.licence_number=mdict['licence_number']
+        elif nu.role==3:
+            nu.organisation_name=mdict['organisation_name']
+        elif nu.role==4:
+            nu.bank_account_number=mdict['bank_account_number']
+            nu.GST_number=mdict['GST_number']
+        else:
+            raise ('invalid role')
+            nu.isVerified=False
+        otp=str(uuid.uuid1().int%1000000)
+        print('otp is '+otp)
+        client.set(mdict['PAN'],otp,30)        
         return 'success'
     except:
         print ('fail exception occured')
         return 'fail exception occured'
-
-
+def VerifyUser(mdict):
+    client = base.Client(('localhost', 11211))
+    otp_sent=client.get(mdict['PAN'])
+    if otp_sent==None:
+        print('timeout')
+        return 'timeout'
+    otp_recv=mdict['OTP']
+    if otp_recv != otp_sent:
+        print('wrong otp')
+        return ('wrong otp')
+    else:
+        nu=User_reg.objects.get(PAN=mdict['PAN'])
+        nu.isVerified=True
+        nu.save()
+        print('verification successful')
+        return ('verification successful')
 suppliers=[]
 categ=None
 

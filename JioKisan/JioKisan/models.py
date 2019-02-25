@@ -223,7 +223,7 @@ def create_produce(amount, FE_info, farmer_info):
     except:
         print("create produce error")
         return "failure"
-    return 0
+
 # Issue #3
 def create_request(amount, FE_info, mandi_info, current_bid, before_date):
     """
@@ -263,11 +263,19 @@ def list_consignments(user):
             consignments.append(cons)
     return consignments
 
+
+# Issue #10
 def list_20_requests():
     """
     Lists 20 recent requests.
-    """ other way of
-    return 0
+    """
+    try:
+        list_of_request = Request.objects.all().order_by('urid')[:20]
+        print("list of 20 recent request returned")
+        return list_of_request
+    except:
+        print("error getting 20 recents requests")
+        return "failure"
 
 def list_request(farm_entity,user):
     """

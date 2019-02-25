@@ -81,52 +81,54 @@ def AddFarmEntity(mname,mMSP,mMeasured_in):
 
 def RegisterUser(mdict):
     client = base.Client(('localhost', 11211))
-    #try:
-    nu=None
-    exists=User_reg.objects.filter(phone_number=mdict['phone_number']).count()
-    if exists!=0:
-        nu=User_reg.objects.get(phone_number=mdict['phone_number'])
-        if nu.isVerified:
-            return 'fail phone already exists'
-    exists=User_reg.objects.filter(PAN=mdict['PAN']).count()
-    if exists!=0:
-        nu=User_reg.objects.get(PAN=mdict['PAN'])
-        if nu.isVerified:
-            return 'fail user already exists'
-    if nu is None:
-        nu=User_reg()
-    nu.name=mdict['name']
-    nu.phone_number=mdict['phone_number']
-    nu.role=int(mdict['role'])
-    nu.PAN=mdict['PAN']
-    nu.address=mdict['address']
-    if nu.role==1:# is Farmer
-        pass
-    elif nu.role==2:
-        nu.vehicle_model=int(mdict['vehicle_model'])
-        nu.vehicle_capacity=int(mdict['vehicle_capacity'])
-        nu.vehicle_number=mdict['vehicle_number']
-        nu.licence_number=mdict['licence_number']
-    elif nu.role==3:
-        nu.organisation_name=mdict['organisation_name']
-    elif nu.role==4:
-        nu.bank_account_number=mdict['bank_account_number']
-        nu.GST_number=mdict['GST_number']
-    else:
-        raise ('invalid role')
-    nu.isVerified=False
-    otp=str(uuid.uuid1().int%1000000)
-    print('otp is '+otp)
-    client.set(mdict['PAN'],otp,30)
-    print(client.get(mdict['PAN']))       
-    nu.save()
-    return 'success'
-    #except:
-     #   print ('fail exception occured')
-     #   return 'fail exception occured'
+    try:
+        nu=None
+        exists=User_reg.objects.filter(phone_number=mdict['phone_number']).count()
+        if exists!=0:
+            nu=User_reg.objects.get(phone_number=mdict['phone_number'])
+            if nu.isVerified:
+                return 'fail phone already exists'
+        exists=User_reg.objects.filter(PAN=mdict['PAN']).count()
+        if exists!=0:
+            nu=User_reg.objects.get(PAN=mdict['PAN'])
+            if nu.isVerified:
+                return 'fail user already exists'
+        if nu is None:
+            nu=User_reg()
+        nu.name=mdict['name']
+        nu.phone_number=mdict['phone_number']
+        nu.role=int(mdict['role'])
+        nu.PAN=mdict['PAN']
+        nu.address=mdict['address']
+        if nu.role==1:# is Farmer
+            pass
+        elif nu.role==2:
+            nu.vehicle_model=int(mdict['vehicle_model'])
+            nu.vehicle_capacity=int(mdict['vehicle_capacity'])
+            nu.vehicle_number=mdict['vehicle_number']
+            nu.licence_number=mdict['licence_number']
+        elif nu.role==3:
+            nu.organisation_name=mdict['organisation_name']
+        elif nu.role==4:
+            nu.bank_account_number=mdict['bank_account_number']
+            nu.GST_number=mdict['GST_number']
+        else:
+            raise ('invalid role')
+        nu.isVerified=False
+        otp=str(uuid.uuid1().int%1000000)
+        print('otp is '+otp)
+        client.set(mdict['PAN'],otp,90)
+        print(client.get(mdict['PAN']))       
+        nu.save()
+        return 'success'
+    except:
+        print ('fail exception occured')
+        return 'fail exception occured'
+
 def VerifyUser(mdict):
     client = base.Client(('localhost', 11211))
-    otp_sent=client.get(mdict['PAN']).decode()
+    otp_sent=client.get(mdict['PAN'])
+    otp_sent=otp_sent.decode()
     if otp_sent==None:
         print('timeout')
         return 'timeout'
@@ -142,6 +144,8 @@ def VerifyUser(mdict):
         nu.save()
         print('verification successful')
         return ('verification successful')
+    
+
 
 suppliers=[]
 categ=None

@@ -29,52 +29,51 @@
   <script>
     function send_test() {
       var formData = JSON.stringify($("#myForm").serializeArray());
-    $.post("http://127.0.0.1:8000/new_reg/",
-     formData,
-     function(data, status){
-      alert("Data: " + data + "\nStatus: " + status);
-      //localStorage.setItem( 'objectToPass', formData);
-      //window.location.href = "Role.html";
-      document.getElementById("otp").style.display = "block";
-      document.getElementById("initial").style.display = "none";
-    }); 
-      
+      $.post("http://127.0.0.1:8000/new_reg/", formData, function(
+        data,
+        status
+      ) {
+        alert("Data: " + data + "\nStatus: " + status);
+        document.getElementById("otp").style.display = "block";
+        document.getElementById("initial").style.display = "none";
+      });
+
       document.getElementById("role").style.display = "block";
     }
 
     function show_what(val) {
       document.getElementById("options").style.display = "none";
-        if(val==2){
-          document.getElementById("mandi").style.display = "block";
-          document.getElementById("role_val").value = "mandi" ;
-        }
-        if(val==1){
-          document.getElementById("role_val").value = "farmer" ;
-        }
-        if(val==4){
-          document.getElementById("role_val").value = "truck" ;
-          document.getElementById("truck").style.display = "block";
-        }
-        if(val==3){
-          document.getElementById("role_val").value = "farm_tool" ;
-          document.getElementById("farm_tool").style.display = "block";
-        }
-        document.getElementById("next").style.display = "block";
+      if (val == 2) {
+        document.getElementById("mandi").style.display = "block";
+        document.getElementById("role_val").value = "3";
+      }
+      if (val == 1) {
+        document.getElementById("role_val").value = "1";
+      }
+      if (val == 4) {
+        document.getElementById("role_val").value = "2";
+        document.getElementById("truck").style.display = "block";
+      }
+      if (val == 3) {
+        document.getElementById("role_val").value = "4";
+        document.getElementById("farm_tool").style.display = "block";
+      }
+      document.getElementById("next").style.display = "block";
     }
 
-    function otp_check(){
+    function otp_check() {
+      document.getElementById("PAN").value = document.getElementById(
+        "examplepan"
+      ).value;
       var formData = JSON.stringify($("#otp_form").serializeArray());
-    $.post("http://127.0.0.1:8000/otp_check/",
-     formData,
-     function(data, status){
-      alert("Data: " + data + "\nStatus: " + status);
-      //localStorage.setItem( 'objectToPass', formData);
-      window.location.href = "Role.html";
-      //document.getElementById("otp").style.display = "block";
-      //document.getElementById("initial").style.display = "none";
-    }); 
-      
-      //document.getElementById("role").style.display = "block";
+      $.post("http://127.0.0.1:8000/otp_check/", formData, function(
+        data,
+        status
+      ) {
+        alert("Data: " + data + "\nStatus: " + status);
+
+        window.location.href = "index.html";
+      });
     }
   </script>
 
@@ -96,30 +95,19 @@
                   class="user"
                   method="POST"
                 >
-                  <div class="form-group row">
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                      <input
-                        type="text"
-                        name="first"
-                        class="form-control form-control-user"
-                        id="exampleFirstName"
-                        placeholder="First Name"
-                      />
-                    </div>
-                    <div class="col-sm-6">
-                      <input
-                        type="text"
-                        name="last"
-                        class="form-control form-control-user"
-                        id="exampleLastName"
-                        placeholder="Last Name"
-                      />
-                    </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      name="name"
+                      class="form-control form-control-user"
+                      id="name"
+                      placeholder="Name "
+                    />
                   </div>
                   <div class="form-group">
                     <input
                       type="number"
-                      name="mobile"
+                      name="phone_number"
                       class="form-control form-control-user"
                       id="exampleInputEmail"
                       placeholder="Mobile Number"
@@ -134,28 +122,58 @@
                       placeholder="PAN card number"
                     />
                   </div>
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      name="address"
+                      class="form-control form-control-user"
+                      id="exampleAdd"
+                      placeholder="Address"
+                    />
+                  </div>
                   <div style="color:black" id="options">
-                    <a onclick="show_what(1)"  class="btn btn-success btn-user btn-block">
+                    <a
+                      onclick="show_what(1)"
+                      class="btn btn-success btn-user btn-block"
+                    >
                       Farmers
                     </a>
-                    <a onclick="show_what(4)" class="btn btn-info btn-user btn-block">
-                      Truck Drivers  
+                    <a
+                      onclick="show_what(4)"
+                      class="btn btn-info btn-user btn-block"
+                    >
+                      Truck Drivers
                     </a>
-                    <a onclick="show_what(2)" class="btn btn-warning btn-user btn-block">
+                    <a
+                      onclick="show_what(2)"
+                      class="btn btn-warning btn-user btn-block"
+                    >
                       Mandi
                     </a>
-                    <a onclick="show_what(3)"  class="btn btn-danger btn-user btn-block">
+                    <a
+                      onclick="show_what(3)"
+                      class="btn btn-danger btn-user btn-block"
+                    >
                       Farm Tools Seller
-                    </a>     
+                    </a>
+                    <hr/>
+                    <a
+                      href = "login.html"
+                      style="color:white"
+                      class="btn btn-primary btn-user btn-block"
+                    >
+                      Already have an account, Login!
+                    </a>
+
                   </div>
                   <input
-                  type="text"
-                  name="role"
-                  class="form-control form-control-user"
-                  id="role_val"
-                  placeholder="Role"
-                  style="display:none"
-                />
+                    type="text"
+                    name="role"
+                    class="form-control form-control-user"
+                    id="role_val"
+                    placeholder="Role"
+                    style="display:none"
+                  />
                   <div style="display:none" id="mandi">
                     <div class="form-group row"></div>
                     <div class="form-group">
@@ -170,20 +188,19 @@
                     <div class="form-group">
                       <input
                         type="text"
-                        name="organization_address"
+                        name="org_address"
                         class="form-control form-control-user"
                         id="exampleAdd"
                         placeholder="Organisation Address"
                       />
                     </div>
                     <div>
-                      <label >Mandi type:</label>
+                      <label>Mandi type:</label>
                       <select name="mandi_type" class="form-control" id="sel2">
                         <option value="Government">Government</option>
                         <option value="Private">Private</option>
                       </select>
                     </div>
-                    
                   </div>
                   <div style="display:none" id="farm_tool">
                     <div class="form-group">
@@ -214,13 +231,12 @@
                       />
                     </div>
                     <div>
-                      <label >Seller type:</label>
+                      <label>Seller type:</label>
                       <select name="_type" class="form-control" id="sel2">
                         <option value="Government">Government</option>
                         <option value="Private">Private</option>
                       </select>
                     </div>
-                    
                   </div>
                   <div style="display:none" id="truck">
                     <div class="form-group row">
@@ -261,7 +277,6 @@
                         placeholder="Capacity"
                       />
                     </div>
-                    
                   </div>
                 </form>
                 <button
@@ -278,9 +293,8 @@
         </div>
       </div>
     </div>
-    
-    <div style="display:none"id ="otp"class="container">
 
+    <div style="display:none" id="otp" class="container">
       <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
           <!-- Nested Row within Card Body -->
@@ -291,13 +305,28 @@
                 <div class="text-center">
                   <h1 class="h4 text-gray-900 mb-4">OTP Authentication</h1>
                 </div>
-                <form id="otp_form"class="user">
+                <form id="otp_form" class="user">
                   <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleInput" placeholder="Please enter OTP here.">
+                    <input
+                      name="OTP"
+                      type="text"
+                      class="form-control form-control-user"
+                      placeholder="Please enter OTP here."
+                    />
+                    <input
+                      id="PAN"
+                      style="display:none"
+                      name="PAN"
+                      type="text"
+                      class="form-control form-control-user"
+                      placeholder="Please enter OTP here."
+                    />
                   </div>
-                  
-                  
-                  <a onclick="otp_check()" class="btn btn-primary btn-user btn-block">
+
+                  <a
+                    onclick="otp_check()"
+                    class="btn btn-primary btn-user btn-block"
+                  >
                     Submit
                   </a>
                 </form>
@@ -307,7 +336,6 @@
         </div>
       </div>
     </div>
-
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

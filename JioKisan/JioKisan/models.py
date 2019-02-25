@@ -4,10 +4,10 @@ import time
 from pymemcache.client import base
 
 STATUS_CHOICES = {
-    1:"Farmer",
-    2: "Truck drivers",
-    3: "Mandis",
-    4: "Farm tool Sellers"
+    1: "farmer",
+    2: "truck_driver",
+    3: "mandi",
+    4: "farm_tool_sellers"
 }
 VEHICLE_MODELS= {
     1:'AC',
@@ -149,6 +149,70 @@ def VerifyUser(mdict):
 
 suppliers=[]
 categ=None
+
+"""
+Consignments will be made by the transportations guys based on information present in the database.
+Cleanly define the problem for the transportation in comments before integrating the code. Don't
+forget to comment your code 
+"""
+
+
+def login(mdict):
+    """
+    The function will take in the phone number, generate an 
+    OTP and send back the OTP to the calling function. The calling 
+    function will send back the user information.
+    """
+    return 0
+
+def verify_response(data,hash, secret_key):
+    """
+    The function takes in the data , hash value and the secret key to 
+    determine if the calculate hash of data with secret key and the 
+    provided hash are the same
+    """
+    return 0
+
+def create_secret(user_information_PAN):
+    """
+    The function creates a random key and saves it in the database to be 
+    used in the next request to verfy the users request.(verify_response()).
+    """
+    return 0
+
+def create_produce(user, farm_entity, amount ):
+    """
+    The function creates a new produce object according to the models presented
+    in the model.py file. it first checks if the request was made by the farmer.
+    """
+    return 0
+
+def create_request(amount,farm_entity,mandi_info, current_bid, due_date):
+    """
+    Discuss the due date issue, if there is anything you should change.
+    Create the request based on the input received from user, check first
+    if the user in a mandi guy.
+    """
+def list_consignments(user):
+    """
+    Return all information of the consignment related to this particular user.
+    """
+    return 0
+
+def list_20_requests():
+    """
+    Lists 20 recent requests.
+    """
+    return 0
+
+def list_request(farm_entity,user):
+    """
+    List all request related for a given farm entity in decreasing order of profits 
+    obtained from the transport. Also list request with possible loss. 
+    """
+
+
+
 
 
 def GiveResponse(msg,number):

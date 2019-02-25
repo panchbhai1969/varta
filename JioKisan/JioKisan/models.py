@@ -181,7 +181,7 @@ def VerifyLogin(mdict):
         return ('wrong otp')
     else:
         print('verification successful')
-        return ('success')
+        return User_reg.objects.get(phone_number=mdict[phone_number])
 
 
 suppliers=[]
@@ -193,15 +193,6 @@ Cleanly define the problem for the transportation in comments before integrating
 forget to comment your code 
 """
 
-
-def login(mdict):
-
-    """
-    The function will take in the phone number, generate an 
-    OTP and send back the OTP to the calling function. The calling 
-    function will send back the user information.
-    """
-    return 0
 
 def verify_response(data,hash, secret_key):
     """
@@ -248,7 +239,7 @@ def create_request(amount, FE_info, mandi_info, current_bid, before_date):
     except:
         print("create request error")
         return "failure"
-        
+
 def list_consignments(user):
     role=user.role
     #if user is farm get his every/top 20 produces and corresponding consignment

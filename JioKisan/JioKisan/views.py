@@ -13,6 +13,7 @@ def create_dict(data_rec):
         if(val['name'] =='' or val['value'] ==''):
             continue
         diction[val['name']] = val['value']
+    
     return diction
 
 @csrf_exempt
@@ -25,8 +26,10 @@ def new_registration(request):
     response = JsonResponse({'newTheme': "Hey" })
     response['Access-Control-Allow-Origin'] = '*'
     diction = create_dict(data_rec)
+    print(diction)
+    RegisterUser(diction)
     return response 
-  
+
 @csrf_exempt
 def otp_check(request):
     data_rec = []
@@ -37,6 +40,8 @@ def otp_check(request):
     response = JsonResponse({'newTheme': "Hey" })
     response['Access-Control-Allow-Origin'] = '*'
     diction = create_dict(data_rec)
+    print(diction)
+    VerifyUser(diction)
     return response       
 
 def speechtotext(request):
@@ -44,8 +49,6 @@ def speechtotext(request):
         if 'finalTranscripts' in request.POST:
             textMessage = request.POST['finalTranscripts']
             print(textMessage)
-
-
     return render(request, template_name='index.html')
 
 def ResponsePage(request):

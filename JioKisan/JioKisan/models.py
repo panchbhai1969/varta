@@ -241,22 +241,32 @@ def create_request(amount, FE_info, mandi_info, current_bid, before_date):
         return "failure"
 
 def list_consignments(user):
+    """
+    Return all information of the consignment related to this particular user.
+    issue #9
+    """
     role=user.role
     #if user is farm get his every/top 20 produces and corresponding consignment
     if role == 1:
         produces=Produce.objects.filter(farmer_info=user)
-    
-
-
-    """
-    Return all information of the consignment related to this particular user.
-    """
-    return 0
+        consignments=[]
+        for produce in produces:
+            cons=Consignment.objects.get(prod=produce)
+            consignments.append(cons)
+    elif role==2:
+        consignments=Consignment.objects.filter(truck=user)
+    elif role==3:
+        consignments=[]
+        requests=Request.objects.filter(mandi_info=user)
+        for requ in requests:
+            cons=Consignment.objects.get(req=requ)
+            consignments.append(cons)
+    return consignments
 
 def list_20_requests():
     """
     Lists 20 recent requests.
-    """
+    """ other way of
     return 0
 
 def list_request(farm_entity,user):

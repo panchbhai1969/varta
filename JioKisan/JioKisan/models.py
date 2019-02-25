@@ -45,7 +45,7 @@ class  Produce(models.Model):
     upid=models.IntegerField(primary_key=True)
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
-    farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE)
+    farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
 
 class Request(models.Model):
     urid=models.IntegerField(primary_key=True)
@@ -144,7 +144,44 @@ def VerifyUser(mdict):
         nu.save()
         print('verification successful')
         return ('verification successful')
-    
+
+
+def LoginUser(mdict):
+    client = base.Client(('localhost', 11211))
+    try:
+        nu=None
+        exists=User_reg.objects.filter(phone_number=mdict['phone_number']).count()
+        if exists!=0:
+            nu=User_reg.objects.get(phone_number=mdict['phone_number'])
+            if nu.isVerified:
+                otp=str(uuid.uuid1().int%1000000)
+                print('otp is '+otp)
+                client.set(mdict['phone_number'],otp,90)
+                print(client.get(mdict['phone_number']))
+            else:
+                print ('user has not been verified')
+                return 'failure'
+        else:
+            return 'no such user exists'       
+        return 'success'
+    except:
+        print ('fail exception occured')
+        return 'failure'
+        
+def VerifyLogin(mdict):
+    client = base.Client(('localhost', 11211))
+    otp_sent=client.get(mdict['phone_number'])
+    otp_sent=otp_sent.decode()
+    if otp_sent==None:
+        print('timeout')
+        return 'timeout'
+    otp_recv=mdict['OTP']
+    if otp_recv != otp_sent:
+        print('wrong otp')
+        return ('wrong otp')
+    else:
+        print('verification successful')
+        return ('success')
 
 
 suppliers=[]
@@ -193,7 +230,15 @@ def create_request(amount,farm_entity,mandi_info, current_bid, due_date):
     Create the request based on the input received from user, check first
     if the user in a mandi guy.
     """
+#issue number 9
 def list_consignments(user):
+    role=user.role
+    #if user is farm get his every/top 20 produces and corresponding consignment
+    if role == 1:
+        produces=Produce.objects.filter(farmer_info=user)
+    
+
+
     """
     Return all information of the consignment related to this particular user.
     """

@@ -223,7 +223,7 @@ def create_produce(amount, FE_info, farmer_info):
     except:
         print("create produce error")
         return "failure"
-    return 0
+
 # Issue #3
 def create_request(amount, FE_info, mandi_info, current_bid, before_date):
     """
@@ -245,19 +245,23 @@ def list_consignments(user):
     #if user is farm get his every/top 20 produces and corresponding consignment
     if role == 1:
         produces=Produce.objects.filter(farmer_info=user)
-    
-
-
     """
     Return all information of the consignment related to this particular user.
     """
     return 0
-
+    
+# Issue #10
 def list_20_requests():
     """
     Lists 20 recent requests.
     """
-    return 0
+    try:
+        list_of_request = Request.objects.all().order_by('urid')[:20]
+        print("list of 20 recent request returned")
+        return list_of_request
+    except:
+        print("error getting 20 recents requests")
+        return "failure"
 
 def list_request(farm_entity,user):
     """

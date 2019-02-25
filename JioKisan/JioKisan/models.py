@@ -195,6 +195,7 @@ forget to comment your code
 
 
 def login(mdict):
+
     """
     The function will take in the phone number, generate an 
     OTP and send back the OTP to the calling function. The calling 
@@ -217,20 +218,37 @@ def create_secret(user_information_PAN):
     """
     return 0
 
-def create_produce(user, farm_entity, amount ):
+# Issue #2
+def create_produce(amount, FE_info, farmer_info):
     """
     The function creates a new produce object according to the models presented
     in the model.py file. it first checks if the request was made by the farmer.
     """
+    try:
+        produce = Produce(amount=amount, FE_info=FE_info, farmer_info=farmer_info
+        produce.save()
+        print("successfully produce created")
+        return "success"
+    except:
+        print("create produce error")
+        return "failure"
     return 0
-
-def create_request(amount,farm_entity,mandi_info, current_bid, due_date):
+# Issue #3
+def create_request(amount, FE_info, mandi_info, current_bid, before_date):
     """
     Discuss the due date issue, if there is anything you should change.
     Create the request based on the input received from user, check first
     if the user in a mandi guy.
     """
-#issue number 9
+    try:    
+        request = Request(amount = amount, FE_info = FE_info, mandi_info = mandi_info, current_bid = current_bid, before_date = before_date)
+        request.save()
+        print("successfully request created")
+        return "success"
+    except:
+        print("create request error")
+        return "failure"
+        
 def list_consignments(user):
     role=user.role
     #if user is farm get his every/top 20 produces and corresponding consignment

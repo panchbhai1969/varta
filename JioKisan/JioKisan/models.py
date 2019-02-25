@@ -189,6 +189,23 @@ def create_request(amount,farm_entity,mandi_info, current_bid, due_date):
     Create the request based on the input received from user, check first
     if the user in a mandi guy.
     """
+def list_consignments(user):
+    """
+    Return all information of the consignment related to this particular user.
+    """
+    return 0
+
+def list_20_requests():
+    """
+    Lists 20 recent requests.
+    """
+    return 0
+
+def list_request(farm_entity,user):
+    """
+    List all request related for a given farm entity in decreasing order of profits 
+    obtained from the transport. Also list request with possible loss. 
+    """
 
 
 

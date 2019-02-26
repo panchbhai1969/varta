@@ -128,10 +128,10 @@ def RegisterUser(mdict):
 def VerifyUser(mdict):
     client = base.Client(('localhost', 11211))
     otp_sent=client.get(mdict['PAN'])
-    otp_sent=otp_sent.decode()
     if otp_sent==None:
         print('timeout')
         return 'timeout'
+    otp_sent=otp_sent.decode()
     otp_recv=mdict['OTP']
     print(type(otp_sent))
     print(type(otp_recv))
@@ -171,17 +171,17 @@ def LoginUser(mdict):
 def VerifyLogin(mdict):
     client = base.Client(('localhost', 11211))
     otp_sent=client.get(mdict['phone_number'])
-    otp_sent=otp_sent.decode()
     if otp_sent==None:
         print('timeout')
         return 'timeout'
+    otp_sent=otp_sent.decode()
     otp_recv=mdict['OTP']
     if otp_recv != otp_sent:
         print('wrong otp')
         return ('wrong otp')
     else:
         print('verification successful')
-        return User_reg.objects.get(phone_number=mdict[phone_number])
+        return User_reg.objects.get(phone_number=mdict['phone_number'])
 
 
 suppliers=[]

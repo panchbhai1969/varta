@@ -102,7 +102,6 @@ def get_nodes(parent):
         #Call the list_request here.
     }
 
-
 def process_content(example_sentence):
     words = word_tokenize(example_sentence)
     try:

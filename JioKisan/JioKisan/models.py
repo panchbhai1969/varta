@@ -2,6 +2,8 @@ from django.db import models
 import uuid
 import time
 from pymemcache.client import base
+ 
+
 
 STATUS_CHOICES = {
     1: "farmer",
@@ -216,7 +218,7 @@ def create_produce(amount, FE_info, farmer_info):
     in the model.py file. it first checks if the request was made by the farmer.
     """
     try:
-        produce = Produce(amount=amount, FE_info=FE_info, farmer_info=farmer_info
+        produce = Produce(amount=amount, FE_info=FE_info, farmer_info=farmer_info)
         produce.save()
         print("successfully produce created")
         return "success"

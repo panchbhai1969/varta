@@ -4,23 +4,6 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 from word2number import w2n
 
-example_sentence = "I want to sell two hundred kilo carrots."
-example_sentence2 = "I want to sell 200kg carrots."
-# example_sentence = "I have two hundred kilos carrot to sell."
-
-stop_words = set(stopwords.words("english"))
-
-words = word_tokenize(example_sentence)
-
-filtered_sentence = [w for w in words if not w in stop_words]
-
-# ps = PorterStemmer()
-
-# stemmed_sentence = []
-
-# for w in filtered_sentence:
-#     stemmed_sentence.append(ps.stem(w))
-
 #POS Tags
 # CC coordinating conjunction
 # CD cardinal digit
@@ -58,6 +41,7 @@ filtered_sentence = [w for w in words if not w in stop_words]
 # WP$ possessive wh-pronoun whose
 # WRB wh-abverb where, when
 
+#Change this using the database
 list_commodity = ['carrots', 'tomatoes', 'potatoes']
 
 commodity_quantity = []
@@ -93,7 +77,7 @@ def get_nodes(parent):
             unit = str(w[0])
     print(quantity_string)
     quantity = w2n.word_to_num(quantity_string)
-    print("Quantity :", quantity)
+    # print("Quantity :", quantity)
     #Convert unit to standard format
     kg_synset = wordnet.synset('kilogram.n.01')
     tonne_synset = wordnet.synset('metric_ton.n.01')
@@ -109,21 +93,29 @@ def get_nodes(parent):
         unit = 'LITRES'
     elif(dozen_synset.wup_similarity(unit_synset) >= 0.9 or unit == 'dozens'):
         unit = 'DOZENS'
-    print("Unit :", unit)
-    print("Commodity :", commodity_type[0][0])
+    # print("Unit :", unit)
+    # print("Commodity :", commodity_type[0][0])
+    return {
+        "Quantity": quantity,
+        "Unit": unit,
+        "Commodity": commodity_type[0][0]
+        #Call the list_request here.
+    }
 
 
-def process_content():
+def process_content(example_sentence):
+    words = word_tokenize(example_sentence)
     try:
-        tagged = nltk.pos_tag(filtered_sentence)
+        tagged = nltk.pos_tag(words)
         # print(tagged)
         commodity_grammar = r""" Commodity: {<CD>*<NN.*>*} """
         parser = nltk.RegexpParser(commodity_grammar)
         chunked_tree = parser.parse(tagged)
         # chunked_tree.draw()
         #Navigate the Chunked Tree
-        get_nodes(chunked_tree)
+        data = get_nodes(chunked_tree)
+        print(data)
     except Exception as e:
         print(str(e))
 
-process_content()
+process_content("I want to sell two hundred kilo carrots.")

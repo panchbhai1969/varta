@@ -5,6 +5,7 @@ from django.db import models
 
 statusChoices = (
     ("PENDING","Pending"),
+    ("ASSIGNED","Assigned"),
     ("TRANSIT","Transit"),
     ("COMPLETED", "Completed")
 )

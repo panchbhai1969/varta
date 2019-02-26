@@ -117,4 +117,4 @@ def process_content(example_sentence):
     except Exception as e:
         print(str(e))
 
-process_content("I want to sell two hundred kilo carrots.")
+process_content("I want to sell two hundred kilo carrots")

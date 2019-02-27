@@ -72,7 +72,8 @@ def login_check(request):
         response = JsonResponse({'wasSuccess': "false" })
     else:
         mdict=model_to_dict(ret)
-        mdict['wasSuccess']="true" 
+        mdict['secret'] = create_secret(mdict)
+        mdict['wasSuccess']="true"
         response = JsonResponse(mdict)
     response['Access-Control-Allow-Origin'] = '*'
     return response            

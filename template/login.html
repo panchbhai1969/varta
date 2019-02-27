@@ -21,14 +21,14 @@
   
   function send_number() {
       var formData = JSON.stringify($("#myForm").serializeArray());
-      /* $.post("http://127.0.0.1:8000/new_reg/", formData, function(
+       $.post("http://127.0.0.1:8000/login/", formData, function(
         data,
         status
       ) {
-        alert("Data: " + data + "\nStatus: " + status);
+        alert("Data: " + data.newTheme + "\nStatus: " + status);
         document.getElementById("otp").style.display = "block";
         
-      }); */
+      }); 
       document.getElementById("otp").style.display = "block";
       document.getElementById("submit_otp").style.display = "block";
       document.getElementById("submit_number").style.display = "none";
@@ -36,16 +36,16 @@
 
   function send_otp() {
       var formData = JSON.stringify($("#myForm").serializeArray());
-      /* $.post("http://127.0.0.1:8000/new_reg/", formData, function(
+       $.post("http://127.0.0.1:8000/login_check/", formData, function(
         data,
         status
       ) {
-        alert("Data: " + data + "\nStatus: " + status);
+        alert("Data: " + data.wasSuccess + "\nStatus: " + status);
         document.getElementById("otp").style.display = "block";
         
-      }); */
+      }); 
       document.getElementById("otp").style.display = "block";
-      window.location.href = "index.html"
+    //  window.location.href = "index.html"
     }
 
   </script>

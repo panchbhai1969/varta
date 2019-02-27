@@ -1,8 +1,9 @@
 import nltk
 from nltk.corpus import stopwords, wordnet
 from nltk.tokenize import word_tokenize
-from nltk.stem import PorterStemmer
+from nltk.stem import PorterStemmer, WordNetLemmatizer
 from word2number import w2n
+# from . models import *
 
 #POS Tags
 # CC coordinating conjunction
@@ -41,22 +42,19 @@ from word2number import w2n
 # WP$ possessive wh-pronoun whose
 # WRB wh-abverb where, when
 
-#Change this using the database
-list_commodity = ['carrots', 'tomatoes', 'potatoes']
 
-commodity_quantity = []
-commodity_type = []
 
 #Tree navigation function
 def get_nodes(parent):
+    commodity_quantity = []
+    commodity_type = []
+    list_commodity = ['carrots', 'tomatoes', 'potatoes', 'seeds']    
+    # list_commodity = []
+    # db = FarmEntity.objects.all()
+    # for entity in db:
+    #     list_commodity.append(entity.name)
     for node in parent:
         if (type(node) is nltk.Tree):
-            # if node.label() == ROOT:
-            #     print("**SENTENCE**")
-            #     print("Sentence:", " ".join(node.leaves()))
-            # else:
-            #     print("Label:", node.label())
-            #     print("Leaves:", node.leaves())
             if(node.label() == "Commodity"):
                 for word in node.leaves():
                     if(word[0] in list_commodity):
@@ -65,56 +63,72 @@ def get_nodes(parent):
                         commodity_quantity.append(word)
             else:
                 get_nodes(node)
-            # print("Word:", node)
-    # print(commodity_type)
-    print(commodity_quantity)
     quantity_string = ""
+    unit = None
     for w in commodity_quantity:
         if (w[1] == 'CD'):
             quantity_string += str(w[0])
             quantity_string += " "
         else:
             unit = str(w[0])
-    print(quantity_string)
-    quantity = w2n.word_to_num(quantity_string)
-    # print("Quantity :", quantity)
-    #Convert unit to standard format
+    try:
+        quantity = float(quantity_string)
+    except ValueError:
+        quantity = w2n.word_to_num(quantity_string)
     kg_synset = wordnet.synset('kilogram.n.01')
     tonne_synset = wordnet.synset('metric_ton.n.01')
     liter_synset = wordnet.synset('liter.n.01')
     dozen_synset = wordnet.synset('twelve.n.01')
-
-    unit_synset = wordnet.synsets(unit)[0]
-    if(kg_synset.wup_similarity(unit_synset) >= 0.9):
-        unit = 'KG'
-    elif(tonne_synset.wup_similarity(unit_synset) >= 0.9):
-        unit = 'METRIC TON'
-    elif(liter_synset.wup_similarity(unit_synset) >= 0.9):
-        unit = 'LITRES'
-    elif(dozen_synset.wup_similarity(unit_synset) >= 0.9 or unit == 'dozens'):
-        unit = 'DOZENS'
-    # print("Unit :", unit)
-    # print("Commodity :", commodity_type[0][0])
+    if(unit != None):
+        unit_synset = wordnet.synsets(unit)[0]
+        if(kg_synset.wup_similarity(unit_synset) >= 0.9):
+            unit = 'KG'
+        elif(tonne_synset.wup_similarity(unit_synset) >= 0.9):
+            unit = 'METRIC TON'
+        elif(liter_synset.wup_similarity(unit_synset) >= 0.9):
+            unit = 'LITRES'
+        elif(dozen_synset.wup_similarity(unit_synset) >= 0.9 or unit == 'dozens'):
+            unit = 'DOZENS'
+    else:
+        unit = None
     return {
-        "Quantity": quantity,
-        "Unit": unit,
-        "Commodity": commodity_type[0][0]
-        #Call the list_request here.
+        "quantity": quantity,
+        "unit": unit,
+        "commodity": commodity_type[0][0]
     }
 
 def process_content(example_sentence):
+    lemmatizer = WordNetLemmatizer()
     words = word_tokenize(example_sentence)
     try:
         tagged = nltk.pos_tag(words)
-        # print(tagged)
+        print(tagged)
+        word_lemmatized = ''
+        for w in tagged:
+            if(w[1] == 'VB' or w[1] == 'VBD' or w[1] == 'VBG' or w[1] == 'VBN' or w[1] == 'VBP' or w[1] == 'VBZ'):
+                word_lemmatized = lemmatizer.lemmatize(w[0], 'v')
+                # print(word_lemmatized)
+                word_lemmatized = word_lemmatized.lower()
+                if(word_lemmatized not in ['buy', 'sell']):
+                    request = None
+                else:
+                    request = word_lemmatized
         commodity_grammar = r""" Commodity: {<CD>*<NN.*>*} """
         parser = nltk.RegexpParser(commodity_grammar)
         chunked_tree = parser.parse(tagged)
         # chunked_tree.draw()
-        #Navigate the Chunked Tree
         data = get_nodes(chunked_tree)
-        print(data)
+        if(request == 'buy'):
+            data['request_type'] = 'buy'
+            print(data)
+            return data
+        elif(request == 'sell'):
+            data['request_type'] = 'sell'
+            print(data)
+            return data
+        else:
+            print('Request invalid')
     except Exception as e:
         print(str(e))
 
-process_content("I want to sell two hundred kilo carrots.")
+process_content("I want to buy two hundred seeds")

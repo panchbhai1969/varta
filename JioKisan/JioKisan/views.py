@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from . forms import UserRequest
 from . models import *
+from . process_text import process_content
 
 @csrf_exempt
 def new_registration(request):
@@ -48,3 +49,18 @@ def ResponsePage(request):
 
     return render(request,template_name='message.html',context=context)
     
+def voice_input(request):
+    #Input code for voice input
+    input_string = 'I want to sell two hundred kilo carrots' #Return value
+    processed_data = process_content(input_string)
+    amount = processed_data['quantity']
+    FE_info = processed_data['commodity']
+    unit = process_data['unit']
+    if(processed_data['request_type'] == 'sell'):
+        #Add farmer_info to function call
+        create_produce(amount, FE_info, )
+    elif(processed_data['request_type'] == 'buy'):
+        #Call the buy seeds function
+        continue
+    else:
+        print('Invalid request')

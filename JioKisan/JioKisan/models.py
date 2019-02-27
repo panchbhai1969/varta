@@ -150,7 +150,6 @@ def VerifyUser(mdict):
         print('verification successful')
         return ('verification successful')
 
-
 def LoginUser(mdict):
     client = base.Client(('localhost', 11211))
     try:

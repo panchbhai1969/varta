@@ -2,7 +2,10 @@ from django.db import models
 import uuid
 import time
 from pymemcache.client import base
- 
+import hmac
+import hashlib
+import base64
+
 
 
 STATUS_CHOICES = {
@@ -43,7 +46,7 @@ class FarmEntity(models.Model):
     measured_in=models.IntegerField()
     MSP=models.IntegerField()
 
-class  Produce(models.Model):
+class Produce(models.Model):
     upid=models.IntegerField(primary_key=True)
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
@@ -196,19 +199,58 @@ forget to comment your code
 """
 
 
-def verify_response(data,hash, secret_key):
+def verify_response(mdict,data,hash_rec):
     """
     The function takes in the data , hash value and the secret key to 
     determine if the calculate hash of data with secret key and the 
     provided hash are the same
     """
+    client = base.Client(('localhost', 11211))
+    secret=client.get(mdict['phone_number'])
+    if secret==None:
+        print('timeout')
+        return False
+    secret=secret.decode()
+    otp_recv=mdict['OTP']
+    if otp_recv != secret:
+        print('wrong otp')
+        return False
+    else:
+        d = hmac.new(secret.encode(),data.encode(),hashlib.sha256)
+        hash_val = base64.b64encode(d.digest()).decode()
+        if(hash_val == hash_rec):
+            return True
+        else:
+            return False
+
+   
     return 0
 
-def create_secret(user_information_PAN):
+def create_secret(mdict):
     """
     The function creates a random key and saves it in the database to be 
     used in the next request to verfy the users request.(verify_response()).
     """
+    client = base.Client(('localhost', 11211))
+    try:
+        nu=None
+        exists=User_reg.objects.filter(phone_number=mdict['phone_number']).count()
+        if exists!=0:
+            nu=User_reg.objects.get(phone_number=mdict['phone_number'])
+            if nu.isVerified:
+                secret=str(uuid.uuid1().int%1000000)
+                print('otp is '+secret)
+                client.set(mdict['phone_number'],secret,90)
+                print(client.get(mdict['phone_number']))
+            else:
+                print ('user has not been verified')
+                return 'failure'
+        else:
+            return 'no such user exists'       
+        return secret
+    except:
+        print ('fail exception occured')
+        return 'failure'
     return 0
 
 # Issue #2

@@ -21,14 +21,18 @@
   
   function send_number() {
       var formData = JSON.stringify($("#myForm").serializeArray());
-      /* $.post("http://127.0.0.1:8000/new_reg/", formData, function(
+      $.post("http://127.0.0.1:8000/login/", formData, function(
         data,
         status
       ) {
         alert("Data: " + data + "\nStatus: " + status);
         document.getElementById("otp").style.display = "block";
+        if(data.wasSuccess=="false"){
+          alert("Please try again, you might not be registered.")
+        }
         
-      }); */
+        
+      }); 
       document.getElementById("otp").style.display = "block";
       document.getElementById("submit_otp").style.display = "block";
       document.getElementById("submit_number").style.display = "none";
@@ -36,16 +40,29 @@
 
   function send_otp() {
       var formData = JSON.stringify($("#myForm").serializeArray());
-      /* $.post("http://127.0.0.1:8000/new_reg/", formData, function(
+      $.post("http://127.0.0.1:8000/login_check/", formData, function(
         data,
         status
       ) {
-        alert("Data: " + data + "\nStatus: " + status);
-        document.getElementById("otp").style.display = "block";
         
-      }); */
+        document.getElementById("otp").style.display = "block";
+        if(data.wasSuccess=="true"){
+          if(data.role==1)
+          localStorage.setItem('user', JSON.stringify(data));
+          window.location.href = "dash_farm.html";
+          if(data.role==2)
+          window.location.href = "dash_truck.html";
+          if(data.role==3)
+          window.location.href = "dash_mandi.html";
+          if(data.role==4)
+          window.location.href = "dash_farmtool.html";
+        }
+        else{
+          alert("Please try again, you might not be registered.")
+        }
+      }); 
       document.getElementById("otp").style.display = "block";
-      window.location.href = "index.html"
+      
     }
 
   </script>

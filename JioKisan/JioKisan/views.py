@@ -110,17 +110,16 @@ def ResponsePage(request):
     
 def voice_input(request):
     data_rec = []
-    
     if request.method == 'POST':
         data_rec = json.loads(request.body)
         #print ('Raw Data: "%s"' % str(data_rec) )
     diction = create_dict(data_rec)
     exists=User_reg.objects.filter(PAN=diction['PAN']).count()
-        if exists!=0:
-            user=User_reg.objects.get(PAN=mdict['PAN'])
-        else:
-            print('User does not exist')
-            return 'Failure'
+    if exists!=0:
+        user=User_reg.objects.get(PAN=mdict['PAN'])
+    else:
+        print('User does not exist')
+        return 'Failure'
     #Input code for voice input
     input_string = 'I want to sell two hundred kilo carrots' #Return value
     processed_data = process_content(input_string)
@@ -132,6 +131,6 @@ def voice_input(request):
         create_produce(amount, FE_info, user)
     elif(processed_data['request_type'] == 'buy'):
         #Call the buy seeds function
-        continue
+        pass
     else:
         print('Invalid request')

@@ -217,6 +217,7 @@ def updateDatabase(assignedDriver, pathOfDriver, assignedConsignments):
         consignmentObject.status = "ASSIGNED"
         consignmentObject.truck = assignedDriverObject
         consignmentObject.save()
+        
 
 def mapConsignments(mDict):
     

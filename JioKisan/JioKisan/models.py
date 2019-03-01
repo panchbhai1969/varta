@@ -38,6 +38,14 @@ class User_reg(models.Model):
     organisation_name=models.CharField(max_length=80,default=None, blank=True, null=True)
     bank_account_number=models.CharField(max_length=20,default=None, blank=True, null=True)
     GST_number=models.CharField(max_length=20,default=None, blank=True, null=True)
+    #only for truck driver
+    isHired=models.BooleanField()
+    path=models.CharField(max_length=300,default=None, blank=True, null=True)
+    available_capacity=models.IntegerField(default=None, blank=True, null=True)
+    current_position_latitude=models.FloatField(default=None, blank=True, null=True)
+    current_position_longitude=models.FloatField(default=None, blank=True, null=True)
+    current_address=models.CharField(max_length=40)
+    #only for truck driver
     isVerified=models.BooleanField()
 
 class FarmEntity(models.Model):
@@ -64,8 +72,9 @@ class Consignment(models.Model):
     req=models.ForeignKey(Request,on_delete=models.CASCADE,db_column='urid')
     prod=models.ForeignKey(Produce,on_delete=models.CASCADE,db_column='upid')
     expected_delivery=models.DateField()
-    truck=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
+    truck=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN',default=None, blank=True, null=True)
     cost=models.IntegerField()
+    
 
 ##
 #Requirements for cacheing
@@ -83,6 +92,7 @@ def AddFarmEntity(mname,mMSP,mMeasured_in):
     fe.ufid=uuid.uuid1().int%1000000000
     fe.measured_in=mMeasured_in
     fe.save()
+
 
 def RegisterUser(mdict):
     client = base.Client(('localhost', 11211))
@@ -112,6 +122,10 @@ def RegisterUser(mdict):
             nu.vehicle_capacity=int(mdict['vehicle_capacity'])
             nu.vehicle_number=mdict['vehicle_number']
             nu.licence_number=mdict['licence_number']
+            nu.available_capacity=mdict['vehicle_capacity']
+            nu.isHired=False
+            nu.current_position_latitude, nu.current_position_longitude = getPositionCoordinates(nu.address)
+            nu.current_address=mdict['address']
         elif nu.role==3:
             nu.organisation_name=mdict['organisation_name']
         elif nu.role==4:
@@ -129,6 +143,10 @@ def RegisterUser(mdict):
     except:
         print ('fail exception occured')
         return 'fail exception occured'
+## to be done by Ayush
+def getPositionCoordinates(address):
+
+    pass
 
 def VerifyUser(mdict):
     client = base.Client(('localhost', 11211))
@@ -283,6 +301,9 @@ def create_request(amount, FE_info, mandi_info, current_bid, before_date):
     except:
         print("create request error")
         return "failure"
+
+def create_consignments(mdict):
+
 
 def list_consignments(user):
     """

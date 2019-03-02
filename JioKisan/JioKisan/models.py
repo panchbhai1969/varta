@@ -1,6 +1,6 @@
 from django.db import models
 import uuid
-import time
+from django.utils import dateparse
 from pymemcache.client import base
 import hmac
 import hashlib
@@ -284,13 +284,16 @@ def create_secret(mdict):
     return 0
 
 # Issue #2
-def create_produce(amount, FE_info, farmer_info):
+def create_produce(mdict):
     """
     The function creates a new produce object according to the models presented
     in the model.py file. it first checks if the request was made by the farmer.
     """
     try:
-        produce = Produce(amount=amount, FE_info=FE_info, farmer_info=farmer_info)
+        produce = Produce()
+        produce.amount=int(mdict['amount'])
+        produce.FE_info=FarmEntity.objects.get(mdict['ufid'])
+        produce.farmer_info=User_reg.objects.get(mdict['PAN'])
         produce.save()
         print("successfully produce created")
         return "success"
@@ -299,19 +302,24 @@ def create_produce(amount, FE_info, farmer_info):
         return "failure"
 
 # Issue #3
-def create_request(amount, FE_info, mandi_info, current_bid, before_date):
+def create_request(mdict):
     """
     Discuss the due date issue, if there is anything you should change.
     Create the request based on the input received from user, check first
     if the user in a mandi guy.
     """
-    try:    
-        request = Request(amount = amount, FE_info = FE_info, mandi_info = mandi_info, current_bid = current_bid, before_date = before_date)
+    try:
+        request = Request()
+        request.amount=int(mdict['amount'])
+        request.FE_info=FarmEntity.objects.get(mdict['ufid'])
+        request.mandi_info=User_reg.objects.get(mdict['PAN'])
+        request.current_bid=int(mdict['current_bid'])
+        request.before_date=dateparse(mdict['before_date'])
         request.save()
-        print("successfully request created")
+        print("successfully produce created")
         return "success"
     except:
-        print("create request error")
+        print("create produce error")
         return "failure"
 
 def create_consignments(mdict):

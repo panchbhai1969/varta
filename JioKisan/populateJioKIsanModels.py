@@ -74,9 +74,9 @@ def populateProduce(N=5):
         amount = random.randint(200,800)
         FE_info = farmEntities[random.randint(0,farmEntityCount-1)]
         farmer_info = farmers[random.randint(0,farmersCount-1)]
+        isAssigned = (random.randint(0,1)==0)
         
-        produce = Produce.objects.get_or_create(amount=amount, FE_info= FE_info,
-                                                farmer_info = farmer_info)
+        produce = Produce.objects.get_or_create(amount=amount, FE_info= FE_info, farmer_info = farmer_info, isAssigned=isAssigned)
 
 
 def populateRequest(N=5):
@@ -90,19 +90,19 @@ def populateRequest(N=5):
         mandi_info = mandis[random.randint(0,mandisCount-1)]
         currentBid = random.randint(100,500)
         before_date = fakegen.future_date(end_date="+20d", tzinfo=None)
+        isAssigned = (random.randint(0,1)==0)
         request = Request.objects.get_or_create(amount=amount, FE_info= FE_info,
                                                 mandi_info=mandi_info, current_bid=currentBid,
-                                                before_date=before_date)
+                                                before_date=before_date, isAssigned=isAssigned)
 
 
-FarmEntityNames = ['Rice']
+FarmEntityNames = [['Rice', 20], ['Wheat', 15], ['Corn', 25]]
 
 def populateFarmEntity():
-    FarmEntityNames = ['Rice']
-    for i in range(0, len(FarmEntityNames)):
-        name = FarmEntityNames[0]
+    for entry in FarmEntityNames:
+        name = entry[0]
         measured_in = 1
-        MSP = random.randint(10, 80)
+        MSP = entry[1]
         farm_entity = FarmEntity.objects.get_or_create(name=name, measured_in=measured_in,
                                                         MSP=MSP)
 

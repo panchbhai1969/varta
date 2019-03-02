@@ -75,8 +75,7 @@ def populateProduce(N=5):
         FE_info = farmEntities[random.randint(0,farmEntityCount-1)]
         farmer_info = farmers[random.randint(0,farmersCount-1)]
         
-        produce = Produce.objects.get_or_create(amount=amount, FE_info= FE_info,
-                                                farmer_info = farmer_info)
+        produce = Produce.objects.get_or_create(amount=amount, FE_info= FE_info, farmer_info = farmer_info)
 
 
 def populateRequest(N=5):

@@ -29,7 +29,7 @@ MEASUREMENT_TYPES = {
 
 STATUS_CHOICES = (
     ("PENDING","Pending"),
-    ("TRANSIT","T229ransit"),
+    ("TRANSIT","Transit"),
     ("COMPLETED", "Completed")
 )
 

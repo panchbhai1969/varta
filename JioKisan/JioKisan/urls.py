@@ -15,10 +15,5 @@ urlpatterns = [
     path('',views.ResponsePage,name='Response Page'),
     path('trade/',include('trade.urls')),
     path('stt/',views.speechtotext, name='Speech to Text'),
-<<<<<<< HEAD
     path('upload/',views.voice_input, name='upload'),
-]
-=======
-    path('upload/',voice.save_images, name='upload'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
->>>>>>> b38a1e71141a329b1de224753176579170e7532d

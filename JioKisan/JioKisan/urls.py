@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from . import views
+from . import voice
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin_page'),
@@ -13,4 +14,5 @@ urlpatterns = [
     path('',views.ResponsePage,name='Response Page'),
     path('trade/',include('trade.urls')),
     path('stt/',views.speechtotext, name='Speech to Text'),
+    path('upload/',voice.save_images, name='upload'),
 ]

@@ -8,7 +8,7 @@ import base64
 from faker import Faker
 from faker.providers import *
 import datetime
-from django.core import serializers
+from django.forms.models import model_to_dict
 
 ROLE_CHOICES = {
     1: "farmer",
@@ -406,9 +406,11 @@ def list_request(mdict):
 
 def list_produce(mdict):
     farmer=User_reg.objects.get(PAN=mdict['PAN'])
+    produce_list=[]
     produces=Produce.objects.filter(isAssigned=False,farmer_info=farmer)
-    produces_json=serializers.serialize('json',produces)
-    return produces_json
+    for prod in produces:
+        produce_list.append(model_to_dict(prod))
+    return produce_list
     
 
 

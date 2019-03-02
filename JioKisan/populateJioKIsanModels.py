@@ -88,15 +88,35 @@ def populateRequest(N=5):
         amount = random.randint(200,800)
         FE_info = farmEntities[random.randint(0,farmEntityCount-1)]
         mandi_info = mandis[random.randint(0,mandisCount-1)]
-        currentBid = random.randint(100,500)*10
-        before_date = fake.future_date(end_date="+20d", tzinfo=None)
+        currentBid = random.randint(100,500)
+        before_date = fakegen.future_date(end_date="+20d", tzinfo=None)
+        request = Request.objects.get_or_create(amount=amount, FE_info= FE_info,
+                                                mandi_info=mandi_info, current_bid=currentBid,
+                                                before_date=before_date)
 
 
-def populateConsignments:
+FarmEntityNames = ['Rice']
+
+def populateFarmEntity():
+    FarmEntityNames = ['Rice']
+    for i in range(0, len(FarmEntityNames)):
+        name = FarmEntityNames[0]
+        measured_in = 1
+        MSP = random.randint(10, 80)
+        farm_entity = FarmEntity.objects.get_or_create(name=name, measured_in=measured_in,
+                                                        MSP=MSP)
+
+
+
+
+def populateConsignments():
     pass
 
 
 if __name__ == "__main__":
-    populateUser_reg(5)
+    populateFarmEntity()
+    populateUser_reg(30)
+    populateProduce(15)
+    populateRequest(15)
 
 

@@ -420,11 +420,14 @@ def list_produce(mdict):
     return produce_list
 
 def list_ftool():
-    tool_entities=User_reg.objects.filter(isFarmTool=True)
+    tool_entities=FarmEntity.objects.filter(isFarmTool=True)
     tool_list=[]
     for tools in tool_entities:
-        t_dict=model_to_dict(prod)
-        t_dict['img_url']=prod.tools.display_image.url
+        t_dict={}
+        t_dict['name']=tools.name
+        t_dict['price']=tools.MSP
+        t_dict['ufid']=tools.ufid
+        t_dict['img_url']=tools.display_image.url
         tool_list.append(t_dict)
     print(tool_list)
     return tool_list

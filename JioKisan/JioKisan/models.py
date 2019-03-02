@@ -7,8 +7,13 @@ import hashlib
 import base64
 from faker import Faker
 from faker.providers import *
+<<<<<<< HEAD
 
 
+=======
+import datetime
+from django.core import serializers
+>>>>>>> c1a75d59a1209a6335a915902da1630a9de85e12
 
 ROLE_CHOICES = {
     1: "farmer",
@@ -62,6 +67,7 @@ class FarmEntity(models.Model):
     name =models.CharField(max_length=40)
     measured_in=models.IntegerField()
     MSP=models.IntegerField()
+    isFarmTool=models.BooleanField(default=False)
     display_image=models.ImageField(upload_to='fe_sample_images',blank=True)
 
 class Produce(models.Model):
@@ -382,3 +388,25 @@ def list_request(farm_entity,user):
     List all request related for a given farm entity in decreasing order of profits 
     obtained from the transport. Also list request with possible loss. 
     """
+<<<<<<< HEAD
+=======
+    farm_entity=FarmEntity.objects.get(ufid=mdict['ufid'])
+    reqs=Request.objects.filter(isAssigned=False,FE_info=farm_entity)
+    farmer=User_reg.objects.get(PAN=['PAN'])
+    ret_reqs=[]
+    for req in reqs:
+        cost,del_date=getDeliveryInfo()
+        if bla:
+            pass
+
+def list_produce(mdict):
+    farmer=User_reg.objects.get(PAN=mdict['PAN'])
+    produces=Produce.objects.filter(isAssigned=False,farmer_info=farmer)
+    produces_json=serializers.serialize('json',produces)
+    return produces_json
+    
+
+
+
+
+>>>>>>> c1a75d59a1209a6335a915902da1630a9de85e12

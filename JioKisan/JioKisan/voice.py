@@ -39,7 +39,7 @@ def v_tex_trans(location):
 
     config = types.RecognitionConfig(
         encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz= 44100,
+        sample_rate_hertz= 48000,
         language_code='hi-IN')
 
 

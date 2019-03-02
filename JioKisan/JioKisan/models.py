@@ -74,6 +74,7 @@ class Produce(models.Model):
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
+    isAsigned=models.BooleanField(default=False)
     def __str__(self):
         return (self.FE_info.name +" by "+self.farmer_info.name+" "+ str(self.upid))
 
@@ -82,6 +83,7 @@ class Request(models.Model):
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
+    isAsigned=models.BooleanField(default=False)
     current_bid=models.IntegerField()
     before_date=models.DateField()
     def __str__(self):
@@ -105,7 +107,6 @@ class Consignment(models.Model):
 # run memcached before running the server
 ##
 
-## to be done by Ayush
 def getPositionCoordinates(address):
     fakegen = Faker()
     fakegen.add_provider(geo)
@@ -114,7 +115,8 @@ def getPositionCoordinates(address):
     return location[0], location[1]
 
 def getDeliveryInfo(mrequest,mproduce):
-    pass
+    
+    return ()
 
 def AddFarmEntity(mname,mMSP,mMeasured_in):
     exists=FarmEntity.objects.filter(name=mname).count()

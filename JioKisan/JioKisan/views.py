@@ -9,6 +9,7 @@ from . forms import UserRequest
 from . models import *
 from . process_text import process_content
 from  .voice import *
+from trucksFunctions import *
 
 def create_dict(data_rec):
     diction = {}
@@ -157,3 +158,23 @@ def ResponsePage(request):
             'form':user_request
         }
     return render(request,template_name='message.html',context=context)
+
+@csrf_exempt
+def getDriverInfo(request):
+    data_rec =[]
+    if request.method == 'POST':
+        data_rec = json.loads(request.body)
+    mDict = create_dict(data_rec)
+
+    return getDriverDetails(mDict)
+
+@csrf_exempt
+def getDriverPath(Request):
+    data_rec =[]
+    if request.method == 'POST':
+        data_rec = json.loads(request.body)
+    mDict = create_dict(data_rec)
+    path = getPath(mDict)
+    json_path = JsonResponse(path)
+
+    return json_path

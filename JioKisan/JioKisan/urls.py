@@ -14,5 +14,5 @@ urlpatterns = [
     path('',views.ResponsePage,name='Response Page'),
     path('trade/',include('trade.urls')),
     path('stt/',views.speechtotext, name='Speech to Text'),
-    path('upload/',voice.save_images, name='upload'),
+    path('upload/',views.voice_input, name='upload'),
 ]

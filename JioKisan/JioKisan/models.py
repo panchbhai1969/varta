@@ -7,13 +7,10 @@ import hashlib
 import base64
 from faker import Faker
 from faker.providers import *
-<<<<<<< HEAD
 
 
-=======
 import datetime
 from django.core import serializers
->>>>>>> c1a75d59a1209a6335a915902da1630a9de85e12
 
 ROLE_CHOICES = {
     1: "farmer",

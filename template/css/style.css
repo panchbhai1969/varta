@@ -7,5 +7,5 @@
 }
 
 .gradient-background{
-    background-image: linear-gradient(rgba(245, 247, 250, 0.5), rgba(195, 207, 226, 0.5));
+    background-image: linear-gradient(to bottom right, rgba(253, 251, 251, 1), rgba(235, 237, 238, 1));
 }

@@ -11,7 +11,7 @@ import uuid
 from JioKisan.models import User_reg, Produce, Consignment, FarmEntity, Request
 from faker import Faker
 from faker.providers import geo, date_time
-
+from JioKisan.models import getDeliveryInfo
 
 fakegen = Faker()
 fakegen.add_provider(geo)
@@ -43,7 +43,7 @@ def populateUser_reg(N=5):
         bank_account_number= randomString(13)
         GST_number= randomString(15)
         i = random.randint(0,1)
-        isVerified= (i==0)
+        isVerified= True
         position_latitude = location[0]
         position_longitude = location[1]
          
@@ -74,14 +74,14 @@ def populateProduce(N=5):
         amount = random.randint(200,800)
         FE_info = farmEntities[random.randint(0,farmEntityCount-1)]
         farmer_info = farmers[random.randint(0,farmersCount-1)]
-        isAssigned = (random.randint(0,1)==0)
+        isAssigned = False
         
         produce = Produce.objects.get_or_create(amount=amount, FE_info= FE_info, farmer_info = farmer_info, isAssigned=isAssigned)
 
 
 def populateRequest(N=5):
     for entry in range(N):
-        farmEntities = FarmEntity.objects.all()
+        farmEntities = FarmEntity.objects.all().filter(isFarmTool=False)
         farmEntityCount = farmEntities.count()
         mandis = User_reg.objects.all().filter(role=3)
         mandisCount = mandis.count()
@@ -90,7 +90,7 @@ def populateRequest(N=5):
         mandi_info = mandis[random.randint(0,mandisCount-1)]
         currentBid = random.randint(100,500)
         before_date = fakegen.future_date(end_date="+20d", tzinfo=None)
-        isAssigned = (random.randint(0,1)==0)
+        isAssigned = False
         request = Request.objects.get_or_create(amount=amount, FE_info= FE_info,
                                                 mandi_info=mandi_info, current_bid=currentBid,
                                                 before_date=before_date, isAssigned=isAssigned)
@@ -104,13 +104,32 @@ def populateFarmEntity():
         measured_in = 1
         MSP = entry[1]
         farm_entity = FarmEntity.objects.get_or_create(name=name, measured_in=measured_in,
-                                                        MSP=MSP)
+                                                        MSP= MSP)       
 
 
 
 
-def populateConsignments():
-    pass
+def populateConsignments(N=5):
+	for entry in range(N):
+		farm_entities = FarmEntity.objects.all().filter(isFarmTool=False)
+		farm_entities_count = farm_entities.count()
+		random_farm_entity = farm_entities[random.randint(0,farm_entities_count-1)]
+		produces = Produce.objects.all().filter(FE_info = random_farm_entity, isAssigned=False)
+		produces_count = produces.count()
+		random_prod_index = random.randint(0,produces_count-1)
+		produce = produces[random_prod_index]
+		requests = Request.objects.all().filter(FE_info = random_farm_entity, isAssigned=False)
+		requests_count = requests.count()
+		random_req_index = random.randint(0, random_req_index-1)
+		request = requests[random_req_index]
+		
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":

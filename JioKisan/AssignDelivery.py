@@ -223,7 +223,7 @@ def mapConsignments(mDict):
     
     # Consignments which are pending
     drivers = getDrivers(mDict)
-    consignments = getConsignments(mDict)
+    consignments = getConsignments()
     num_drivers = drivers.count()
     num_consignments = consignments.count()
 

@@ -18,5 +18,6 @@ urlpatterns = [
     path('get_prod_list',views.getProduceList,name='getProduceList'),
     path('get_driver_info', views.getDriverInfo, name='getDriverInfo'),
     path('get_driver_path', views.getDriverPath, name='getDriverPath'),
-    path('get_prod_list/',views.getProduceList,name='getProduceList')
+    path('get_prod_list/',views.getProduceList,name='getProduceList'),
+    path('get_hired',views.getHired,name='getHired')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

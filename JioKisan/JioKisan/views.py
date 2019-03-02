@@ -10,6 +10,7 @@ from . models import *
 from . process_text import process_content
 from  .voice import *
 from trucksFunctions import *
+from AssignDelivery import *
 
 def create_dict(data_rec):
     diction = {}
@@ -172,7 +173,7 @@ def getDriverInfo(request):
     return getDriverDetails(mDict)
 
 @csrf_exempt
-def getDriverPath(Request):
+def getDriverPath(request):
     data_rec =[]
     if request.method == 'POST':
         data_rec = json.loads(request.body)
@@ -181,3 +182,17 @@ def getDriverPath(Request):
     json_path = JsonResponse(path)
 
     return json_path
+
+@csrf_exempt
+def getHired(request):
+    data_rec =[]
+    if request.method == 'POST':
+        data_rec = json.loads(request.body)
+    mDict = create_dict(data_rec)
+    user = User_reg.objects.get(PAN=mDict['PAN'])
+    if user.role==2 and user.isHired == False : 
+        mapConsignments(mDict)
+
+    return getDriverPath(request)
+
+    

@@ -21,8 +21,7 @@ def save_images(request):
         fs = FileSystemStorage()
         filename = fs.save("7440934465"+".wav", myfile)
         uploaded_file_url = fs.url(filename)
-        v_tex_trans(uploaded_file_url[1:] )
-        return HttpResponse("Saved")
+        return v_tex_trans(uploaded_file_url[1:] )
     
 
 def v_tex_trans(location):
@@ -71,3 +70,5 @@ def v_tex_trans(location):
 
     print(u'Text: {}'.format(text))
     print(u'Translation: {}'.format(translation['translatedText']))
+    str_val  =  u'Translation: {}'.format(translation['translatedText'])
+    return str_val

@@ -158,11 +158,24 @@ def getReqList(request):
     if request.method == 'POST':
             data_rec = json.loads(request.body)
     diction = create_dict(data_rec)    
+    print(diction)
     response = JsonResponse(list_request(diction),safe=False)
     response['Access-Control-Allow-Origin'] = '*'
     print(response)
     return  response
 
+@csrf_exempt
+def getFTBuyList(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+    diction = create_dict(data_rec)    
+    print(diction)
+    response = JsonResponse(list_farm_tools_for_farmers(diction),safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
+    
 def ResponsePage(request):
     user_request=UserRequest(request.POST or None)
     server_response='Welcome to JioKisan'
@@ -204,6 +217,28 @@ def getDriverPath(request):
     json_path = JsonResponse(path)
 
     return json_path
+@csrf_exempt   
+def list_farmEnitity():
+    fe=FarmEntity.objects.filter(isFarmTool=False)
+    f_list=[]
+    for f in fe:
+        f_list.append(model_to_dict(f))
+    f_list
+    response = JsonResponse(f_list,safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
+
+@csrf_exempt
+def list_farmTool():
+    fe=FarmEntity.objects.filter(isFarmTool=True)
+    f_list=[]
+    for f in fe:
+        f_list.append(model_to_dict(f))
+    response = JsonResponse(f_list,safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
 
 @csrf_exempt
 def getHired(request):

@@ -1,3 +1,11 @@
+import os
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+
+import django
+django.setup()
+
+
 from JioKisan.models import User_reg, Consignment
 from AssignDelivery import *
 
@@ -12,6 +20,8 @@ def getDriverDetails(mDict):
     if(user.role!=2):
         raise "Invalid User, User Not A Driver"
     
+
+
     if(user.isHired==true):
         path = getPath(mDict)
 
@@ -58,7 +68,8 @@ def getPath(mDict):
 if __name__ == "__main__":
     users = User_reg.objects.all().filter(role=2)
     user = users[3]
-    
-
+    mDict = {'PAN':user.PAN}
+    a = getDriverDetails(mDict)
+    print(a)
 
 

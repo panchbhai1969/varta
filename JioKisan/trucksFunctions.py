@@ -1,9 +1,12 @@
 import os
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'JioKisan.settings')
 
 import django
 django.setup()
+
+import datetime
+from django.core import serializers
 
 
 from JioKisan.models import User_reg, Consignment
@@ -20,10 +23,9 @@ def getDriverDetails(mDict):
     if(user.role!=2):
         raise "Invalid User, User Not A Driver"
     
-
-
-    if(user.isHired==true):
-        path = getPath(mDict)
+    driver_info_json  = serializers.serialize('json', [ user ])
+    return driver_info_json
+    
 
 def getPath(mDict):
     user = User_reg.objects.get(PAN=mDict['PAN'])
@@ -65,11 +67,5 @@ def getPath(mDict):
     return locations
     
 
-if __name__ == "__main__":
-    users = User_reg.objects.all().filter(role=2)
-    user = users[3]
-    mDict = {'PAN':user.PAN}
-    a = getDriverDetails(mDict)
-    print(a)
 
 

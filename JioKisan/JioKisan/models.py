@@ -7,8 +7,6 @@ import hashlib
 import base64
 from faker import Faker
 from faker.providers import *
-
-
 import datetime
 from django.core import serializers
 
@@ -58,6 +56,9 @@ class User_reg(models.Model):
     position_latitude=models.FloatField(default=None, blank=True, null=True)
     position_longitude=models.FloatField(default=None, blank=True, null=True)
     isVerified=models.BooleanField()
+    def __str__(self):
+        return (self.name +" "+ self.PAN)
+
 
 class FarmEntity(models.Model):
     ufid = models.AutoField(primary_key=True)
@@ -66,20 +67,28 @@ class FarmEntity(models.Model):
     MSP=models.IntegerField()
     isFarmTool=models.BooleanField(default=False)
     display_image=models.ImageField(upload_to='fe_sample_images',blank=True)
+    def __str__(self):
+        return (self.name +" "+ str(self.ufid))
 
 class Produce(models.Model):
     upid=models.AutoField(primary_key=True)
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
+    isAssigned=models.BooleanField(default=False)
+    def __str__(self):
+        return (self.FE_info.name +" by "+self.farmer_info.name+" "+ str(self.upid))
 
 class Request(models.Model):
     urid=models.AutoField(primary_key=True)
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
+    isAssigned=models.BooleanField(default=False)
     current_bid=models.IntegerField()
     before_date=models.DateField()
+    def __str__(self):
+        return (self.FE_info.name +" by "+self.mandi_info.name+" "+ str(self.urid))
 
 class Consignment(models.Model):
     ucid=models.AutoField(primary_key=True)
@@ -89,7 +98,8 @@ class Consignment(models.Model):
     status=models.CharField(max_length=25,choices=STATUS_CHOICES,default='PENDING')
     truck=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN',default=None, blank=True, null=True)
     cost=models.IntegerField()
-
+    # def __str__(self):
+    #     return (self.FE_info.name +" to "+self.farmer_info.name" "+ self.upid)
 
 ##
 #Requirements for cacheing
@@ -98,7 +108,6 @@ class Consignment(models.Model):
 # run memcached before running the server
 ##
 
-## to be done by Ayush
 def getPositionCoordinates(address):
     fakegen = Faker()
     fakegen.add_provider(geo)
@@ -107,7 +116,12 @@ def getPositionCoordinates(address):
     return location[0], location[1]
 
 def getDeliveryInfo(mrequest,mproduce):
-    pass
+    cost=40
+    fakegen = Faker()
+    cdate = datetime.Date()
+    bdate = (mrequest.before_date)
+    edate = fake.date_between_dates(date_start=cdate, date_end=bdate)
+    return (cost,edate)
 
 def AddFarmEntity(mname,mMSP,mMeasured_in):
     exists=FarmEntity.objects.filter(name=mname).count()
@@ -262,8 +276,6 @@ def verify_response(mdict,data,hash_rec):
             return True
         else:
             return False
-
-   
     return 0
 
 def create_secret(mdict):
@@ -299,17 +311,15 @@ def create_produce(mdict):
     The function creates a new produce object according to the models presented
     in the model.py file. it first checks if the request was made by the farmer.
     """
-    try:
-        produce = Produce()
-        produce.amount=int(mdict['amount'])
-        produce.FE_info=FarmEntity.objects.get(mdict['ufid'])
-        produce.farmer_info=User_reg.objects.get(mdict['PAN'])
-        produce.save()
-        print("successfully produce created")
-        return "success"
-    except:
-        print("create produce error")
-        return "failure"
+
+    produce = Produce()
+    produce.amount=int(mdict['amount'])
+    produce.FE_info=FarmEntity.objects.get(ufid=int(mdict['ufid']))
+    produce.farmer_info=User_reg.objects.get(PAN=mdict['PAN'])
+    produce.save()
+    print("successfully produce created")
+    return "success"
+
 
 # Issue #3
 def create_request(mdict):
@@ -321,8 +331,8 @@ def create_request(mdict):
     try:
         request = Request()
         request.amount=int(mdict['amount'])
-        request.FE_info=FarmEntity.objects.get(mdict['ufid'])
-        request.mandi_info=User_reg.objects.get(mdict['PAN'])
+        request.FE_info=FarmEntity.objects.get(ufid=mdict['ufid'])
+        request.mandi_info=User_reg.objects.get(PAN=mdict['PAN'])
         request.current_bid=int(mdict['current_bid'])
         request.before_date=dateparse(mdict['before_date'])
         request.save()
@@ -380,13 +390,11 @@ def list_20_requests():
         print("error getting 20 recents requests")
         return "failure"
 
-def list_request(farm_entity,user):
+def list_request(mdict):
     """
     List all request related for a given farm entity in decreasing order of profits 
     obtained from the transport. Also list request with possible loss. 
     """
-<<<<<<< HEAD
-=======
     farm_entity=FarmEntity.objects.get(ufid=mdict['ufid'])
     reqs=Request.objects.filter(isAssigned=False,FE_info=farm_entity)
     farmer=User_reg.objects.get(PAN=['PAN'])
@@ -405,5 +413,3 @@ def list_produce(mdict):
 
 
 
-
->>>>>>> c1a75d59a1209a6335a915902da1630a9de85e12

@@ -409,7 +409,12 @@ def list_produce(mdict):
     produce_list=[]
     produces=Produce.objects.filter(isAssigned=False,farmer_info=farmer)
     for prod in produces:
-        produce_list.append(model_to_dict(prod))
+        p_dict=model_to_dict(prod)
+        p_dict['FE_name']=prod.FE_info.name
+        p_dict['img_url']=prod.FE_info.display_image.url
+        produce_list.append(p_dict)
+        p_dict.clear()
+    print(produce_list)
     return produce_list
     
 

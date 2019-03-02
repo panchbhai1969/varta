@@ -311,8 +311,8 @@ def create_produce(mdict):
 
     produce = Produce()
     produce.amount=int(mdict['amount'])
-    produce.FE_info=FarmEntity.objects.get(mdict['ufid'])
-    produce.farmer_info=User_reg.objects.get(mdict['PAN'])
+    produce.FE_info=FarmEntity.objects.get(ufid=mdict['ufid'])
+    produce.farmer_info=User_reg.objects.get(PAN=mdict['PAN'])
     produce.save()
     print("successfully produce created")
     return "success"

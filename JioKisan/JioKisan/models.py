@@ -5,6 +5,7 @@ from pymemcache.client import base
 import hmac
 import hashlib
 import base64
+import faker
 
 
 
@@ -94,7 +95,12 @@ class Consignment(models.Model):
 
 ## to be done by Ayush
 def getPositionCoordinates(address):
-    pass
+    fakegen = Faker()
+    fakegen.add_provider(geo)
+    location = fakegen.local_latlng(country_code="IN", coords_only=False)
+
+    return location[0], location[1]
+
 def getDeliveryInfo(mrequest,mproduce):
     pass
 

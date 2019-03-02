@@ -90,31 +90,43 @@ def speechtotext(request):
 
 @csrf_exempt  
 def voice_input(request):
-    data_rec = []
+    """ data_rec = []
     if request.method == 'POST':
         data_rec = json.loads(request.body)
-        #print ('Raw Data: "%s"' % str(data_rec) )
-    diction = create_dict(data_rec)
-    exists=User_reg.objects.filter(PAN=diction['PAN']).count()
+        #print ('Raw Data: "%s"' % str(data_rec) ) 
+    diction = create_dict(data_rec)"""
+    exists=User_reg.objects.filter(PAN="pan").count()
     if exists!=0:
-        user=User_reg.objects.get(PAN=mdict['PAN'])
+        user=User_reg.objects.get(PAN="pan")
     else:
         print('User does not exist')
         return 'Failure'
     #Input code for voice input
     input_string = save_images(request) #Return value
-    processed_data = process_content(input_string)
+    processed_data = process_content(input_string.decode('utf-8'))
     amount = processed_data['quantity']
     FE_info = processed_data['commodity']
-    unit = process_data['unit']
+    unit = processed_data['unit']
+    dict_ = {}
     if(processed_data['request_type'] == 'sell'):
+        dict_['amount'] = int(amount)
+        # dict['ufid'] = FE_info
+        fe = FarmEntity.objects.all()
+        for farm_entity in fe:
+            if(farm_entity.name == FE_info):
+                dict_['ufid'] = farm_entity.ufid
         #Add farmer_info to function call
-        create_produce(amount, FE_info, user)
+        dict_['PAN'] = "pan"
+        User_reg.objects.get(PAN='pan')
+        print(dict_)
+        create_produce(dict_)
     elif(processed_data['request_type'] == 'buy'):
         #Call the buy seeds function
         pass
     else:
         print('Invalid request')
+    return HttpResponse("Created")
+    
 
 def ResponsePage(request):
     user_request=UserRequest(request.POST or None)

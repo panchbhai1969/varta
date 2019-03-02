@@ -8,6 +8,7 @@ from django.forms.models import model_to_dict
 from . forms import UserRequest
 from . models import *
 from . process_text import process_content
+from  .voice import *
 
 def create_dict(data_rec):
     diction = {}
@@ -86,6 +87,35 @@ def speechtotext(request):
             print(textMessage)
     return render(request, template_name='index.html')
 
+
+    
+def voice_input(request):
+    data_rec = []
+    if request.method == 'POST':
+        data_rec = json.loads(request.body)
+        #print ('Raw Data: "%s"' % str(data_rec) )
+    diction = create_dict(data_rec)
+    exists=User_reg.objects.filter(PAN=diction['PAN']).count()
+    if exists!=0:
+        user=User_reg.objects.get(PAN=mdict['PAN'])
+    else:
+        print('User does not exist')
+        return 'Failure'
+    #Input code for voice input
+    input_string = save_images(request) #Return value
+    processed_data = process_content(input_string)
+    amount = processed_data['quantity']
+    FE_info = processed_data['commodity']
+    unit = process_data['unit']
+    if(processed_data['request_type'] == 'sell'):
+        #Add farmer_info to function call
+        create_produce(amount, FE_info, user)
+    elif(processed_data['request_type'] == 'buy'):
+        #Call the buy seeds function
+        pass
+    else:
+        print('Invalid request')
+
 def ResponsePage(request):
     user_request=UserRequest(request.POST or None)
     server_response='Welcome to JioKisan'
@@ -107,30 +137,3 @@ def ResponsePage(request):
             'form':user_request
         }
     return render(request,template_name='message.html',context=context)
-    
-def voice_input(request):
-    data_rec = []
-    if request.method == 'POST':
-        data_rec = json.loads(request.body)
-        #print ('Raw Data: "%s"' % str(data_rec) )
-    diction = create_dict(data_rec)
-    exists=User_reg.objects.filter(PAN=diction['PAN']).count()
-    if exists!=0:
-        user=User_reg.objects.get(PAN=mdict['PAN'])
-    else:
-        print('User does not exist')
-        return 'Failure'
-    #Input code for voice input
-    input_string = 'I want to sell two hundred kilo carrots' #Return value
-    processed_data = process_content(input_string)
-    amount = processed_data['quantity']
-    FE_info = processed_data['commodity']
-    unit = process_data['unit']
-    if(processed_data['request_type'] == 'sell'):
-        #Add farmer_info to function call
-        create_produce(amount, FE_info, user)
-    elif(processed_data['request_type'] == 'buy'):
-        #Call the buy seeds function
-        pass
-    else:
-        print('Invalid request')

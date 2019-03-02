@@ -8,7 +8,6 @@ import base64
 from faker import Faker
 from faker.providers import *
 import datetime
-from django.forms.models import model_to_dict
 from django.core import serializers
 
 ROLE_CHOICES = {

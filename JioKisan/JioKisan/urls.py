@@ -19,5 +19,6 @@ urlpatterns = [
     path('get_ftool_list/',views.getFToolList,name='getFToolList'),
     path('get_driver_info', views.getDriverInfo, name='getDriverInfo'),
     path('get_driver_path', views.getDriverPath, name='getDriverPath'),
-    path('get_req_list/',views.getReqList,name='getReqList')
+    path('get_req_list/',views.getReqList,name='getReqList'),
+    path('get_ft_buy_list/',views.getFTBuyList,name='getFTBuyList')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -73,6 +73,7 @@ class FarmEntity(models.Model):
 class Produce(models.Model):
     upid=models.AutoField(primary_key=True)
     amount=models.IntegerField()
+    price=models.IntegerField(default=None,blank=True,null=True)
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
     isAssigned=models.BooleanField(default=False)
@@ -118,9 +119,9 @@ def getPositionCoordinates(address):
 def getDeliveryInfo(mrequest,mproduce):
     cost=40
     fakegen = Faker()
-    cdate = datetime.Date()
+    cdate = datetime.date.today()
     bdate = (mrequest.before_date)
-    edate = fake.date_between_dates(date_start=cdate, date_end=bdate)
+    edate = fakegen.date_between_dates(date_start=cdate, date_end=bdate)
     return (cost,edate)
 
 def AddFarmEntity(mname,mMSP,mMeasured_in):
@@ -395,24 +396,53 @@ def list_request(mdict):
     List all request related for a given farm entity in decreasing order of profits 
     obtained from the transport. Also list request with possible loss. 
     """
-    farm_entity=FarmEntity.objects.get(ufid=mdict['ufid'])
-    prod=Produce.objects.get(upid=mdict['ufpid'])
+    prod=Produce.objects.get(upid=mdict['upid'])
+    farm_entity=prod.FE_info
     reqs=Request.objects.filter(isAssigned=False,FE_info=farm_entity)
-    farmer=User_reg.objects.get(PAN=['PAN'])
+    farmer=User_reg.objects.get(PAN=mdict['PAN'])
     ret_reqs=[]
     for req in reqs:
         r_dict={}
         cost,del_date=getDeliveryInfo(req,prod)
-        if del_date > prod.expected_delivery:
+        if del_date > req.before_date:
             pass
         else:
             r_dict=model_to_dict(req)
             r_dict['delivery_cost']=cost
             r_dict['expected_delivery']=del_date
             r_dict['final_price']=req.current_bid-cost
+            r_dict['mandi_name']=req.mandi_info.organisation_name
             ret_reqs.append(r_dict)
-    ret_reqs_sorted=sort(ret_reqs,key= lambda req: req['final_price'] )
+    ret_reqs_sorted=sorted(ret_reqs,key= lambda req: req['final_price'],reverse=True )
     return ret_reqs_sorted
+
+def list_farm_tools_for_farmers(mdict):
+    """
+    List all request related for a given farm entity in decreasing order of profits 
+    obtained from the transport. Also list request with possible loss. 
+    """
+    ft=FarmEntity.objects.get(ufid=mdict['ufid']) #ft for farm tool
+    produces=Produce.objects.filter(FE_info=ft,isAssigned=False)
+    farmer=User_reg.objects.get(PAN=mdict['PAN'])
+    #some workaround since farmer is the buyer in this case
+    #different selling model but using the same function
+    req=Request()
+    req.mandi_info=farmer
+    req.current_bid=0 ##value doesnt matter here just to get delivery costs
+    req.amount=1 ##value doesnt matter here just to get delivery costs
+    req.before_date=datetime.datetime.today()##value doesnt matter here just to get delivery costs
+    ret_produces=[]
+    for  prod in produces:
+        p_dict={}
+        cost,del_date=getDeliveryInfo(req,prod)
+        p_dict=model_to_dict(prod)
+        p_dict['seller_name']=prod.farmer_info.name #in this case farmer info contains ft seller
+        p_dict['expected_delivery']=del_date
+        p_dict['final_price']=prod.price+cost
+        p_dict['seller_pan']=prod.farmer_info.PAN
+        ret_produces.append(p_dict)
+    ret_prods_sorted=sorted(ret_produces,key= lambda req: req['final_price'] )
+    return ret_prods_sorted
         
             
 

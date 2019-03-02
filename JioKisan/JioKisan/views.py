@@ -88,7 +88,7 @@ def speechtotext(request):
     return render(request, template_name='index.html')
 
 
-    
+@csrf_exempt  
 def voice_input(request):
     data_rec = []
     if request.method == 'POST':

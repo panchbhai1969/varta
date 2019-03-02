@@ -70,5 +70,6 @@ def v_tex_trans(location):
 
     print(u'Text: {}'.format(text))
     print(u'Translation: {}'.format(translation['translatedText']))
-    str_val  =  u'Translation: {}'.format(translation['translatedText'])
-    return str_val
+    #str_val  =  translation['translatedText'].encode()
+    print (translation['translatedText'].encode('utf-8').strip())
+    return translation['translatedText'].encode('utf-8').strip()

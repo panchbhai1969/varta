@@ -8,8 +8,10 @@ django.setup()
 import datetime
 from django.core import serializers
 
-
+import json
+from django.http import JsonResponse
 from JioKisan.models import User_reg, Consignment
+from django.forms.models import model_to_dict
 from AssignDelivery import *
 
 def assignJob(mDict):
@@ -23,8 +25,9 @@ def getDriverDetails(mDict):
     if(user.role!=2):
         raise "Invalid User, User Not A Driver"
     
-    driver_info_json  = serializers.serialize('json', [ user ])
-    return driver_info_json
+    response=JsonResponse(model_to_dict(user))
+    response['Access-Control-Allow-Origin'] = '*'
+    return response
     
 
 def getPath(mDict):

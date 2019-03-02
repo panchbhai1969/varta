@@ -29,7 +29,7 @@
   <script>
     function send_test() {
       var formData = JSON.stringify($("#myForm").serializeArray());
-      $.post("http://192.168.43.229:8000/new_reg/", formData, function(
+      $.post("http://127.0.0.1:8000/new_reg/", formData, function(
         data,
         status
       ) {
@@ -66,13 +66,13 @@
         "examplepan"
       ).value;
       var formData = JSON.stringify($("#otp_form").serializeArray());
-      $.post("http://192.168.43.229:8000/otp_check/", formData, function(
+      $.post("http://127.0.0.1:8000/otp_check/", formData, function(
         data,
         status
       ) {
         alert("Data: " + data + "\nStatus: " + status);
 
-        window.location.href = "index.html";
+        window.location.href = "login.html";
       });
     }
   </script>

@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 from . import voice
+from . import mandi
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
@@ -25,5 +26,5 @@ urlpatterns = [
     path('get_req_list/',views.getReqList,name='getReqList'),
     path('add_f_m_consignment/',views.addFtoMConsignment,name='addFtoMConsignment'),
     path('add_fts_f_consignment/',views.addFTStoFConsignment,name='addFTStoFConsignment'),
-
+    path('list_farmEnitity/',mandi.list_farmEnitity,name="list_farmEnitity")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

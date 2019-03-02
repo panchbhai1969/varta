@@ -7,7 +7,7 @@ import hashlib
 import base64
 from faker import Faker
 from faker.providers import *
-
+import datetime
 
 
 ROLE_CHOICES = {
@@ -74,7 +74,7 @@ class Produce(models.Model):
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
-    isAsigned=models.BooleanField(default=False)
+    isAssigned=models.BooleanField(default=False)
     def __str__(self):
         return (self.FE_info.name +" by "+self.farmer_info.name+" "+ str(self.upid))
 
@@ -83,7 +83,7 @@ class Request(models.Model):
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
-    isAsigned=models.BooleanField(default=False)
+    isAssigned=models.BooleanField(default=False)
     current_bid=models.IntegerField()
     before_date=models.DateField()
     def __str__(self):
@@ -115,8 +115,12 @@ def getPositionCoordinates(address):
     return location[0], location[1]
 
 def getDeliveryInfo(mrequest,mproduce):
-    
-    return ()
+    cost=40
+    fakegen = Faker()
+    cdate = datetime.Date()
+    bdate = (mrequest.before_date)
+    edate = fake.date_between_dates(date_start=cdate, date_end=bdate)
+    return (cost,edate)
 
 def AddFarmEntity(mname,mMSP,mMeasured_in):
     exists=FarmEntity.objects.filter(name=mname).count()
@@ -271,8 +275,6 @@ def verify_response(mdict,data,hash_rec):
             return True
         else:
             return False
-
-   
     return 0
 
 def create_secret(mdict):
@@ -389,8 +391,18 @@ def list_20_requests():
         print("error getting 20 recents requests")
         return "failure"
 
-def list_request(farm_entity,user):
+def list_request(mdict):
     """
     List all request related for a given farm entity in decreasing order of profits 
     obtained from the transport. Also list request with possible loss. 
     """
+    farm_entity=FarmEntity.objects.get(ufid=mdict['ufid'])
+    reqs=Request.objects.filter(isAssigned=False,FE_info=farm_entity)
+    farmer=User_reg.objects.get(PAN=['PAN'])
+    ret_reqs=[]
+    for req in reqs:
+        cost,del_date=getDeliveryInfo()
+        if bla:
+            pass
+
+

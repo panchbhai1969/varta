@@ -15,5 +15,6 @@ urlpatterns = [
     path('trade/',include('trade.urls')),
     path('stt/',views.speechtotext, name='Speech to Text'),
     path('upload/',views.voice_input, name='upload'),
-    path('get_prod_list/',views.getProduceList,name='getProduceList')
+    path('get_prod_list/',views.getProduceList,name='getProduceList'),
+    path('get_ftool_list/',views.getFToolList,name='getFToolList')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

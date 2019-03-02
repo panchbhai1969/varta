@@ -396,13 +396,16 @@ def list_request(mdict):
     obtained from the transport. Also list request with possible loss. 
     """
     farm_entity=FarmEntity.objects.get(ufid=mdict['ufid'])
+    prod=Produce.objects.get(upid=mdict['ufpid'])
     reqs=Request.objects.filter(isAssigned=False,FE_info=farm_entity)
     farmer=User_reg.objects.get(PAN=['PAN'])
     ret_reqs=[]
     for req in reqs:
-        cost,del_date=getDeliveryInfo()
-        if bla:
+        cost,del_date=getDeliveryInfo(req,prod)
+        if del_date > prod.expected_delivery:
             pass
+        else:
+            ret_reqs=4
 
 def list_produce(mdict):
     farmer=User_reg.objects.get(PAN=mdict['PAN'])
@@ -413,10 +416,20 @@ def list_produce(mdict):
         p_dict['FE_name']=prod.FE_info.name
         p_dict['img_url']=prod.FE_info.display_image.url
         produce_list.append(p_dict)
-        p_dict.clear()
     print(produce_list)
     return produce_list
-    
+
+def list_ftool():
+    tool_entities=User_reg.objects.filter(isFarmTool=True)
+    tool_list=[]
+    for tools in tool_entities:
+        t_dict=model_to_dict(prod)
+        t_dict['img_url']=prod.tools.display_image.url
+        tool_list.append(t_dict)
+    print(tool_list)
+    return tool_list
+
+
 
 
 

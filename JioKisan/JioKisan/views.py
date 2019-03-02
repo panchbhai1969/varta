@@ -139,6 +139,17 @@ def getProduceList(request):
     print(response)
     return  response
 
+@csrf_exempt
+def getFToolList(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+    diction = create_dict(data_rec)    
+    response = JsonResponse(list_ftool(),safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
+
 def ResponsePage(request):
     user_request=UserRequest(request.POST or None)
     server_response='Welcome to JioKisan'

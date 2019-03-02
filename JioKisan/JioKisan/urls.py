@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.urls import include, path
 from . import views
 from . import voice
-
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin_page'),
     path('paytm/', include('paytm.urls')),
@@ -14,5 +15,10 @@ urlpatterns = [
     path('',views.ResponsePage,name='Response Page'),
     path('trade/',include('trade.urls')),
     path('stt/',views.speechtotext, name='Speech to Text'),
-    path('upload/',voice.save_images, name='upload'),
+<<<<<<< HEAD
+    path('upload/',views.voice_input, name='upload'),
 ]
+=======
+    path('upload/',voice.save_images, name='upload'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+>>>>>>> b38a1e71141a329b1de224753176579170e7532d

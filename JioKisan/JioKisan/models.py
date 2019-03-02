@@ -61,6 +61,7 @@ class FarmEntity(models.Model):
     name =models.CharField(max_length=40)
     measured_in=models.IntegerField()
     MSP=models.IntegerField()
+    display_image=models.ImageField(upload_to='fe_sample_images',blank=True)
 
 class Produce(models.Model):
     upid=models.AutoField(primary_key=True)

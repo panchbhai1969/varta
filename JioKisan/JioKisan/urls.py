@@ -24,5 +24,7 @@ urlpatterns = [
     path('get_ft_buy_list/',views.getFTBuyList,name='getFTBuyList'),
     path('get_hired',views.getHired,name='getHired'),
     path('get_req_list/',views.getReqList,name='getReqList'),
+    path('add_f_m_consignment/',views.addFtoMConsignment,name='addFtoMConsignment'),
+    path('add_fts_f_consignment/',views.addFTStoFConsignment,name='addFTStoFConsignment'),
     path('list_farmEnitity/',mandi.list_farmEnitity,name="list_farmEnitity")
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

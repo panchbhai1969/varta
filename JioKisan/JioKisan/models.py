@@ -350,7 +350,12 @@ def create_consignments(mdict):
     cons.prod=Produce.objects.get(upid=mdict['upid'])
     cons.truck=None
     cons.cost,cons.expected_delivery=getDeliveryInfo(cons.req,cons.prod)
+    cons.req.isAssigned=True
+    cons.prod.isAssigned=True
+    cons.req.save()
+    cons.prod.save()
     cons.save()  
+    return {'ucid':cons.ucid}
 
 
 
@@ -412,6 +417,7 @@ def list_request(mdict):
             r_dict['expected_delivery']=del_date
             r_dict['final_price']=req.current_bid-cost
             r_dict['mandi_name']=req.mandi_info.organisation_name
+            r_dict['upid']=prod.upid
             ret_reqs.append(r_dict)
     ret_reqs_sorted=sorted(ret_reqs,key= lambda req: req['final_price'],reverse=True )
     return ret_reqs_sorted
@@ -442,6 +448,7 @@ def list_farm_tools_for_farmers(mdict):
         p_dict['seller_pan']=prod.farmer_info.PAN
         ret_produces.append(p_dict)
     ret_prods_sorted=sorted(ret_produces,key= lambda req: req['final_price'] )
+    print(ret_prods_sorted)
     return ret_prods_sorted
         
             

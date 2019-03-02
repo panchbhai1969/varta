@@ -110,7 +110,6 @@ def ResponsePage(request):
     
 def voice_input(request):
     data_rec = []
-    
     if request.method == 'POST':
         data_rec = json.loads(request.body)
         #print ('Raw Data: "%s"' % str(data_rec) )

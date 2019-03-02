@@ -4,7 +4,9 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'JioKisan.settings')
 import django
 django.setup()
 
-from trucks.models import Driver,Delivery
+
+from JioKisan.models import User_reg as Driver
+from JioKisan.models import Consignment as Delivery
 import numpy as np
 
 
@@ -18,7 +20,7 @@ def initializeMappingList(num_drivers, num_consignments, drivers, consignments):
         if(i<num_drivers):
             entryType = 'Driver'
             pk = drivers[i].pk
-            address = str(drivers[i].currentPositionLatitude)+','+str(drivers[i].currentPositionLongitude) 
+            address = str(drivers[i].position_latitude)+','+str(drivers[i].position_longitude) 
             weight = drivers[i].truckCapacity
         else:
             k=i-num_drivers
@@ -27,12 +29,18 @@ def initializeMappingList(num_drivers, num_consignments, drivers, consignments):
             if(k%2==0):
                 entryType = 'Pickup Location'
                 pk = consignments[consignmentEntry_index].pk
-                address = str(consignments[consignmentEntry_index].pickupLocationLatitude) + ',' + str(consignments[consignmentEntry_index].pickupLocationLongitude)
+                consignmentObject = Delivery.objects.get(pk=pk)
+                pickupLatitude = consignmentObject.prod.farmer_info.position_latitude
+                pickupLongitude = consignmentObject.prod.farmer_info.position_longitude
+                address = str(pickupLatitude) + ',' + str(pickupLongitude)
 
             else:
                 entryType = 'Drop Location'
                 pk = consignments[consignmentEntry_index].pk
-                address = str(consignments[consignmentEntry_index].dropLocationLatitude) + ',' + str(consignments[consignmentEntry_index].dropLocationLongitude)
+                consignmentObject = Delivery.objects.get(pk=pk)
+                dropLatitude = consignmentObject.req.mandi_info.position_latitude
+                dropLongitude = consignmentObject.req.mandi_info.position_longitude
+                address = str(dropLatitude) + ',' + str(dropLongitude)
 
             weight = consignments[consignmentEntry_index].weight
             
@@ -171,9 +179,9 @@ def driverDeliveryAssignment(mappingList, num_drivers, num_consignments):
 
 
 
-def getDrivers():
+def getDrivers(mDict):
     # Drivers which are not hired and add further filters
-    drivers = Driver.objects.all().filter(hired=False)
+    drivers = Driver.objects.all().filter(PAN=mDict['PAN'], role=2, isHired=False)
 
     return drivers
 
@@ -198,7 +206,7 @@ def updateDatabase(assignedDriver, pathOfDriver, assignedConsignments):
 
     assignedDriverObject = Driver.objects.get(pk = assignedDriver['pk'])
     assignedDriverObject.path = path
-    assignedDriverObject.hired = True
+    assignedDriverObject.isHired = True
     assignedDriverObject.save()
    
 
@@ -207,13 +215,15 @@ def updateDatabase(assignedDriver, pathOfDriver, assignedConsignments):
     for entry in assignedConsignments:
         consignmentObject = Delivery.objects.get(pk = entry['pk'])
         consignmentObject.status = "ASSIGNED"
+        consignmentObject.truck = assignedDriverObject
         consignmentObject.save()
+        
 
-def mapConsignments():
+def mapConsignments(mDict):
     
     # Consignments which are pending
-    drivers = getDrivers()
-    consignments = getConsignments()
+    drivers = getDrivers(mDict)
+    consignments = getConsignments(mDict)
     num_drivers = drivers.count()
     num_consignments = consignments.count()
 

@@ -202,6 +202,17 @@
                             <span class="font-weight-bold text-primary text-uppercase mb-1 ">Vehicle Number</span>
                             <span class="h6 mb-0 font-weight-bold text-gray-800" id="vehicleno">Vehicle number</span>
                           </div>
+
+                          <div class="col-md-4">
+                              <span class="font-weight-bold text-primary text-uppercase mb-1 ">Available Capacity</span>
+                              <span class="h6 mb-0 font-weight-bold text-gray-800" id="vehicleno">Available Capacity</span>
+                            </div>
+                          <div class="col-md-4">
+                            <button class="btn btn-primary hired" style="margin:1vh 0vh;" type="button" id="hireButton"
+                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Get Hired
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -236,20 +247,7 @@
                         <th>Status</th>
                       </tr>
                     </thead>
-                    <tfoot>
-                      <tr>
-                        <th>S.No.</th>
-                        <th>On</th>
-                        <th>By</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Things</th>
-                        <th>Rating</th>
-                        <th>Payment</th>
-                        <th>Status</th>
-                      </tr>
-                    </tfoot>
-                    <tbody>
+                    <tbody id="driver_table">
                       <tr>
                         <td>Charde Marshall</td>
                         <td>23/4/19</td>
@@ -341,7 +339,7 @@
         </div>
       </div>
     </div>
-    <form id="inv_form" style={"display:none"}>
+    <form id="inv_form" style="display:none">
       <input id="inv_PAN" name="PAN" type="text" />
     </form>
 
@@ -368,20 +366,59 @@
       document.getElementById("PAN").innerHTML = user_data.PAN
       document.getElementById("phno").innerHTML = user_data.phone_number
       document.getElementById("vehicleno").innerHTML = user_data.vehicle_number
+      // document.getElementById("available_capacity").innerHTML = user_data.available_capcity
       alert(user_data.name)
       console.log(user_data)
       $(document).ready(function () {
-            user_data = JSON.parse(localStorage.getItem('user')).PAN;
-            alert(user_data)
-            $("inv_PAN").val(user_data);
-            var formData = JSON.stringify($("#inv_form").serializeArray());
-            console.log(formData)
-            $.post("http://127.0.0.1:8000/get_driver_info", formData, function (data, status) {
-              $(data).each(function (index, value) {
-                console.log()
-              });
-              alert("Data : " + data[0].upid + "\nStatus: " + status);
-            });
+        user_data = JSON.parse(localStorage.getItem('user')).PAN; 
+        alert(user_data)
+        console.log("User data \n")
+        console.log(user_data)
+        $("#inv_PAN").val(user_data);
+        var formData = JSON.stringify($("#inv_form").serializeArray());
+        console.log(formData)
+        $.post("http://127.0.0.1:8000/get_driver_info", formData, function (data, status) {
+          $(data).each(function (index, value) {
+            console.log(data)
+            if (value.isHired == true) {
+              $("#hireButton").hide();
+              $.post("http://127.0.0.1:8000/get_driver_path", formData, function (data, status) {
+                console.log(data)
+                $(data).each(function (index, value){
+                  // $("#driver_table").append('<tr>'+
+                  //       '<td>'+value.+'</td>'+
+                  //       '<td>23/4/19</td>'+
+                  //       '<td>9:00pm</td>'+
+                  //       '<td>Regional Director</td>'+
+                  //       '<td>San Francisco</td>'+
+                  //       '<td>36</td>'+
+                  //       '<td>2008/10/16</td>'+
+                  //       '<td>$470,600</td>'+
+                  //       '<td><a href="#" class="btn btn-success btn-icon-split" style="margin-bottom:1%">'+
+                  //           '<span class="icon text-white-50">'+
+                  //             '<i class="fas fa-flag"></i>'+
+                  //           '</span>'+
+                  //           '<span class="text">Start</span>'+
+                  //         '</a>'+
+                  //         '<a href="#" class="btn btn-danger btn-icon-split">'+
+                  //           '<span class="icon text-white-50">'+
+                  //             '<i class="fas fa-trash"></i>'+
+                  //           '</span>'+
+                  //           '<span class="text">Cancel</span>'+
+                  //         '</a>'+
+                  //       '</td>'+
+                  //     '</tr>')
+                   console.log(data)
+                })
+              })
+            }
+            // else{
+            //   $("#hireButton").click(function())
+            // }
+          });
+          alert("Data : " + data[0].upid + "\nStatus: " + status);
+        });
+      });
     </script>
 
 </body>

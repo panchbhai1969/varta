@@ -119,9 +119,15 @@ def populateConsignments(N=5):
 		random_prod_index = random.randint(0,produces_count-1)	
 		requests = Request.objects.all().filter(FE_info = random_farm_entity, isAssigned=False)
 		requests_count = requests.count()
-		random_req_index = random.randint(0, requests_count-1)
+		random_req_index = random.randint(0,requests_count-1)
+
+		# print('produces_count', produces_count)
+		# print('random_prod_index', random_prod_index)
+		# print('requests_count', requests_count)
+		# print('random_req_index', random_req_index)
 		
-		while produces_count>0 and requests_count > 0 :
+		
+		if produces_count>0 and requests_count > 0 :
 			produce = produces[random_prod_index]
 			request = requests[random_req_index]
 			cost, expected_delivery = getDeliveryInfo(request, produce)

@@ -56,6 +56,9 @@ class User_reg(models.Model):
     position_latitude=models.FloatField(default=None, blank=True, null=True)
     position_longitude=models.FloatField(default=None, blank=True, null=True)
     isVerified=models.BooleanField()
+    def __str__(self):
+        return (self.name +" "+ self.PAN)
+
 
 class FarmEntity(models.Model):
     ufid = models.AutoField(primary_key=True)
@@ -63,12 +66,16 @@ class FarmEntity(models.Model):
     measured_in=models.IntegerField()
     MSP=models.IntegerField()
     display_image=models.ImageField(upload_to='fe_sample_images',blank=True)
+    def __str__(self):
+        return (self.name +" "+ str(self.ufid))
 
 class Produce(models.Model):
     upid=models.AutoField(primary_key=True)
     amount=models.IntegerField()
     FE_info=models.ForeignKey(FarmEntity,on_delete=models.CASCADE,db_column='ufid')
     farmer_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
+    def __str__(self):
+        return (self.FE_info.name +" by "+self.farmer_info.name+" "+ str(self.upid))
 
 class Request(models.Model):
     urid=models.AutoField(primary_key=True)
@@ -77,6 +84,8 @@ class Request(models.Model):
     mandi_info=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN')
     current_bid=models.IntegerField()
     before_date=models.DateField()
+    def __str__(self):
+        return (self.FE_info.name +" by "+self.mandi_info.name+" "+ str(self.urid))
 
 class Consignment(models.Model):
     ucid=models.AutoField(primary_key=True)
@@ -86,7 +95,8 @@ class Consignment(models.Model):
     status=models.CharField(max_length=25,choices=STATUS_CHOICES,default='PENDING')
     truck=models.ForeignKey(User_reg,on_delete=models.CASCADE,db_column='PAN',default=None, blank=True, null=True)
     cost=models.IntegerField()
-
+    # def __str__(self):
+    #     return (self.FE_info.name +" to "+self.farmer_info.name" "+ self.upid)
 
 ##
 #Requirements for cacheing

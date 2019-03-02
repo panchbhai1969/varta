@@ -675,6 +675,7 @@
             if(data.wasSuccess=="false"){
               alert("Please try again, you might not be registered.")
             }else{
+              $("#list_of_all_req").empty();
               $(data).each(function(index, value){
                 $('#list_of_all_req').append(' <li> <div class="product-sec1">'  +
                                                   ' <h3 class="heading-tittle">' + value.FE_name +'</h3>' +

@@ -310,17 +310,15 @@ def create_produce(mdict):
     The function creates a new produce object according to the models presented
     in the model.py file. it first checks if the request was made by the farmer.
     """
-    try:
-        produce = Produce()
-        produce.amount=int(mdict['amount'])
-        produce.FE_info=FarmEntity.objects.get(mdict['ufid'])
-        produce.farmer_info=User_reg.objects.get(mdict['PAN'])
-        produce.save()
-        print("successfully produce created")
-        return "success"
-    except:
-        print("create produce error")
-        return "failure"
+
+    produce = Produce()
+    produce.amount=int(mdict['amount'])
+    produce.FE_info=FarmEntity.objects.get(ufid=int(mdict['ufid']))
+    produce.farmer_info=User_reg.objects.get(PAN=mdict['PAN'])
+    produce.save()
+    print("successfully produce created")
+    return "success"
+
 
 # Issue #3
 def create_request(mdict):
@@ -332,8 +330,8 @@ def create_request(mdict):
     try:
         request = Request()
         request.amount=int(mdict['amount'])
-        request.FE_info=FarmEntity.objects.get(mdict['ufid'])
-        request.mandi_info=User_reg.objects.get(mdict['PAN'])
+        request.FE_info=FarmEntity.objects.get(ufid=mdict['ufid'])
+        request.mandi_info=User_reg.objects.get(PAN=mdict['PAN'])
         request.current_bid=int(mdict['current_bid'])
         request.before_date=dateparse(mdict['before_date'])
         request.save()

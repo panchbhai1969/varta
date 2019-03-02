@@ -401,11 +401,20 @@ def list_request(mdict):
     farmer=User_reg.objects.get(PAN=['PAN'])
     ret_reqs=[]
     for req in reqs:
+        r_dict={}
         cost,del_date=getDeliveryInfo(req,prod)
         if del_date > prod.expected_delivery:
             pass
         else:
-            ret_reqs=4
+            r_dict=model_to_dict(req)
+            r_dict['delivery_cost']=cost
+            r_dict['expected_delivery']=del_date
+            r_dict['final_price']=req.current_bid-cost
+            ret_reqs.append(r_dict)
+    ret_reqs_sorted=sort(ret_reqs,key= lambda req: req['final_price'] )
+    return ret_reqs_sorted
+        
+            
 
 def list_produce(mdict):
     farmer=User_reg.objects.get(PAN=mdict['PAN'])
@@ -428,8 +437,3 @@ def list_ftool():
         tool_list.append(t_dict)
     print(tool_list)
     return tool_list
-
-
-
-
-

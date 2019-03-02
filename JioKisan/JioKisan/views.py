@@ -127,6 +127,17 @@ def voice_input(request):
         print('Invalid request')
     return HttpResponse("Created")
     
+@csrf_exempt
+def getProduceList(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+    diction = create_dict(data_rec)
+    print(diction)    
+    response = JsonResponse(list_produce(diction),safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
 
 def ResponsePage(request):
     user_request=UserRequest(request.POST or None)

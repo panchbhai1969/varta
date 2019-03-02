@@ -8,7 +8,7 @@ import base64
 from faker import Faker
 from faker.providers import *
 import datetime
-
+from django.forms.models import model_to_dict
 
 ROLE_CHOICES = {
     1: "farmer",
@@ -65,6 +65,7 @@ class FarmEntity(models.Model):
     name =models.CharField(max_length=40)
     measured_in=models.IntegerField()
     MSP=models.IntegerField()
+    isFarmTool=models.BooleanField(default=False)
     display_image=models.ImageField(upload_to='fe_sample_images',blank=True)
     def __str__(self):
         return (self.name +" "+ str(self.ufid))
@@ -402,5 +403,21 @@ def list_request(mdict):
         cost,del_date=getDeliveryInfo()
         if bla:
             pass
+
+def list_produce(mdict):
+    farmer=User_reg.objects.get(PAN=mdict['PAN'])
+    produce_list=[]
+    produces=Produce.objects.filter(isAssigned=False,farmer_info=farmer)
+    for prod in produces:
+        p_dict=model_to_dict(prod)
+        p_dict['FE_name']=prod.FE_info.name
+        p_dict['img_url']=prod.FE_info.display_image.url
+        produce_list.append(p_dict)
+        p_dict.clear()
+    print(produce_list)
+    return produce_list
+    
+
+
 
 

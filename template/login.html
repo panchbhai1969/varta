@@ -18,10 +18,10 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <script>
-  
+  var url = 'http://172.29.12.159:8000'
   function send_number() {
       var formData = JSON.stringify($("#myForm").serializeArray());
-      $.post("http://127.0.0.1:8000/login/", formData, function(
+      $.post(url+"/login/", formData, function(
         data,
         status
       ) {
@@ -40,7 +40,7 @@
 
   function send_otp() {
       var formData = JSON.stringify($("#myForm").serializeArray());
-      $.post("http://127.0.0.1:8000/login_check/", formData, function(
+      $.post(url+"/login_check/", formData, function(
         data,
         status
       ) {

@@ -361,6 +361,7 @@
     <script src="js/demo/datatables-demo.js"></script>
 
     <script>
+      var url = 'http://172.29.12.159:8000'
       user_data = JSON.parse(localStorage.getItem('user'));
       document.getElementById("name").innerHTML = user_data.name
       document.getElementById("PAN").innerHTML = user_data.PAN
@@ -377,14 +378,16 @@
         $("#inv_PAN").val(user_data);
         var formData = JSON.stringify($("#inv_form").serializeArray());
         console.log(formData)
-        $.post("http://127.0.0.1:8000/get_driver_info", formData, function (data, status) {
+        // console.log("TEST")
+        $.post(url+"/get_driver_info", formData, function (data, status) {
           $(data).each(function (index, value) {
             console.log(data)
+            // console.log("LOL")
             if (value.isHired == true) {
               $("#hireButton").hide();
-              $.post("http://127.0.0.1:8000/get_driver_path", formData, function (data, status) {
+              $.post(url+"/get_driver_path", formData, function (data, status) {
                 console.log(data)
-                $(data).each(function (index, value){
+                // $(data).each(function (index, value){
                   // $("#driver_table").append('<tr>'+
                   //       '<td>'+value.+'</td>'+
                   //       '<td>23/4/19</td>'+
@@ -408,15 +411,23 @@
                   //         '</a>'+
                   //       '</td>'+
                   //     '</tr>')
-                   console.log(data)
+                  //  console.log(data)
+                // })
+              })
+            }
+            else{
+              $("#hireButton").click(function(){
+                console.log("Check")
+                console.log("FORM : \n")
+                console.log(formData)
+                $.post(url+"/get_hired", formData, function(data, status){
+                  console.log("Check2")
+                  // console.log(data)
                 })
               })
             }
-            // else{
-            //   $("#hireButton").click(function())
-            // }
           });
-          alert("Data : " + data[0].upid + "\nStatus: " + status);
+          // alert("Data : " + data[0].upid + "\nStatus: " + status);
         });
       });
     </script>

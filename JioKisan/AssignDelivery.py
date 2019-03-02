@@ -245,5 +245,5 @@ def mapConsignments(mDict):
         num_drivers = drivers.count()
         num_consignments = consignments.count()
 
-if __name__ == "__main__":
-    mapConsignments()
+# if __name__ == "__main__":
+#     mapConsignments()

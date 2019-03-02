@@ -95,14 +95,13 @@ def populateRequest(N=5):
                                                 before_date=before_date)
 
 
-FarmEntityNames = ['Rice']
+FarmEntityNames = [['Rice', 20], ['Wheat', 15], ['Corn', 25]]
 
 def populateFarmEntity():
-    FarmEntityNames = ['Rice']
-    for i in range(0, len(FarmEntityNames)):
-        name = FarmEntityNames[0]
+    for entry in FarmEntityNames:
+        name = entry[0]
         measured_in = 1
-        MSP = random.randint(10, 80)
+        MSP = entry[1]
         farm_entity = FarmEntity.objects.get_or_create(name=name, measured_in=measured_in,
                                                         MSP=MSP)
 

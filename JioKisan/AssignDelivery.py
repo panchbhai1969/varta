@@ -206,6 +206,7 @@ def updateDatabase(assignedDriver, pathOfDriver, assignedConsignments):
 
     assignedDriverObject = Driver.objects.get(pk = assignedDriver['pk'])
     assignedDriverObject.path = path
+    print('Pan in Assign Delivery : ', assignedDriverObject.PAN)
     assignedDriverObject.isHired = True
     assignedDriverObject.save()
    
@@ -221,14 +222,15 @@ def updateDatabase(assignedDriver, pathOfDriver, assignedConsignments):
 
 def mapConsignments(mDict):
     
+    print('I AM IN MAPCONSIGNMENTS')
     # Consignments which are pending
     drivers = getDrivers(mDict)
     consignments = getConsignments()
     num_drivers = drivers.count()
     num_consignments = consignments.count()
 
-    # print('NUmber Drivers', num_drivers)
-    # print('Number Consignment', num_consignments)
+    print('NUmber Drivers', num_drivers)
+    print('Number Consignment', num_consignments)
     # A list of dicts map indices of driver/pickup/drop 
 
     while( (num_drivers>0) and (num_consignments>0) ):
@@ -239,7 +241,7 @@ def mapConsignments(mDict):
         # print('Assigne Driver')
 
         updateDatabase(assignedDriver, pathOfDriver, assignedConsignments)
-
+        print('inside while lol')
         drivers = getDrivers()
         consignments = getConsignments()
         num_drivers = drivers.count()

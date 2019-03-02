@@ -200,8 +200,10 @@ def getDriverPath(request):
     if request.method == 'POST':
         data_rec = json.loads(request.body)
     mDict = create_dict(data_rec)
+    print('Hai hai mDict \n\n', mDict)
     path = getPath(mDict)
     json_path = JsonResponse(path)
+    json_path['Access-Control-Allow-Origin'] = '*'
 
     return json_path
 
@@ -213,8 +215,9 @@ def getHired(request):
     mDict = create_dict(data_rec)
     user = User_reg.objects.get(PAN=mDict['PAN'])
     if user.role==2 and user.isHired == False : 
+        print('Hai Hai Hai \n\n')
         mapConsignments(mDict)
-
+        print('LOl lol lol \n\n')
     return getDriverPath(request)
 
     

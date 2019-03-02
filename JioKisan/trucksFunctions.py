@@ -31,13 +31,21 @@ def getDriverDetails(mDict):
     
 
 def getPath(mDict):
+    print('\n\nasdawd get asdoas d\n\n')
+
     user = User_reg.objects.get(PAN=mDict['PAN'])
+
+    stop_strings = ''
+
+    print('hired status ',user.isHired)
+
     if (user.role == 2) and (user.isHired == True):
         stop_strings = (user.path).split('|')
 
     locations = {}
     i=0
     for stop in stop_strings:
+        print('Printing Stop\n',stop)
         purpose = stop.split(':')[0]
         rem_string = stop.split(':')[1]
         pk_consignment = rem_string.split(';')[0]

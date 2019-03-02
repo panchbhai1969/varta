@@ -116,19 +116,24 @@ def populateConsignments(N=5):
 		random_farm_entity = farm_entities[random.randint(0,farm_entities_count-1)]
 		produces = Produce.objects.all().filter(FE_info = random_farm_entity, isAssigned=False)
 		produces_count = produces.count()
-		random_prod_index = random.randint(0,produces_count-1)
-		produce = produces[random_prod_index]
+		random_prod_index = random.randint(0,produces_count-1)	
 		requests = Request.objects.all().filter(FE_info = random_farm_entity, isAssigned=False)
 		requests_count = requests.count()
-		random_req_index = random.randint(0, random_req_index-1)
-		request = requests[random_req_index]
+		random_req_index = random.randint(0, requests_count-1)
 		
+		while produces_count>0 and requests_count > 0 :
+			produce = produces[random_prod_index]
+			request = requests[random_req_index]
+			cost, expected_delivery = getDeliveryInfo(request, produce)
 
+			consignment = Consignment.objects.get_or_create(req=request, prod=produce,
+															expected_delivery=expected_delivery,
+															cost = cost)
 
-
-
-
-
+			request.isAssigned = True
+			request.save()
+			produce.isAssigned = True
+			produce.save()
 
 
 
@@ -137,5 +142,6 @@ if __name__ == "__main__":
     populateUser_reg(30)
     populateProduce(15)
     populateRequest(15)
+    populateConsignments(7)
 
 

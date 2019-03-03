@@ -26,4 +26,6 @@ urlpatterns = [
     path('get_req_list/',views.getReqList,name='getReqList'),
     path('list_farmEnitity/',mandi.list_farmEnitity,name="list_farmEnitity"),
     path('update_status',views.updateDeliveryStatus,name="updateDeliveryStatus"),
+    path('add_f_m_consignment/',views.addFtoMConsignment,name='addFtoMConsignment'),
+    path('add_fts_f_consignment/',views.addFTStoFConsignment,name='addFTStoFConsignment'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

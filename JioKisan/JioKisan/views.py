@@ -231,6 +231,44 @@ def list_farmEnitity():
     print(response)
     return  response
 
+@csrf_exempt   
+def addFtoMConsignment(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+    diction = create_dict(data_rec)    
+    print(diction)
+    response = JsonResponse(create_consignments(diction),safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
+
+@csrf_exempt   
+def addFTStoFConsignment(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+    diction = create_dict(data_rec)    
+    print(diction)
+    prod=Produce.objects.get(upid=diction['upid'])
+    farmer=User_reg.objects.get(PAN=diction['PAN'])
+    dummy_req=Request()              # A dummy request required for consignment 
+    dummy_req.mandi_info=farmer      # coz farmer is the buyer in this case
+    dummy_req.current_bid=1          # random value ... will be replaced
+    dummy_req.amount=1               # does not matter
+    dummy_req.before_date=datetime.datetime.today()
+    del_cost,exp_del_date=getDeliveryInfo(dummy_req,prod)
+    dummy_req.current_bid=del_cost+prod.price       #now giving some values
+    dummy_req.before_date=exp_del_date              #that make sense
+    dummy_req.FE_info=prod.FE_info
+    dummy_req.save()
+    create_consignments({'urid':dummy_req.urid,'upid':prod.upid})
+    response = JsonResponse(create_consignments(diction),safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
+
+
 @csrf_exempt
 def list_farmTool():
     fe=FarmEntity.objects.filter(isFarmTool=True)
@@ -257,4 +295,11 @@ def getHired(request):
 
     
 def updateDeliveryStatus(request):
-        pass
+    data_rec =[]
+    if request.method == 'POST':
+        data_rec = json.loads(request.body)
+    mDict = create_dict(data_rec)
+    print("Printing mDIct : \n\n")
+    print(mDict)
+    print('\n\n')
+    

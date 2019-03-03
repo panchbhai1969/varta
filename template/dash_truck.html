@@ -17,8 +17,9 @@
     rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="css/sb-admin-2.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="css/style.css">
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
@@ -181,7 +182,7 @@
               </div>
               <div>
                 <div class="col-xl-12 col-md-6 mb-4 width:100%">
-                  <div class="card border-left-primary shadow h-100 py-2 margin-4" style="margin-bottom:3%">
+                  <div class="card border-left-primary shadow h-100 py-2 margin-4 card-margin gradient-background">
                     <div class="card-body">
                       <h1 class="h3 mb-2 text-gray-800" id="name">Full Name</h1>
                       <div class="row no-gutters align-items-center ">
@@ -202,10 +203,14 @@
                             <span class="font-weight-bold text-primary text-uppercase mb-1 ">Vehicle Number</span>
                             <span class="h6 mb-0 font-weight-bold text-gray-800" id="vehicleno">Vehicle number</span>
                           </div>
+                          <div class="col-md-4">
+                            <span class="font-weight-bold text-primary text-uppercase mb-1 ">Vehicle Model</span>
+                            <span class="h6 mb-0 font-weight-bold text-gray-800" id="vehiclemodel">Vehicle model</span>
+                          </div>
 
                           <div class="col-md-4">
                               <span class="font-weight-bold text-primary text-uppercase mb-1 ">Available Capacity</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800" id="vehicleno">Available Capacity</span>
+                              <span class="h6 mb-0 font-weight-bold text-gray-800" id="available_capacity">Capacity</span>
                             </div>
                           <div class="col-md-4">
                             <button class="btn btn-primary hired" style="margin:1vh 0vh;" type="button" id="hireButton"
@@ -217,9 +222,6 @@
                       </div>
                     </div>
                   </div>
-
-
-
                 </div>
                 <div>
                 </div>
@@ -233,60 +235,20 @@
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <h3>Ongoing </h3>
+                    <h3>Assigned Consignments </h3>
                     <thead>
                       <tr>
-                        <th>S.No.</th>
-                        <th>On</th>
-                        <th>By</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Farm Kind</th>
-                        <th>Quantity</th>
-                        <th>Payment</th>
+                        <th>Consignment ID</th>
+                        <th>Purpose</th>
+                        <th>Farm Entity</th>
+                        <th>Address</th>
+                        <th>Person of Concern</th>
+                        <th>Phone Number</th>
                         <th>Status</th>
                       </tr>
                     </thead>
                     <tbody id="driver_table">
-                      <tr>
-                        <td>Charde Marshall</td>
-                        <td>23/4/19</td>
-                        <td>9:00pm</td>
-                        <td>Regional Director</td>
-                        <td>San Francisco</td>
-                        <td>36</td>
-                        <td>2008/10/16</td>
-                        <td>$470,600</td>
-                        <td><a href="#" class="btn btn-success btn-icon-split" style="margin-bottom:1%">
-                            <span class="icon text-white-50">
-                              <i class="fas fa-flag"></i>
-                            </span>
-                            <span class="text">Start</span>
-                          </a>
-                          <a href="#" class="btn btn-danger btn-icon-split">
-                            <span class="icon text-white-50">
-                              <i class="fas fa-trash"></i>
-                            </span>
-                            <span class="text">Cancel</span>
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Haley Kennedy</td>
-                        <td>23/4/19</td>
-                        <td>9:00pm</td>
-                        <td>Senior Marketing Designer</td>
-                        <td>London</td>
-                        <td>43</td>
-                        <td>2012/12/18</td>
-                        <td>$313,500</td>
-                        <td><a href="#" class="btn btn-info btn-icon-split">
-                            <span class="icon text-white-50">
-                              <i class="fas fa-info-circle"></i>
-                            </span>
-                            <span class="text">Started</span>
-                          </a></td>
-                      </tr>
+                      
                     </tbody>
                   </table>
                 </div>
@@ -361,12 +323,21 @@
     <script src="js/demo/datatables-demo.js"></script>
 
     <script>
+      var url = 'http://172.29.12.159:8000'
       user_data = JSON.parse(localStorage.getItem('user'));
       document.getElementById("name").innerHTML = user_data.name
       document.getElementById("PAN").innerHTML = user_data.PAN
       document.getElementById("phno").innerHTML = user_data.phone_number
+      if(user_data.vehicle_model == 0){
+        document.getElementById("ttype").innerHTML = "Refrigerated"
+      }
+      else{
+        document.getElementById("ttype").innerHTML = "Non-Refrigerated"
+      }
       document.getElementById("vehicleno").innerHTML = user_data.vehicle_number
-      // document.getElementById("available_capacity").innerHTML = user_data.available_capcity
+      document.getElementById("vehiclemodel").innerHTML = user_data.vehicle_model
+      document.getElementById("available_capacity").innerHTML = user_data.available_capacity.toString(10)
+      // console.log(user_data.available_capacity)
       alert(user_data.name)
       console.log(user_data)
       $(document).ready(function () {
@@ -377,46 +348,62 @@
         $("#inv_PAN").val(user_data);
         var formData = JSON.stringify($("#inv_form").serializeArray());
         console.log(formData)
-        $.post("http://127.0.0.1:8000/get_driver_info", formData, function (data, status) {
+        // console.log("TEST")
+        $.post(url+"/get_driver_info", formData, function (data, status) {
           $(data).each(function (index, value) {
             console.log(data)
+            // console.log("LOL")
             if (value.isHired == true) {
-              $("#hireButton").hide();
-              $.post("http://127.0.0.1:8000/get_driver_path", formData, function (data, status) {
+              $("#hireButton").addClass("disabled");
+              $("#hireButton").html("Already Hired");
+              $.post(url+"/get_driver_path", formData, function (data, status) {
+                console.log("data\n")
                 console.log(data)
+                $("#driver_table").empty()
+                var flag = false
                 $(data).each(function (index, value){
-                  // $("#driver_table").append('<tr>'+
-                  //       '<td>'+value.+'</td>'+
-                  //       '<td>23/4/19</td>'+
-                  //       '<td>9:00pm</td>'+
-                  //       '<td>Regional Director</td>'+
-                  //       '<td>San Francisco</td>'+
-                  //       '<td>36</td>'+
-                  //       '<td>2008/10/16</td>'+
-                  //       '<td>$470,600</td>'+
-                  //       '<td><a href="#" class="btn btn-success btn-icon-split" style="margin-bottom:1%">'+
-                  //           '<span class="icon text-white-50">'+
-                  //             '<i class="fas fa-flag"></i>'+
-                  //           '</span>'+
-                  //           '<span class="text">Start</span>'+
-                  //         '</a>'+
-                  //         '<a href="#" class="btn btn-danger btn-icon-split">'+
-                  //           '<span class="icon text-white-50">'+
-                  //             '<i class="fas fa-trash"></i>'+
-                  //           '</span>'+
-                  //           '<span class="text">Cancel</span>'+
-                  //         '</a>'+
-                  //       '</td>'+
-                  //     '</tr>')
-                   console.log(data)
+                  console.log(value)
+                  if(value.status === 'Reached'){
+                    console.log("1");
+                    // var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
+                    var button_insert = '<a href="#" class="btn btn-success btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-check"></i></span><span class="text">Completed</span></a>';
+                  }
+                  else if(flag==true){
+                    console.log("2");
+                    var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin disabled" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
+                  }
+                  else{
+                    console.log("3");
+                    flag = true;
+                    var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
+                  }
+                  $("#driver_table").append('<tr>'+
+                        '<td>'+value.consignment_id+'</td>'+
+                        '<td>'+value.purpose+'</td>'+
+                        '<td>'+value.farm_entity+'</td>'+
+                        '<td>'+value.address+'</td>'+
+                        '<td>'+value.person_of_concern+'</td>'+
+                        '<td>'+value.phone_number+'</td>'+
+                        '<td>'+button_insert+'</td>'+
+                      '</tr>')
+                  //  console.log(data)
                 })
               })
             }
-            // else{
-            //   $("#hireButton").click(function())
-            // }
+            else{
+              $("#hireButton").click(function(){
+                console.log("CheckClick")
+                console.log("FORM : \n")
+                console.log(formData)
+                $.post(url+"/get_hired", formData, function(data, status){
+                  console.log("Check2")
+                  location.reload()
+                  // console.log(data)
+                })
+              })
+            }
           });
-          alert("Data : " + data[0].upid + "\nStatus: " + status);
+          // alert("Data : " + data[0].upid + "\nStatus: " + status);
         });
       });
     </script>

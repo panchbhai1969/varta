@@ -11590,21 +11590,21 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("../img/MPTFarmer2.jpg") !important; 
+  background: url(../img/farmer.png);
   background-position: center;
-  background-size: cover;
+  background-size: cover
 }
 
 .bg-register-image {
-  background: url("../img/MPTFarmer2.jpg");
+  background: url(../img/farmer.png);
   background-position: center;
-  background-size: cover;
+  background-size: cover
 }
 
 .bg-password-image {
-  background: url("../img/MPTFarmer2.jpg");
+  background: url(../img/farmer.png);
   background-position: center;
-  background-size: cover;
+  background-size: cover
 }
 
 form.user .custom-checkbox.small label {

@@ -3,58 +3,60 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"  />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"  />
     <style>
       body {
         border: 1px ;
-      }
-      .message{
         width:240px;
-        height:250px;
+        height:230px;
       }
       content{
           width:240px;          
       }
-      .softkey{
-          width:240px;
-          margin-top:-10px;
-      }
-      .button {
+      .button{
+        width:100px;
         height:100px;
-        width: 100px;
-       margin-top:10%;
-      margin-left:20%;
+        margin-top:80px;
+        margin-left:60px;
+        margin-right:50px;
+        
+      }
+      .softkey{
+        margin-top:75px;
+        width:240px;
+      }
+      .tag {
+        margin:10px;
       }
     </style>
 
     <!-- Inline scripts are forbidden in Firefox OS apps (CSP restrictions),
          so we use a script file. -->
-    <script src="app.js" defer>
-    </script>
+    <script src="app.js" defer></script>
 
   </head>
 
-  <body >
-    <article class="message is-primary">
-        <div class="message-header">
-            <p>Ramesh PNo.:987*******</p>
+  <body>     
+        <div class="field">
+           <div class="control">
+             <div><strong>Varta</strong></div>
+                <input style="margin-bottom:5%;margin-top:5%" class="input is-primary" type="text" placeholder="Name">
+                <input style="margin-bottom:5%;margin-top:5%" class="input is-info" type="number" placeholder="Phone Number">
+                <input style="margin-bottom:5%;margin-top:5%" class="input is-danger" type="text" placeholder="PAN">
+                <div class="control">
+  <button class="button is-primary " style="margin-top:2%;height:40px;">Register</button>
+</div>
+           </div>
         </div>
-        <div class="message-body">
-          <div>Order Confirmed!</div>
-            <div class="button is-success is-rounded is-large"><i class="fas fa-check"></i></div>
-       </div>
-    </article>
-    
-    
-<footer>
-    <div class="softkey">  
-        <a class="column tag is-light is-one-fifth " style="margin-right:45px" >Back</a>  
-        <a class="column tag is-light is-one-fifth " style="margin-right:35px">Select</a>
-        <a class="column tag is-light is-one-fifth " >Audio</a>
-  </div>
-</footer>
-</body>
 
+    <footer>
+        <div class="softkey">  
+            <a class="tag is-light" style="margin-left:1px;margin-right:20px">Back</a>  
+            <a class="tag is-light">Select</a>
+            <a class="tag is-light"style="margin-right:0px;margin-left:20px">Audio</a>
+      </div>
+    </footer>
+
+</body>
 </html>

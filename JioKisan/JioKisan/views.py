@@ -215,7 +215,7 @@ def getDriverPath(request):
     mDict = create_dict(data_rec)
     print('Hai hai mDict \n\n', mDict)
     path = getPath(mDict)
-    json_path = JsonResponse(path)
+    json_path = JsonResponse(path, safe=False)
     json_path['Access-Control-Allow-Origin'] = '*'
 
     return json_path
@@ -256,3 +256,5 @@ def getHired(request):
     return getDriverPath(request)
 
     
+def updateDeliveryStatus(request):
+        pass

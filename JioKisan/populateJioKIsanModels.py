@@ -27,17 +27,22 @@ def randomString(stringLength=10):
     randomString  = randomString.upper()[0:stringLength] # convert it in a uppercase letter and trim to your size.
     return randomString
 
+def randomPhoneNumber(stringLength=10):
+    lettersAndDigits = string.digits
+    return ''.join(random.choice(lettersAndDigits) for i in range(stringLength))
+
+
 def populateUser_reg(N=5):
     for entry in range(N):
         name = fakegen.name()
-        phone_number = fakegen.phone_number()
+        phone_number = '+91'+ randomPhoneNumber()
         role = random.randint(1,4)
         location = fakegen.local_latlng(country_code="IN", coords_only=False)
         address = location[2]
         PAN = randomString(17)
         licence_number = randomString()
         vehicle_number = fakegen.license_plate()
-        vehicle_model = random.randint(1,2)
+        vehicle_model = random.randint(0,1)
         vehicle_capacity = random.randint(400,2000)
         organisation_name = fakegen.company()
         bank_account_number= randomString(13)

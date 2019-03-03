@@ -30,24 +30,25 @@ def getDriverDetails(mDict):
     return response
     
 
-def getPath(mDict):
-    print('\n\nasdawd get asdoas d\n\n')
+ # Syntax of path :   farmEntity?status>purpose:pk of consignment;latitude,logitude|status>purpose:pk of consignment;latitude,logitude|...
 
-    user = User_reg.objects.get(PAN=mDict['PAN'])
+def encodePath():
+    pass
 
-    stop_strings = ''
 
-    print('hired status ',user.isHired)
+def decodePath(path):
+    stop_strings = (path).split('|')
 
-    if (user.role == 2) and (user.isHired == True):
-        stop_strings = (user.path).split('|')
+    locations = []
 
-    locations = {}
-    i=0
     for stop in stop_strings:
-        print('Printing Stop\n',stop)
-        purpose = stop.split(':')[0]
-        rem_string = stop.split(':')[1]
+        # print('Printing Stop\n',stop)
+        farmEntity = stop.split('?')[0]
+        rem_string = stop.split('?')[1]
+        status = rem_string.split('>')[0]
+        rem_string = rem_string.split('>')[1]
+        purpose = rem_string.split(':')[0]
+        rem_string = rem_string.split(':')[1]
         pk_consignment = rem_string.split(';')[0]
         rem_string = rem_string.split(';')[1]
         latitude = rem_string.split(',')[0]
@@ -55,15 +56,19 @@ def getPath(mDict):
         consignment_object= Consignment.objects.get(pk=pk_consignment)
         consignment_id = consignment_object.ucid
         if(purpose=='Pickup Location'):
+            purpose='Pickup'
             person_name = consignment_object.prod.farmer_info.name
             phone_number = consignment_object.prod.farmer_info.phone_number
             address = consignment_object.prod.farmer_info.address 
             
         else:
+            purpose='Drop'
             person_name = consignment_object.req.mandi_info.name
             phone_number = consignment_object.req.mandi_info.phone_number
             address = consignment_object.req.mandi_info.address 
         location_info = {
+            'farm_entity':farmEntity,
+            'status':status,
             'purpose':purpose,
             'consignment_id':consignment_id,
             'person_of_concern':person_name,
@@ -72,10 +77,64 @@ def getPath(mDict):
             'latitude':latitude,
             'longitude':longitude
         }
-        locations[str(i)] = location_info
-        i=i+1
+        locations.append(location_info)
+      
     
     return locations
+
+
+
+
+def getPath(mDict):
+    print('\n\nasdawd get asdoas d\n\n')
+
+    user = User_reg.objects.get(PAN=mDict['PAN'])
+
+    # stop_strings = ''
+
+    # print('hired status ',user.isHired)
+    locations = []
+    if (user.role == 2) and (user.isHired == True):
+        locations = decodePath(user.path)
+
+    return locations
+
+    # locations = []
+    # # i=0
+    # for stop in stop_strings:
+    #     print('Printing Stop\n',stop)
+    #     purpose = stop.split(':')[0]
+    #     rem_string = stop.split(':')[1]
+    #     pk_consignment = rem_string.split(';')[0]
+    #     rem_string = rem_string.split(';')[1]
+    #     latitude = rem_string.split(',')[0]
+    #     longitude = rem_string.split(',')[1]
+    #     consignment_object= Consignment.objects.get(pk=pk_consignment)
+    #     consignment_id = consignment_object.ucid
+    #     if(purpose=='Pickup Location'):
+    #         purpose='Pickup'
+    #         person_name = consignment_object.prod.farmer_info.name
+    #         phone_number = consignment_object.prod.farmer_info.phone_number
+    #         address = consignment_object.prod.farmer_info.address 
+            
+    #     else:
+    #         purpose='Drop'
+    #         person_name = consignment_object.req.mandi_info.name
+    #         phone_number = consignment_object.req.mandi_info.phone_number
+    #         address = consignment_object.req.mandi_info.address 
+    #     location_info = {
+    #         'purpose':purpose,
+    #         'consignment_id':consignment_id,
+    #         'person_of_concern':person_name,
+    #         'phone_number':phone_number,
+    #         'address':address,
+    #         'latitude':latitude,
+    #         'longitude':longitude
+    #     }
+    #     locations.append(location_info)
+      
+    
+    # return locations
     
 
 

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Farmers</title>
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Custom styles for this page -->
+  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+
+<body id="page-top" class="sidebar-toggled">
+  <form id="inv_form" style="display:none">
+    <input id="inv_PAN" name="PAN" type="text" />
+    <input id="inv_upid" name="upid" type="text" />
+    <input id="inv_ufid" name="ufid" type="text" />
+    <input id="inv_urid" name="urid" type="text" />
+
+  </form>
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+      <!-- Sidebar - Brand -->
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Varta<sup>4</sup></div>
+      </a>
+
+      <!-- Divider -->
+      <hr class="sidebar-divider my-0">
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        Interface
+      </div>
+      <!-- Nav Item - Tables -->
+      <li class="nav-item active">
+        <a class="nav-link" href="Farmers.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Home</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Buy</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Sell</span></a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Profile</span></a>
+      </li>
+
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="">
+          <i class="fas fa-fw fa-chart-area"></i>
+          <span>Stats</span></a>
+      </li>
+
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+
+          <!-- Topbar Search -->
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+            <div class="input-group">
+              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search"
+                aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="button">
+                  <i class="fas fa-search fa-sm"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Topbar Navbar -->
+          <ul class="navbar-nav ml-auto">
+
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                      aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Gracia</span>
+                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+              </a>
+              <!-- Dropdown - User Information -->
+              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
+                <a class="dropdown-item" href="#">
+                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Activity Log
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+                </a>
+              </div>
+            </li>
+
+          </ul>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h1 mb-0 text-gray-800 btn-margin-large">Farmer Dashboard</h1>
+          </div>
+          <div class="container-fluid">
+            <div class="card-body">
+              <div class="BuyButton center-elements">
+                <a href="#" class="btn btn-primary btn-icon-split btn-lg btn-margin-large" id="btn_buy_farm_tools">
+                  <span class="text"> Buy Farm Tools </span>
+                </a>
+                <a href="#" class="btn btn-primary btn-icon-split btn-lg btn-margin-large" id="btn_sell_your_farm">
+                  <span class="text"> Sell Your Farm </span>
+                </a>
+              </div>
+              <div class="my-2"></div>
+              <!-- DataTales Example -->
+
+              <!-- id_label_transaction begin -->
+              <div class="card shadow mb-4" id="id_label_transaction">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Personal Details</h6>
+                  </div>
+                  <div>
+                    <div class="col-xl-12 col-md-6 mb-4 width:100%">
+                      <div class="card border-left-primary shadow h-100 py-2 card-margin gradient-background">
+                        <div class="card-body">
+                          <h1 class="h3 mb-2 text-gray-800" id="name">Deepesh Singh </h1>
+                          <div class="row no-gutters align-items-center ">
+                            <div class="col-md-3 col-xl-12 col-lg-6 ">
+                              <div class="col-xl-3 col-md-2 col-lg-8">
+                                <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">PAN</span>
+                                <span class="h6 mb-0 font-weight-bold text-gray-800" id="PAN">PAN Number</span>
+                              </div>
+                              <div class="col-md-4">
+                                <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Phone Number</span>
+                                <span class="h6 mb-0 font-weight-bold text-gray-800" id="phoneno">9876543210</span>
+                              </div>
+                              <!-- <div class="col-md-4">
+                                <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">To</span>
+                                <span class="h6 mb-0 font-weight-bold text-gray-800">Durg</span>
+                              </div>
+                              <div class="col-md-4">
+                                <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Kind</span>
+                                <span class="h6 mb-0 font-weight-bold text-gray-800">Tomatoes</span>
+                              </div>
+                              <div class="col-md-4">
+                                <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Quantity</span>
+                                <span class="h6 mb-0 font-weight-bold text-gray-800">1000Kg</span>
+                              </div>
+                              <div class="col-md-4">
+                                <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Payment</span>
+                                <span class="h6 mb-0 font-weight-bold text-gray-800">Rs10000</span>
+                              </div> -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div>
+              <div class="card shadow mb-4" id="id_label_transaction">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Transactions</h6>
+                </div>
+                <div>
+                  <div class="col-xl-12 col-md-6 mb-4 width:100%">
+                    <div class="card border-left-primary shadow h-100 py-2 card-margin gradient-background" style="margin-bottom:3%" id="id_list_of_all_transaction">
+                      <div class="card-body">
+                        <ul id="#transactions">
+                          
+                        </ul>
+                          <!-- <h3>Assigned Consignments </h3>
+                          <button id='transactions'> Cons</button>
+                          <thead>
+                            <tr>
+                              <th>Consignment ID</th>
+                              <th>Farm Entity</th>
+                              <th>Address</th>
+                              <th>Person of Concern</th>
+                              <th>Phone Number</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead> -->
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <!-- id_label_transaction end -->
+
+              <!-- id_show_all_prod begin -->
+
+              <div class="card shadow mb-4" id="id_show_all_prod">
+                <!--
+                      <div class="card-header py-3">
+                <div class="dropdown mb-4">
+                  <button style="margin-left: 45%" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Farm Produce
+                  </button>
+                  <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
+                    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                    <a class="dropdown-item" href="#" id="prod_1">Tomatoes</a>
+                    <a class="dropdown-item" href="#">Rice</a>
+                    <a class="dropdown-item" href="#">Carrot</a>
+                  </div>
+                </div>
+              </div>
+              -->
+                <div class="table-responsive">
+                  <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h6 class="m-0 font-weight-bold text-primary">All</h6>
+                    </div>
+                    <div class="card-body">
+                      <ul style="list-style: none" id="list_of_all_req">
+
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+
+              <!-- id_show_all_prod end -->
+
+              <!-- id_list_of_prod_req begin -->
+              <div class="card shadow mb-4" id="id_list_of_prod_req">
+
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">All</h6>
+                      </div>
+                      <div class="card-body">
+                        <div class="product-sec1">
+                          <div class="col-md-4 product-men">
+                            <ul style="list-style:none;" id="id_list_of_all_mandi">
+
+                            </ul>
+                            
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <!-- /.container-fluid -->
+
+                  </div>
+                  <!-- End of Main Content -->
+                </div>
+              </div>
+              <!-- id_list_of_prod_req end-->
+
+              <!-- End of Content Wrapper -->
+              <!-- id_btn_show_all_buy_prod begin -->
+              <div class="card shadow mb-4" id="id_btn_show_all_buy_prod">
+                <!-- <div class="card-header py-3">
+                  <div class="dropdown mb-4">
+                    <button style="margin-left: 45%" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Farm tools
+                    </button>
+                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
+                      style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                      <a class="dropdown-item" href="#">Fertilizers</a>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <div class="card shadow mb-4">
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">All</h6>
+                      </div>
+                      <ul id="id_show_all_buy_prod" style="list-style:none;">
+                      </ul>
+                
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- id_btn_show_all_buy_prod end -->
+
+
+              <!-- id_btn_show_all_buy_prod_opt begin-->
+              <div class="card shadow mb-4" id="id_btn_show_all_buy_prod_opt">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <div class="card shadow mb-4" id="id_show_all_buy_prod">
+                      <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Fertilizers</h6>
+                      </div>
+                      <div class="card-body">
+                        <ul id="list_of_farm_tools" style="list-style:none;">
+                    
+                        </ul>
+  
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- id_btn_show_all_buy_prod_opt end -->
+
+            </div>
+            <div>
+            </div>
+          </div>
+        </div>
+        <div id="id_ordered">
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <!-- id_table_checkout begin -->
+            <div class="card shadow mb-4" id="id_table_checkout">
+              <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Checkout</h6>
+              </div>
+              <div class="card-body">
+                <div class="product-sec1">
+                  <h3 class="heading-tittle">Your cart</h3>
+                  <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>S.No.</th>
+                          <th>Item</th>
+                          <th>Quantity</th>
+                          <th>Price per unit</th>
+                          <th>Total price</th>
+                          <th>Remove</th>
+                        </tr>
+                      </thead>
+                      <tfoot>
+                        <tr>
+                          <th></th>
+                          <th></th>
+                          <th></th>
+                          <th>Total</th>
+                          <th>Rs. xyz</th>
+                          <th></th>
+                        </tr>
+                      </tfoot>
+                      <tbody>
+                        <tr>
+                          <td>Charde Marshall</td>
+                          <td>23/4/19</td>
+                          <td>9:00pm</td>
+                          <td>Regional Director</td>
+                          <td>San Francisco</td>
+                          <td><a href="#" class="btn btn-danger btn-circle btn-sm ">
+                              <

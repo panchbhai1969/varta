@@ -21,7 +21,7 @@ def initializeMappingList(num_drivers, num_consignments, drivers, consignments):
             entryType = 'Driver'
             pk = drivers[i].pk
             address = str(drivers[i].position_latitude)+','+str(drivers[i].position_longitude) 
-            weight = drivers[i].truckCapacity
+            weight = drivers[i].vehicle_capacity
         else:
             k=i-num_drivers
             consignmentEntry_index = int(k/2)
@@ -42,7 +42,7 @@ def initializeMappingList(num_drivers, num_consignments, drivers, consignments):
                 dropLongitude = consignmentObject.req.mandi_info.position_longitude
                 address = str(dropLatitude) + ',' + str(dropLongitude)
 
-            weight = consignments[consignmentEntry_index].weight
+            weight = consignments[consignmentEntry_index].prod.amount
             
         infoDict = {
             'entryType' : entryType,
@@ -194,18 +194,22 @@ def getConsignments():
 
 def updateDatabase(assignedDriver, pathOfDriver, assignedConsignments):
     # Now we have to change hired status of driver and status of consignments and add path to driver
-    # Syntax of path :         purpose:pk of consignment;latitude,logitude|purpose:pk of consignment;latitude,logitude|...
+    # Syntax of path :         farmEntity?status>purpose:pk of consignment;latitude,logitude|status>purpose:pk of consignment;latitude,logitude|...
     path = ''
     flag=0
     for location in pathOfDriver:
         if flag==1:
             path=path+'|'
-        path = path + location['entryType'] + ':' + location['pk'] + ';'
-        path = path + location['latitude']+','+location['longitude']
+
+        pk = location['pk']
+        path = path + Delivery.objects.get(pk=pk).req.FE_info.name + '?' + 'Not Reached' + '>'
+        path = path + str(location['entryType']) + ':' + str(location['pk']) + ';'
+        path = path + location['address']
         flag = 1
 
     assignedDriverObject = Driver.objects.get(pk = assignedDriver['pk'])
     assignedDriverObject.path = path
+    print('Pan in Assign Delivery : ', assignedDriverObject.PAN)
     assignedDriverObject.isHired = True
     assignedDriverObject.save()
    
@@ -221,14 +225,15 @@ def updateDatabase(assignedDriver, pathOfDriver, assignedConsignments):
 
 def mapConsignments(mDict):
     
+    print('I AM IN MAPCONSIGNMENTS')
     # Consignments which are pending
     drivers = getDrivers(mDict)
     consignments = getConsignments()
     num_drivers = drivers.count()
     num_consignments = consignments.count()
 
-    # print('NUmber Drivers', num_drivers)
-    # print('Number Consignment', num_consignments)
+    print('NUmber Drivers', num_drivers)
+    print('Number Consignment', num_consignments)
     # A list of dicts map indices of driver/pickup/drop 
 
     while( (num_drivers>0) and (num_consignments>0) ):
@@ -236,11 +241,11 @@ def mapConsignments(mDict):
         mappingList = initializeMappingList(num_drivers, num_consignments, drivers, consignments)
         # print('got mapping list')
         assignedDriver , pathOfDriver, assignedConsignments = driverDeliveryAssignment(mappingList, num_drivers, num_consignments)
-        # print('Assigne Driver')
+        print('Assigne Driver')
 
         updateDatabase(assignedDriver, pathOfDriver, assignedConsignments)
-
-        drivers = getDrivers()
+        print('inside while lol')
+        drivers = getDrivers(mDict)
         consignments = getConsignments()
         num_drivers = drivers.count()
         num_consignments = consignments.count()

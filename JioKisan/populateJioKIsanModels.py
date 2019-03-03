@@ -27,17 +27,22 @@ def randomString(stringLength=10):
     randomString  = randomString.upper()[0:stringLength] # convert it in a uppercase letter and trim to your size.
     return randomString
 
+def randomPhoneNumber(stringLength=10):
+    lettersAndDigits = string.digits
+    return ''.join(random.choice(lettersAndDigits) for i in range(stringLength))
+
+
 def populateUser_reg(N=5):
     for entry in range(N):
         name = fakegen.name()
-        phone_number = fakegen.phone_number()
+        phone_number = '+91'+ randomPhoneNumber()
         role = random.randint(1,4)
         location = fakegen.local_latlng(country_code="IN", coords_only=False)
         address = location[2]
         PAN = randomString(17)
         licence_number = randomString()
         vehicle_number = fakegen.license_plate()
-        vehicle_model = random.randint(1,2)
+        vehicle_model = random.randint(0,1)
         vehicle_capacity = random.randint(400,2000)
         organisation_name = fakegen.company()
         bank_account_number= randomString(13)
@@ -116,19 +121,30 @@ def populateConsignments(N=5):
 		random_farm_entity = farm_entities[random.randint(0,farm_entities_count-1)]
 		produces = Produce.objects.all().filter(FE_info = random_farm_entity, isAssigned=False)
 		produces_count = produces.count()
-		random_prod_index = random.randint(0,produces_count-1)
-		produce = produces[random_prod_index]
+		random_prod_index = random.randint(0,produces_count-1)	
 		requests = Request.objects.all().filter(FE_info = random_farm_entity, isAssigned=False)
 		requests_count = requests.count()
-		random_req_index = random.randint(0, random_req_index-1)
-		request = requests[random_req_index]
+		random_req_index = random.randint(0,requests_count-1)
+
+		# print('produces_count', produces_count)
+		# print('random_prod_index', random_prod_index)
+		# print('requests_count', requests_count)
+		# print('random_req_index', random_req_index)
 		
+		
+		if produces_count>0 and requests_count > 0 :
+			produce = produces[random_prod_index]
+			request = requests[random_req_index]
+			cost, expected_delivery = getDeliveryInfo(request, produce)
 
+			consignment = Consignment.objects.get_or_create(req=request, prod=produce,
+															expected_delivery=expected_delivery,
+															cost = cost)
 
-
-
-
-
+			request.isAssigned = True
+			request.save()
+			produce.isAssigned = True
+			produce.save()
 
 
 
@@ -137,5 +153,6 @@ if __name__ == "__main__":
     populateUser_reg(30)
     populateProduce(15)
     populateRequest(15)
+    populateConsignments(7)
 
 

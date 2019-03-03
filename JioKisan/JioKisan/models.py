@@ -17,8 +17,8 @@ ROLE_CHOICES = {
     4: "farm_tool_sellers"
 }
 VEHICLE_MODELS= {
-    1:'AC',
-    2:'NON AC'
+    0:'AC',
+    1:'NON AC'
 }
 MEASUREMENT_TYPES = {
     1:'KG',
@@ -48,8 +48,8 @@ class User_reg(models.Model):
     GST_number=models.CharField(max_length=20,default=None, blank=True, null=True)
     #only for truck driver
     isHired=models.BooleanField(default=None, blank=True, null=True)
-#Syntax of path: purpose:pk of consignment;latitude,logitude|purpose:pk of consignment;latitude,logitude|...
-    path=models.CharField(max_length=300,default=None, blank=True, null=True)
+ # Syntax of path :         farmEntity?status>purpose:pk of consignment;latitude,logitude|status>purpose:pk of consignment;latitude,logitude|...
+    path=models.TextField(default=None, blank=True, null=True)
     available_capacity=models.IntegerField(default=None, blank=True, null=True)
     current_address=models.CharField(max_length=40,default=None, blank=True, null=True)
     #only for truck driver
@@ -160,7 +160,7 @@ def RegisterUser(mdict):
     if nu.role==1:# is Farmer
         pass
     elif nu.role==2:
-        nu.vehicle_model=int(mdict['vehicle_model'])
+        nu.vehicle_model=(int(mdict['vehicle_model'])%2)
         nu.vehicle_capacity=int(mdict['vehicle_capacity'])
         nu.vehicle_number=mdict['vehicle_number']
         nu.licence_number=mdict['licence_number']
@@ -228,6 +228,7 @@ def LoginUser(mdict):
         print ('fail exception occured')
         return 'failure'
         
+
 def VerifyLogin(mdict):
     client = base.Client(('localhost', 11211))
     otp_sent=client.get(mdict['phone_number'])

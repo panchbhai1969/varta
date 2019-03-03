@@ -17,7 +17,7 @@
     rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="css/sb-admin-2.css" rel="stylesheet">
 
   <link rel="stylesheet" href="css/style.css">
   <!-- Custom styles for this page -->
@@ -222,9 +222,6 @@
                       </div>
                     </div>
                   </div>
-
-
-
                 </div>
                 <div>
                 </div>
@@ -243,6 +240,7 @@
                       <tr>
                         <th>Consignment ID</th>
                         <th>Purpose</th>
+                        <th>Farm Entity</th>
                         <th>Address</th>
                         <th>Person of Concern</th>
                         <th>Phone Number</th>
@@ -330,6 +328,12 @@
       document.getElementById("name").innerHTML = user_data.name
       document.getElementById("PAN").innerHTML = user_data.PAN
       document.getElementById("phno").innerHTML = user_data.phone_number
+      if(user_data.vehicle_model == 0){
+        document.getElementById("ttype").innerHTML = "Refrigerated"
+      }
+      else{
+        document.getElementById("ttype").innerHTML = "Non-Refrigerated"
+      }
       document.getElementById("vehicleno").innerHTML = user_data.vehicle_number
       document.getElementById("vehiclemodel").innerHTML = user_data.vehicle_model
       document.getElementById("available_capacity").innerHTML = user_data.available_capacity.toString(10)
@@ -356,27 +360,31 @@
                 console.log("data\n")
                 console.log(data)
                 $("#driver_table").empty()
+                var flag = false
                 $(data).each(function (index, value){
                   console.log(value)
+                  if(value.status === 'Reached'){
+                    console.log("1");
+                    // var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
+                    var button_insert = '<a href="#" class="btn btn-success btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-check"></i></span><span class="text">Completed</span></a>';
+                  }
+                  else if(flag==true){
+                    console.log("2");
+                    var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin disabled" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
+                  }
+                  else{
+                    console.log("3");
+                    flag = true;
+                    var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
+                  }
                   $("#driver_table").append('<tr>'+
                         '<td>'+value.consignment_id+'</td>'+
                         '<td>'+value.purpose+'</td>'+
+                        '<td>'+value.farm_entity+'</td>'+
                         '<td>'+value.address+'</td>'+
                         '<td>'+value.person_of_concern+'</td>'+
                         '<td>'+value.phone_number+'</td>'+
-                        '<td><a href="#" class="btn btn-success btn-icon-split btn-margin">'+
-                            '<span class="icon text-white-50">'+
-                              '<i class="fas fa-flag"></i>'+
-                            '</span>'+
-                            '<span class="text">Start</span>'+
-                          '</a>'+
-                          '<a href="#" class="btn btn-danger btn-icon-split btn-margin">'+
-                            '<span class="icon text-white-50">'+
-                              '<i class="fas fa-trash"></i>'+
-                            '</span>'+
-                            '<span class="text">Cancel</span>'+
-                          '</a>'+
-                        '</td>'+
+                        '<td>'+button_insert+'</td>'+
                       '</tr>')
                   //  console.log(data)
                 })

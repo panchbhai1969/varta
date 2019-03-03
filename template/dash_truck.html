@@ -346,7 +346,8 @@
         console.log("User data \n")
         console.log(user_data)
         $("#inv_PAN").val(user_data);
-        var formData = JSON.stringify($("#inv_form").serializeArray());
+        var formData2 = $("#inv_form").serializeArray();
+        var formData = JSON.stringify(formData2);
         console.log(formData)
         // console.log("TEST")
         $.post(url+"/get_driver_info", formData, function (data, status) {
@@ -361,8 +362,11 @@
                 console.log(data)
                 $("#driver_table").empty()
                 var flag = false
+                var data_to_send = data;
+                var dict_to_send = {};
                 $(data).each(function (index, value){
                   console.log(value)
+                  // $.post(url+"/update_status", formData.append(data), function(){})
                   if(value.status === 'Reached'){
                     console.log("1");
                     // var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
@@ -385,9 +389,47 @@
                         '<td>'+value.person_of_concern+'</td>'+
                         '<td>'+value.phone_number+'</td>'+
                         '<td>'+button_insert+'</td>'+
-                      '</tr>')
+                      '</tr>');
+                      $("#btn_"+index).click(function(){
+                        // data_to_send[index].status = "Reached";
+                        index_dict = {"name":'index_val',"value":index.toString()};
+                        console.log("FormData : \n");
+                        console.log(formData);
+                        console.log("Index dict : \n");
+                        console.log(index_dict);
+                        // dict_to_send = Object.assign({}, formData, index_dict);
+                        // console.log(dict_to_send);
+                        function createObj(obj1, obj2){
+                          var dict_to_send = {};
+                          for (var i in obj1) {
+                            dict_to_send[i] = obj1[i];
+                          }
+                          for (var j in obj2) {
+                            dict_to_send[j] = obj2[j];
+                          }
+                          return dict_to_send;
+                        };
+                        console.log("Form Data2");
+                        console.log(formData2[0]);
+                        formData2[0]['index_val'] = index
+                        // formData2[index]['index_val'] = index;
+                        // var dict_to_send = createObj(formData2, index_dict);
+                        console.log("Dict-to-send");
+                        console.log(formData2[0]);
+                        $.post(url+'/update_status', JSON.stringify(formData2[0]), function(){});
+                        // console.log(data_to_send);
+                        // dict_to_send['key_val'] = data_to_send;
+                        // $.post(url+'/update_status', dict_to_send, function(){});
+                        // console.log(dict_to_send);
+                        $(this).addClass('btn-success');
+                        $(this).removeClass('btn-info');
+                        $("#btn_"+index+" span i").removeClass("fa-asterisk");
+                        $("#btn_"+index+" span i").addClass("fa-check");
+                        $("#btn_"+index+" span:eq(1)").html("Completed");
+                      });
                   //  console.log(data)
                 })
+                // console.log(data_to_send)
               })
             }
             else{

@@ -18,6 +18,7 @@
 
   <!-- Custom styles for this template -->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -186,19 +187,16 @@
         <div class="container-fluid">
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 id="name" class="h3 mb-0 text-gray-800">Dashboard</h1>
-
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i>
-              Generate Report</a>
+            <h1 class="h1 mb-0 text-gray-800 btn-margin-large">Farmer Dashboard</h1>
           </div>
           <div class="container-fluid">
             <div class="card-body">
-              <div style="margin:auto;" class="BuyButton">
-                <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg" id="btn_buy_farm_tools">
-                  <span class="text"> Buy Farm Tools </span>
+              <div class="BuyButton center-elements">
+                <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg btn-margin-large" id="btn_buy_farm_tools">
+                  <span class="text">Buy Farm Tools</span>
                 </a>
-                <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg" id="btn_sell_your_farm">
-                  <span class="text"> Sell Your Farm </span>
+                <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg btn-margin-large" id="btn_sell_your_farm">
+                  <span class="text">Sell Your Produce</span>
                 </a>
               </div>
               <div class="my-2"></div>
@@ -207,24 +205,24 @@
               <!-- id_label_transaction begin -->
               <div class="card shadow mb-4" id="id_label_transaction">
                 <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Transactions</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Personal Details</h6>
                 </div>
                 <div>
                   <div class="col-xl-12 col-md-6 mb-4 width:100%">
-                    <div class="card border-left-primary shadow h-100 py-2 " style="margin-bottom:3%" id="id_list_of_all_transaction">
+                    <div class="card border-left-primary shadow h-100 py-2 card-margin gradient-background" id="id_list_of_all_transaction">
                       <div class="card-body">
-                        <h1 class="h3 mb-2 text-gray-800">Deepesh Singh </h1>
+                        <h1 class="h3 mb-2 text-gray-800" id="name">Deepesh Singh </h1>
                         <div class="row no-gutters align-items-center ">
                           <div class="col-md-3 col-xl-12 col-lg-6 ">
                             <div class="col-xl-3 col-md-2 col-lg-8">
-                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">On</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800">30/03/19</span>
+                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">PAN</span>
+                              <span class="h6 mb-0 font-weight-bold text-gray-800" id="PAN">PAN Number</span>
                             </div>
                             <div class="col-md-4">
-                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">From</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800">Raipur</span>
+                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Phone Number</span>
+                              <span class="h6 mb-0 font-weight-bold text-gray-800" id="phoneno">9876543210</span>
                             </div>
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                               <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">To</span>
                               <span class="h6 mb-0 font-weight-bold text-gray-800">Durg</span>
                             </div>
@@ -239,7 +237,7 @@
                             <div class="col-md-4">
                               <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Payment</span>
                               <span class="h6 mb-0 font-weight-bold text-gray-800">Rs10000</span>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                       </div>
@@ -634,6 +632,8 @@
   <script>
     user_data = JSON.parse(localStorage.getItem('user'));
     document.getElementById("name").innerHTML = user_data.name
+    document.getElementById("PAN").innerHTML = user_data.PAN
+    document.getElementById("phoneno").innerHTML = user_data.phone_number
     alert(user_data.name)
     console.log(user_data)
     var hash = CryptoJS.HmacSHA256("message", "secret");
@@ -642,12 +642,12 @@
   </script>
   <script>
     $(document).ready(function () {
-
       $("#btn_sell_your_farm").click(function () {
         $("#id_show_all_prod").show();
 
         user_data = JSON.parse(localStorage.getItem('user')).PAN;
         alert(user_data)
+        
         $("#inv_PAN").val(user_data);
         var formData = JSON.stringify($("#inv_form").serializeArray());
         console.log(formData)

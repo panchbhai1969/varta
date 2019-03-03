@@ -2,6 +2,15 @@
     margin: 1px;
 }
 
+.btn-margin-large{
+    margin: 2vh;
+}
+
+.center-elements{
+    margin: auto;
+    text-align: center;
+}
+
 .card-margin{
     margin: 1% 3%;
 }

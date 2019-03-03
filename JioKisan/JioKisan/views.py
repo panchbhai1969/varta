@@ -213,10 +213,8 @@ def getDriverPath(request):
     if request.method == 'POST':
         data_rec = json.loads(request.body)
     mDict = create_dict(data_rec)
-    print('Hai hai mDict \n\n', mDict)
     path = getPath(mDict)
-    json_path = JsonResponse(path, safe=False)
-    json_path['Access-Control-Allow-Origin'] = '*'
+    json_path = JsonResponse(path)
 
     return json_path
     
@@ -272,17 +270,6 @@ def addFTStoFConsignment(request):
     print(response)
     return  response
 
-@csrf_exempt   
-def getPastConsignment(request):
-    data_rec = []
-    if request.method == 'POST':
-            data_rec = json.loads(request.body)
-    diction = create_dict(data_rec)    
-    print(diction)
-    response = JsonResponse(list_past_consignment(diction),safe=False)
-    response['Access-Control-Allow-Origin'] = '*'
-    print(response)
-    return  response
 
 @csrf_exempt
 def list_farmTool(request):
@@ -343,18 +330,8 @@ def getHired(request):
     mDict = create_dict(data_rec)
     user = User_reg.objects.get(PAN=mDict['PAN'])
     if user.role==2 and user.isHired == False : 
-        print('Hai Hai Hai \n\n')
         mapConsignments(mDict)
-        print('LOl lol lol \n\n')
+
     return getDriverPath(request)
 
-    
-def updateDeliveryStatus(request):
-    data_rec =[]
-    if request.method == 'POST':
-        data_rec = json.loads(request.body)
-    mDict = create_dict(data_rec)
-    print("Printing mDIct : \n\n")
-    print(mDict)
-    print('\n\n')
     

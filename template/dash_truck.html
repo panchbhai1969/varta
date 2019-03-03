@@ -172,6 +172,9 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h1 mb-0 text-gray-800 btn-margin-large">Dashboard</h1>
+          </div>
           <div class="card-body">
 
 
@@ -209,9 +212,9 @@
                           </div>
 
                           <div class="col-md-4">
-                              <span class="font-weight-bold text-primary text-uppercase mb-1 ">Available Capacity</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800" id="available_capacity">Capacity</span>
-                            </div>
+                            <span class="font-weight-bold text-primary text-uppercase mb-1 ">Available Capacity</span>
+                            <span class="h6 mb-0 font-weight-bold text-gray-800" id="available_capacity">Capacity</span>
+                          </div>
                           <div class="col-md-4">
                             <button class="btn btn-primary hired" style="margin:1vh 0vh;" type="button" id="hireButton"
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -248,7 +251,7 @@
                       </tr>
                     </thead>
                     <tbody id="driver_table">
-                      
+
                     </tbody>
                   </table>
                 </div>
@@ -328,10 +331,9 @@
       document.getElementById("name").innerHTML = user_data.name
       document.getElementById("PAN").innerHTML = user_data.PAN
       document.getElementById("phno").innerHTML = user_data.phone_number
-      if(user_data.vehicle_model == 0){
+      if (user_data.vehicle_model == 0) {
         document.getElementById("ttype").innerHTML = "Refrigerated"
-      }
-      else{
+      } else {
         document.getElementById("ttype").innerHTML = "Non-Refrigerated"
       }
       document.getElementById("vehicleno").innerHTML = user_data.vehicle_number
@@ -341,61 +343,111 @@
       alert(user_data.name)
       console.log(user_data)
       $(document).ready(function () {
-        user_data = JSON.parse(localStorage.getItem('user')).PAN; 
+        user_data = JSON.parse(localStorage.getItem('user')).PAN;
         alert(user_data)
         console.log("User data \n")
         console.log(user_data)
         $("#inv_PAN").val(user_data);
-        var formData = JSON.stringify($("#inv_form").serializeArray());
+        var formData2 = $("#inv_form").serializeArray();
+        var formData = JSON.stringify(formData2);
         console.log(formData)
         // console.log("TEST")
-        $.post(url+"/get_driver_info", formData, function (data, status) {
+        $.post(url + "/get_driver_info", formData, function (data, status) {
           $(data).each(function (index, value) {
             console.log(data)
             // console.log("LOL")
             if (value.isHired == true) {
               $("#hireButton").addClass("disabled");
               $("#hireButton").html("Already Hired");
-              $.post(url+"/get_driver_path", formData, function (data, status) {
+              $.post(url + "/get_driver_path", formData, function (data, status) {
                 console.log("data\n")
                 console.log(data)
                 $("#driver_table").empty()
                 var flag = false
-                $(data).each(function (index, value){
+                var data_to_send = data;
+                var dict_to_send = {};
+                $(data).each(function (index, value) {
                   console.log(value)
-                  if(value.status === 'Reached'){
+                  // $.post(url+"/update_status", formData.append(data), function(){})
+                  if (value.status === 'Reached') {
                     console.log("1");
                     // var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
-                    var button_insert = '<a href="#" class="btn btn-success btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-check"></i></span><span class="text">Completed</span></a>';
-                  }
-                  else if(flag==true){
+                    var button_insert =
+                      '<a href="#" class="btn btn-success btn-icon-split btn-margin" id="btn_' +
+                      index +
+                      '"><span class="icon text-white-50"><i class="fas fa-check"></i></span><span class="text">Completed</span></a>';
+                  } else if (flag == true) {
                     console.log("2");
-                    var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin disabled" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
-                  }
-                  else{
+                    var button_insert =
+                      '<a href="#" class="btn btn-info btn-icon-split btn-margin disabled" id="btn_' +
+                      index +
+                      '"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
+                  } else {
                     console.log("3");
                     flag = true;
-                    var button_insert = '<a href="#" class="btn btn-info btn-icon-split btn-margin" id="btn_'+index+'"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
+                    var button_insert =
+                      '<a href="#" class="btn btn-info btn-icon-split btn-margin" id="btn_' + index +
+                      '"><span class="icon text-white-50"><i class="fas fa-asterisk"></i></span><span class="text">Pending</span></a>';
                   }
-                  $("#driver_table").append('<tr>'+
-                        '<td>'+value.consignment_id+'</td>'+
-                        '<td>'+value.purpose+'</td>'+
-                        '<td>'+value.farm_entity+'</td>'+
-                        '<td>'+value.address+'</td>'+
-                        '<td>'+value.person_of_concern+'</td>'+
-                        '<td>'+value.phone_number+'</td>'+
-                        '<td>'+button_insert+'</td>'+
-                      '</tr>')
+                  $("#driver_table").append('<tr>' +
+                    '<td>' + value.consignment_id + '</td>' +
+                    '<td>' + value.purpose + '</td>' +
+                    '<td>' + value.farm_entity + '</td>' +
+                    '<td>' + value.address + '</td>' +
+                    '<td>' + value.person_of_concern + '</td>' +
+                    '<td>' + value.phone_number + '</td>' +
+                    '<td>' + button_insert + '</td>' +
+                    '</tr>');
+                  $("#btn_" + index).click(function () {
+                    // data_to_send[index].status = "Reached";
+                    index_dict = {
+                      "name": 'index_val',
+                      "value": index.toString()
+                    };
+                    console.log("FormData : \n");
+                    console.log(formData);
+                    console.log("Index dict : \n");
+                    console.log(index_dict);
+                    // dict_to_send = Object.assign({}, formData, index_dict);
+                    // console.log(dict_to_send);
+                    function createObj(obj1, obj2) {
+                      var dict_to_send = {};
+                      for (var i in obj1) {
+                        dict_to_send[i] = obj1[i];
+                      }
+                      for (var j in obj2) {
+                        dict_to_send[j] = obj2[j];
+                      }
+                      return dict_to_send;
+                    };
+                    console.log("Form Data2");
+                    console.log(formData2[0]);
+                    formData2[0]['index_val'] = index
+                    // formData2[index]['index_val'] = index;
+                    // var dict_to_send = createObj(formData2, index_dict);
+                    console.log("Dict-to-send");
+                    console.log(formData2[0]);
+                    $.post(url + '/update_status', JSON.stringify(formData2[0]), function () {});
+                    // console.log(data_to_send);
+                    // dict_to_send['key_val'] = data_to_send;
+                    // $.post(url+'/update_status', dict_to_send, function(){});
+                    // console.log(dict_to_send);
+                    $(this).addClass('btn-success');
+                    $(this).removeClass('btn-info');
+                    $("#btn_" + index + " span i").removeClass("fa-asterisk");
+                    $("#btn_" + index + " span i").addClass("fa-check");
+                    $("#btn_" + index + " span:eq(1)").html("Completed");
+                  });
                   //  console.log(data)
                 })
+                // console.log(data_to_send)
               })
-            }
-            else{
-              $("#hireButton").click(function(){
+            } else {
+              $("#hireButton").click(function () {
                 console.log("CheckClick")
                 console.log("FORM : \n")
                 console.log(formData)
-                $.post(url+"/get_hired", formData, function(data, status){
+                $.post(url + "/get_hired", formData, function (data, status) {
                   console.log("Check2")
                   location.reload()
                   // console.log(data)

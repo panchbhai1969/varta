@@ -17,8 +17,8 @@ ROLE_CHOICES = {
     4: "farm_tool_sellers"
 }
 VEHICLE_MODELS= {
-    0:'AC',
-    1:'NON AC'
+    1:'AC',
+    2:'NON AC'
 }
 MEASUREMENT_TYPES = {
     1:'KG',
@@ -48,8 +48,8 @@ class User_reg(models.Model):
     GST_number=models.CharField(max_length=20,default=None, blank=True, null=True)
     #only for truck driver
     isHired=models.BooleanField(default=None, blank=True, null=True)
- # Syntax of path :         farmEntity?status>purpose:pk of consignment;latitude,logitude|status>purpose:pk of consignment;latitude,logitude|...
-    path=models.TextField(default=None, blank=True, null=True)
+#Syntax of path: purpose:pk of consignment;latitude,logitude|purpose:pk of consignment;latitude,logitude|...
+    path=models.CharField(max_length=300,default=None, blank=True, null=True)
     available_capacity=models.IntegerField(default=None, blank=True, null=True)
     current_address=models.CharField(max_length=40,default=None, blank=True, null=True)
     #only for truck driver
@@ -160,7 +160,7 @@ def RegisterUser(mdict):
     if nu.role==1:# is Farmer
         pass
     elif nu.role==2:
-        nu.vehicle_model=(int(mdict['vehicle_model'])%2)
+        nu.vehicle_model=int(mdict['vehicle_model'])
         nu.vehicle_capacity=int(mdict['vehicle_capacity'])
         nu.vehicle_number=mdict['vehicle_number']
         nu.licence_number=mdict['licence_number']
@@ -228,7 +228,6 @@ def LoginUser(mdict):
         print ('fail exception occured')
         return 'failure'
         
-
 def VerifyLogin(mdict):
     client = base.Client(('localhost', 11211))
     otp_sent=client.get(mdict['phone_number'])
@@ -466,7 +465,7 @@ def list_produce(mdict):
     print(produce_list)
     return produce_list
 
-def list_ftool():## for farmers dashboard 
+def list_ftool():
     tool_entities=FarmEntity.objects.filter(isFarmTool=True)
     tool_list=[]
     for tools in tool_entities:
@@ -478,40 +477,3 @@ def list_ftool():## for farmers dashboard
         tool_list.append(t_dict)
     print(tool_list)
     return tool_list
-
-def list_past_consignment(mdict):
-    usr=User_reg.objects.get(PAN=mdict['PAN'])
-    if usr.role == 1:
-        requests=Request.objects.filter(mandi_info=usr)
-        produces=Produce.objects.filter(farmer_info=usr)
-        cons_list=[]
-        for req in requests:
-            if Consignment.objects.filter(req=req).count() > 0 :
-                cons1=Consignment.objects.get(req=req)
-                c_dict=model_to_dict(cons1)
-                c_dict['cons_type']='Buying From'
-                c_dict['sec_party']=cons1.prod.farmer_info.name
-                c_dict['entity_type']=cons1.prod.FE_info.name
-                cons_list.append(c_dict)
-        for prod in produces:
-            if Consignment.objects.filter(prod=prod).count() > 0 :    
-                cons2=Consignment.objects.get(prod=prod)
-                c_dict=model_to_dict(cons2)
-                c_dict['cons_type']='Selling to'
-                c_dict['sec_party']=cons2.req.mandi_info.name
-                c_dict['entity_type']=cons2.req.FE_info.name
-                cons_list.append(c_dict)
-        return cons_list
-        usr=User_reg.objects.get(PAN=mdict['PAN'])
-    
-    if usr.role == 4: # in case of ft sellers
-        produces=Produce.objects.filter(farmer_info=usr)
-        cons_list=[]
-        for prod in produces:
-            if Consignment.objects.filter(prod=prod).count() > 0 :    
-                cons2=Consignment.objects.get(prod=prod)
-                c_dict=model_to_dict(cons2)
-                c_dict['farmer_name']=cons2.req.mandi_info.name
-                c_dict['entity_type']=cons2.req.FE_info.name
-                cons_list.append(c_dict)
-        return cons_list

@@ -20,7 +20,7 @@
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-  <script>
+  <!-- <script>
     $("button").click(function(data,status){
       var i=0;
       while(i<10){
@@ -29,7 +29,7 @@
       }
   
   });
-  </script>
+  </script> -->
 </head>
 
 <body id="page-top">
@@ -179,35 +179,26 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <div class="card-body">
-              <span class="card-header py-3" >
-                  <div class="dropdown mb-4">
-                    <button class="btn btn-primary dropdown-toggle btn-lg " style="width:30%;" type="button" id="dropdownMenuButton"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Farm Tools
-                    </button>
-                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
-                      style="width:30%;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                      <a class="dropdown-item" href="#">Fertilizers</a>
-                      <a class="dropdown-item" href="#">Seeds</a>
-                    </div>
-                  </span>
+              <span style="margin:0.5em;">Farm Tools :
+                 <select id="select_farm_tools_list" style="width: 15% ;" name="dataTable_length " aria-controls="dataTable" class="custom-select custom-select-lg form-control form-control-lg">
+                </select>
+              </span>
                   
-                  <span style="margin:0.5em;">Quantity : <select style="width: 15% ;" name="dataTable_length " aria-controls="dataTable" class="custom-select custom-select-lg form-control form-control-lg">
+                  <span style="margin:0.5em;">Quantity : 
+                    <select id="select_quantity" style="width: 15% ;" name="dataTable_length " aria-controls="dataTable" class="custom-select custom-select-lg form-control form-control-lg">
                     <option value="10">10</option>
                     <option value="25">25</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
                   </select>
                 </span>
-                <span>
-                  <label><input type="search" class="form-control form-control-lg" placeholder="Type Price per Unit" aria-controls="dataTable"></label>
+                  <label><input type="search" id="input_price" class="form-control form-control-lg" placeholder="Type Price per Unit" aria-controls="dataTable"></label>
                   
             <span style="margin:auto;" class="SellButton" >
-                  <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg">
+                  <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg" id="btn_sell_tools">
                         <span class="text">   Sell Tools  </span>
                   </a>
                 </span>
-                        <div class="my-2"></div>
                 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
@@ -386,6 +377,14 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <form id="inv_form" style="display:none">
+      <input id="inv_PAN" name="PAN" type="text" />
+      <input id="inv_upid" name="upid" type="text" />
+      <input id="inv_ufid" name="ufid" type="text" />
+      <input id="inv_urid" name="urid" type="text" />
+      <input id="inv_quantity" name="amount" type="text"/>
+      <input id="inv_price" name="price" type="text"/>
+    </form>
   <!-- Logout Modal-->
   <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -408,6 +407,57 @@
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    $(document).ready(function(){
+        var url = "http://127.0.0.1:8000";
+
+        user_data = JSON.parse(localStorage.getItem('user')).PAN;
+        console.log(user_data);
+        $("#inv_PAN").val(user_data);
+        var formData = JSON.stringify($("#inv_form").serializeArray());
+
+        $.post(url + "/list_farmTool/", formData, function (data, status) {
+
+          alert("Data: " + data[0].ufid + "\nStatus: " + status);
+          if (data.wasSuccess == "false") {
+            alert("Please try again, you might not be registered.")
+          } else {
+
+            $("#select_farm_tools_list").empty();
+            $(data).each(function (index, value) {
+              $("#select_farm_tools_list").append('<option type = "text" name="'+value.ufid+'">' +value.name +'</option>')              
+            });
+
+            $("#btn_sell_tools").click(function(){
+
+            var quantity =  $('#select_quantity :selected').text();
+            var ufid =  $('#select_farm_tools_list :selected').attr("name");
+            var price = $("#input_price").val();
+            console.log(quantity);
+            console.log(price);
+            console.log(ufid);
+
+            $("#inv_ufid").val(ufid);
+            $("#inv_quantity").val(quantity);
+            $("#inv_price").val(price);
+            var formData = JSON.stringify($("#inv_form").serializeArray());
+            $.post(url + "/add_farmTool/", formData, function (data, status) {
+
+              //alert("Data: " + data[0].ufid + "\nStatus: " + status);
+              if (data.wasSuccess == "false") {
+                alert("Please try again, you might not be registered.")
+              } else {
+                alert("success");
+                //pending
+              }
+            });
+
+            });
+          }
+        });
+
+    });
+  </script>
 
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>

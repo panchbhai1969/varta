@@ -219,12 +219,16 @@ def getDriverPath(request):
     json_path['Access-Control-Allow-Origin'] = '*'
 
     return json_path
+    
 @csrf_exempt   
-def list_farmEnitity():
+def list_farmEnitity(request):
     fe=FarmEntity.objects.filter(isFarmTool=False)
     f_list=[]
     for f in fe:
-        f_list.append(model_to_dict(f))
+        f_dict={}
+        f_dict['name']=f.name
+        f_dict['ufid']=f.ufid
+        f_list.append(f_dict)
     f_list
     response = JsonResponse(f_list,safe=False)
     response['Access-Control-Allow-Origin'] = '*'
@@ -281,12 +285,52 @@ def getPastConsignment(request):
     return  response
 
 @csrf_exempt
-def list_farmTool():
+def list_farmTool(request):
     fe=FarmEntity.objects.filter(isFarmTool=True)
     f_list=[]
     for f in fe:
-        f_list.append(model_to_dict(f))
+        f_dict={}
+        f_dict['name']=f.name
+        f_dict['ufid']=f.ufid
+        f_list.append(f_dict)
     response = JsonResponse(f_list,safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
+
+@csrf_exempt
+def add_farmTool(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+    diction = create_dict(data_rec)    
+    print(diction)
+    ftool=Produce()
+    ftool.FE_info=FarmEntity.objects.get(ufid=int(diction['ufid']))
+    ftool.isAssigned=False
+    ftool.farmer_info=User_reg.objects.get(PAN=diction['PAN'])
+    ftool.price=int(diction['price'])
+    ftool.amount=int(diction['amount'])
+    ftool.save()
+    response = JsonResponse(model_to_dict(ftool))
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
+
+@csrf_exempt
+def add_farmProd(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+    diction = create_dict(data_rec)    
+    print(diction)
+    fprod=Produce()
+    fprod.FE_info=FarmEntity.objects.get(ufid=int(diction['ufid']))
+    fprod.isAssigned=False
+    fprod.farmer_info=User_reg.objects.get(PAN=diction['PAN'])
+    fprod.amount=int(diction['amount'])
+    fprod.save()
+    response = JsonResponse(model_to_dict(fprod))
     response['Access-Control-Allow-Origin'] = '*'
     print(response)
     return  response

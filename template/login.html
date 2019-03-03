@@ -18,7 +18,7 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
   <script>
-  var url = 'http://172.29.12.159:8000'
+  var url = 'http://127.0.0.1:8000'
   function send_number() {
       var formData = JSON.stringify($("#myForm").serializeArray());
       $.post(url+"/login/", formData, function(
@@ -55,7 +55,7 @@
           if(data.role==3)
           window.location.href = "dash_mandi.html";
           if(data.role==4)
-          window.location.href = "dash_farmtool.html";
+          window.location.href = "dash_ToolSellers.html";
         }
         else{
           alert("Please try again, you might not be registered.")

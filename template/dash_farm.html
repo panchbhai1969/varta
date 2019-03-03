@@ -30,6 +30,7 @@
     <input id="inv_upid" name="upid" type="text" />
     <input id="inv_ufid" name="ufid" type="text" />
     <input id="inv_urid" name="urid" type="text" />
+    <input id="inv_amount" name="amount" type="text"/>
 
   </form>
   <!-- Page Wrapper -->
@@ -205,6 +206,25 @@
                   <span class="text"> Sell Your Farm </span>
                 </a>
               </div>
+              <span style="margin:0.5em;">Farm Produce :
+                  <select id="select_farm_produce_list" style="width: 15% ;" name="dataTable_length " aria-controls="dataTable" class="custom-select custom-select-lg form-control form-control-lg">
+                 </select>
+               </span>
+                   
+                   <span style="margin:0.5em;">Quantity : 
+                     <select id="select_quantity" style="width: 15% ;" name="dataTable_length " aria-controls="dataTable" class="custom-select custom-select-lg form-control form-control-lg">
+                        <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                   </select>
+                 </span>
+
+             <span style="margin:auto;" class="SellButton" >
+                   <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg" id="btn_add_produce">
+                         <span class="text"> Add Produce  </span>
+                   </a>
+                 </span>
               <div class="my-2"></div>
               <!-- DataTales Example -->
 
@@ -553,16 +573,14 @@
   <script>
     $(document).ready(function () {
       var url = "http://127.0.0.1:8000";
+      user_data = JSON.parse(localStorage.getItem('user')).PAN;
+        $("#inv_PAN").val(user_data);
 
       $("#btn_sell_your_farm").click(function () {
         $("#id_ordered").empty();
 
 
         $("#id_show_all_prod").show();
-
-        user_data = JSON.parse(localStorage.getItem('user')).PAN;
-        alert(user_data)
-        $("#inv_PAN").val(user_data);
         var formData = JSON.stringify($("#inv_form").serializeArray());
         console.log(formData)
         $.post(url + "/get_prod_list/", formData, function (data, status) {
@@ -594,8 +612,8 @@
 
                 $("#id_show_all_prod").hide();
                 $("#id_list_of_prod_req").show();
-                user_data = JSON.parse(localStorage.getItem('user')).PAN;
-                $("#inv_PAN").val(user_data);
+                // user_data = JSON.parse(localStorage.getItem('user')).PAN;
+                // $("#inv_PAN").val(user_data);
                 $("#inv_upid").val(value.upid);
                 var formData = JSON.stringify($("#inv_form").serializeArray());
                 console.log(formData)
@@ -636,8 +654,8 @@
 
                                 $("#id_list_of_prod_req").hide();
 
-                                user_data = JSON.parse(localStorage.getItem('user')).PAN;
-                                $("#inv_PAN").val(user_data);
+                                // user_data = JSON.parse(localStorage.getItem('user')).PAN;
+                                // $("#inv_PAN").val(user_data);
                                 $("#inv_upid").val(value.upid);
                                 $("#inv_urid").val(value.urid);
                                 var formData = JSON.stringify($("#inv_form").serializeArray());
@@ -680,10 +698,10 @@
         $("#id_ordered").empty();
 
         $("#id_btn_show_all_buy_prod").show();
-
-        user_data = JSON.parse(localStorage.getItem('user')).PAN;
-        alert(user_data)
-        $("#inv_PAN").val(user_data);
+// <!-- 
+//         user_data = JSON.parse(localStorage.getItem('user')).PAN;
+//         alert(user_data)
+//         $("#inv_PAN").val(user_data); -->
         var formData = JSON.stringify($("#inv_form").serializeArray());
         console.log(formData)
         $.post(url + "/get_ftool_list/", formData, function (data, status) {
@@ -716,8 +734,8 @@
                             $("#id_btn_show_all_buy_prod").hide();
                             $("#id_btn_show_all_buy_prod_opt").show();
 
-                            user_data = JSON.parse(localStorage.getItem('user')).PAN;
-                            $("#inv_PAN").val(user_data);
+                            // user_data = JSON.parse(localStorage.getItem('user')).PAN;
+                            // $("#inv_PAN").val(user_data);
                             $("#inv_ufid").val(value.ufid)
                             var formData = JSON.stringify($("#inv_form").serializeArray());
                             // console.log(formData)
@@ -751,9 +769,9 @@
                           $("#price_"+index).click(function(){
                             $("#id_btn_show_all_buy_prod_opt").hide();
 
-                            user_data = JSON.parse(localStorage.getItem('user')).PAN;
-                            alert(value.upid);
-                            $("#inv_PAN").val(user_data);
+                            // user_data = JSON.parse(localStorage.getItem('user')).PAN;
+                            // alert(value.upid);
+                            // $("#inv_PAN").val(user_data);
                             $("#inv_upid").val(value.upid);
                             var formData = JSON.stringify($("#inv_form").serializeArray());
 
@@ -791,15 +809,14 @@
       })
 
 //consignment place edit
-      user_data = JSON.parse(localStorage.getItem('user'));
       
       
       // console.log(user_data.available_capacity)
-      console.log(user_data)
-        user_data = JSON.parse(localStorage.getItem('user')).PAN; 
-        console.log("User data \n")
-        console.log(user_data)
-        $("#inv_PAN").val(user_data);
+      // console.log(user_data)
+        // user_data = JSON.parse(localStorage.getItem('user')).PAN; 
+        // console.log("User data \n")
+        // console.log(user_data)
+        // $("#inv_PAN").val(user_data);
         var formData = JSON.stringify($("#inv_form").serializeArray());
         console.log(formData)
         // console.log("TEST")
@@ -817,7 +834,48 @@
                   '<h5> With person: ' + value.sec_party + '</h5> <br>');
                 }
               })
-            })
+            });
+
+        // user_data = JSON.parse(localStorage.getItem('user'));
+        // $("#inv_PAN").val(user_data);
+        var formData = JSON.stringify($("#inv_form").serializeArray());
+
+        $.post(url+"/list_farmEnitity/", formData, function (data, status) {
+          if (data.wasSuccess == "false") {
+            alert("Please try again, you might not be registered.")
+          } else {
+
+            $("#select_farm_produce_list").empty();
+            $(data).each(function (index, value) {
+              $("#select_farm_produce_list").append('<option type = "text" name="'+value.ufid+'">' +value.name +'</option>')              
+            });
+
+             $("#btn_add_produce").click(function(){
+            var quantity =  $('#select_quantity :selected').text();
+            var ufid =  $('#select_farm_produce_list :selected').attr("name");
+            console.log(quantity);
+            console.log(ufid);
+
+            $("#inv_ufid").val(ufid);
+            $("#inv_amount").val(quantity);
+
+            var formData = JSON.stringify($("#inv_form").serializeArray());
+            $.post(url + "/add_farmProd/", formData, function (data, status) {
+
+              //alert("Data: " + data[0].ufid + "\nStatus: " + status);
+              if (data.wasSuccess == "false") {
+                alert("Please try again, you might not be registered.")
+              } else {
+                alert("success");
+                //pending
+              }
+            });
+
+            });
+          }
+        });
+
+    
 
     });
   </script>

@@ -466,7 +466,7 @@ def list_produce(mdict):
     print(produce_list)
     return produce_list
 
-def list_ftool():
+def list_ftool():## for farmers dashboard 
     tool_entities=FarmEntity.objects.filter(isFarmTool=True)
     tool_list=[]
     for tools in tool_entities:
@@ -478,3 +478,40 @@ def list_ftool():
         tool_list.append(t_dict)
     print(tool_list)
     return tool_list
+
+def list_past_consignment(mdict):
+    usr=User_reg.objects.get(PAN=mdict['PAN'])
+    if usr.role == 1:
+        requests=Request.objects.filter(mandi_info=usr)
+        produces=Produce.objects.filter(farmer_info=usr)
+        cons_list=[]
+        for req in requests:
+            if Consignment.objects.filter(req=req).count() > 0 :
+                cons1=Consignment.objects.get(req=req)
+                c_dict=model_to_dict(cons1)
+                c_dict['cons_type']='Buying From'
+                c_dict['sec_party']=cons1.prod.farmer_info.name
+                c_dict['entity_type']=cons1.prod.FE_info.name
+                cons_list.append(c_dict)
+        for prod in produces:
+            if Consignment.objects.filter(prod=prod).count() > 0 :    
+                cons2=Consignment.objects.get(prod=prod)
+                c_dict=model_to_dict(cons2)
+                c_dict['cons_type']='Selling to'
+                c_dict['sec_party']=cons2.req.mandi_info.name
+                c_dict['entity_type']=cons2.req.FE_info.name
+                cons_list.append(c_dict)
+        return cons_list
+        usr=User_reg.objects.get(PAN=mdict['PAN'])
+    
+    if usr.role == 4: # in case of ft sellers
+        produces=Produce.objects.filter(farmer_info=usr)
+        cons_list=[]
+        for prod in produces:
+            if Consignment.objects.filter(prod=prod).count() > 0 :    
+                cons2=Consignment.objects.get(prod=prod)
+                c_dict=model_to_dict(cons2)
+                c_dict['farmer_name']=cons2.req.mandi_info.name
+                c_dict['entity_type']=cons2.req.FE_info.name
+                cons_list.append(c_dict)
+        return cons_list

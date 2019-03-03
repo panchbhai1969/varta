@@ -268,6 +268,17 @@ def addFTStoFConsignment(request):
     print(response)
     return  response
 
+@csrf_exempt   
+def getPastConsignment(request):
+    data_rec = []
+    if request.method == 'POST':
+            data_rec = json.loads(request.body)
+    diction = create_dict(data_rec)    
+    print(diction)
+    response = JsonResponse(list_past_consignment(diction),safe=False)
+    response['Access-Control-Allow-Origin'] = '*'
+    print(response)
+    return  response
 
 @csrf_exempt
 def list_farmTool():

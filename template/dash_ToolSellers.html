@@ -20,7 +20,16 @@
 
   <!-- Custom styles for this page -->
   <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
+  <script>
+    $("button").click(function(data,status){
+      var i=0;
+      while(i<10){
+        $("#dataTable").append("<tr><td>"+i+"</td><td>"+data.+"</td><td>"+Raipur+"</td><td>"+23/4/19+"</td><td>"+Seeds+"</td><td>"+50 packs+"</td><td>"+Rs5000+"</td></tr>");
+          i+=1;
+      }
+  
+  });
+  </script>
 </head>
 
 <body id="page-top">
@@ -163,20 +172,41 @@
                 </a>
               </div>
             </li>
-
           </ul>
-
         </nav>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
           <div class="card-body">
-            <div style="margin:auto;" class="BuyButton" >
+              <span class="card-header py-3" >
+                  <div class="dropdown mb-4">
+                    <button class="btn btn-primary dropdown-toggle btn-lg " style="width:30%;" type="button" id="dropdownMenuButton"
+                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Farm Tools
+                    </button>
+                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
+                      style="width:30%;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                      <a class="dropdown-item" href="#">Fertilizers</a>
+                      <a class="dropdown-item" href="#">Seeds</a>
+                    </div>
+                  </span>
+                  
+                  <span style="margin:0.5em;">Quantity : <select style="width: 15% ;" name="dataTable_length " aria-controls="dataTable" class="custom-select custom-select-lg form-control form-control-lg">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </span>
+                <span>
+                  <label><input type="search" class="form-control form-control-lg" placeholder="Type Price per Unit" aria-controls="dataTable"></label>
+                  
+            <span style="margin:auto;" class="SellButton" >
                   <a style="margin:1%" href="#" class="btn btn-primary btn-icon-split btn-lg">
                         <span class="text">   Sell Tools  </span>
-                      </a>
-                      </div>
+                  </a>
+                </span>
                         <div class="my-2"></div>
                 
           <!-- DataTales Example -->
@@ -192,50 +222,32 @@
                     <tr>
                       <th>S.No.</th>
                       <th>Farmer Name</th>
-                      <th>From</th>
-                      <th>Farm Kind</th>
+                      <th>To</th>
+                      <th>By</th>
+                      <th>Items</th>
                       <th>Quantity</th>
                       <th>Payment</th>
-                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
+                      <td>1</td>
                       <td>Charde Marshall</td>
+                      <td>Raipur</td>
                       <td>23/4/19</td>
-                      <td>9:00pm</td>
-                      <td>Regional Director</td>
-                      <td>San Francisco</td>
-                      
-                      <td>$470,600</td>
-                      <td><a href="#" class="btn btn-success btn-icon-split" style="margin-bottom:1%">
-                            <span class="icon text-white-50" >
-                              <i class="fas fa-flag" ></i>
-                            </span>
-                            <span class="text">Accept</span>
-                          </a>
-                          <a href="#" class="btn btn-danger btn-icon-split" >
-                                <span class="icon text-white-50" >
-                                  <i class="fas fa-trash"></i>
-                                </span>
-                                <span class="text">Decline</span>
-                              </a>
-                            </td>
-                    </tr>
-                    <tr>
-                      <td>Haley Kennedy</td>
-                      <td>23/4/19</td>
-                      <td>9:00pm</td>
-                      <td>Senior Marketing Designer</td>
-                      <td>London</td>
-                      <td>$313,500</td>
-                      <td><a href="#" class="btn btn-info btn-icon-split" >
-                            <span class="icon text-white-50" >
-                              <i class="fas fa-info-circle" ></i>
-                            </span>
-                            <span class="text" >Accepted</span>
-                          </a></td>
-                    </tr>
+                      <td>Seeds</td>
+                      <td>50 packs</td>
+                      <td>Rs5000</td>
+                      </tr>
+                      <tr>
+                          <td>2</td>
+                          <td>Charde Marshall</td>
+                          <td>Raipur</td>
+                          <td>23/4/19</td>
+                          <td>Seeds</td>
+                          <td>50 packs</td>
+                          <td>Rs5000</td>
+                          </tr>
                 </tbody>
             </table>
                     <h3>Past </h3>
@@ -263,21 +275,7 @@
                             <span class="icon text-white-50" >
                               <i class="fas fa-check"></i>
                             </span>
-                            <span class="text">Recieved</span>
-                          </a></td>
-                    </tr>
-                    <tr>
-                      <td>Timothy Mooney</td>
-                      <td>23/4/19</td>
-                      <td>9:00pm</td>
-                      <td>Office Manager</td>
-                      <td>London</td>
-                      <td>$136,200</td>
-                      <td><a href="#" class="btn btn-danger btn-icon-split" >
-                            <span class="icon text-white-50" >
-                              <i class="fas fa-trash"></i>
-                            </span>
-                            <span class="text"> Declined</span>
+                            <span class="text">Delivered</span>
                           </a></td>
                     </tr>
                   </tbody>

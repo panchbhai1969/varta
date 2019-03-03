@@ -27,6 +27,10 @@
 <body id="page-top" class="sidebar-toggled">
   <form id="inv_form" style="display:none">
     <input id="inv_PAN" name="PAN" type="text" />
+    <input id="inv_upid" name="upid" type="text" />
+    <input id="inv_ufid" name="ufid" type="text" />
+    <input id="inv_urid" name="urid" type="text" />
+
   </form>
   <!-- Page Wrapper -->
   <div id="wrapper">
@@ -39,7 +43,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">ak;sldj f<sup>4</sup></div>
+        <div class="sidebar-brand-text mx-3"> Varta<sup>4</sup></div>
       </a>
 
       <!-- Divider -->
@@ -213,35 +217,21 @@
                   <div class="col-xl-12 col-md-6 mb-4 width:100%">
                     <div class="card border-left-primary shadow h-100 py-2 " style="margin-bottom:3%" id="id_list_of_all_transaction">
                       <div class="card-body">
-                        <h1 class="h3 mb-2 text-gray-800">Deepesh Singh </h1>
-                        <div class="row no-gutters align-items-center ">
-                          <div class="col-md-3 col-xl-12 col-lg-6 ">
-                            <div class="col-xl-3 col-md-2 col-lg-8">
-                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">On</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800">30/03/19</span>
-                            </div>
-                            <div class="col-md-4">
-                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">From</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800">Raipur</span>
-                            </div>
-                            <div class="col-md-4">
-                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">To</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800">Durg</span>
-                            </div>
-                            <div class="col-md-4">
-                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Kind</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800">Tomatoes</span>
-                            </div>
-                            <div class="col-md-4">
-                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Quantity</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800">1000Kg</span>
-                            </div>
-                            <div class="col-md-4">
-                              <span class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">Payment</span>
-                              <span class="h6 mb-0 font-weight-bold text-gray-800">Rs10000</span>
-                            </div>
-                          </div>
-                        </div>
+                        <ul id="#transactions">
+                          
+                        </ul>
+                          <!-- <h3>Assigned Consignments </h3>
+                          <button id='transactions'> Cons</button>
+                          <thead>
+                            <tr>
+                              <th>Consignment ID</th>
+                              <th>Farm Entity</th>
+                              <th>Address</th>
+                              <th>Person of Concern</th>
+                              <th>Phone Number</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead> -->
                       </div>
                     </div>
 
@@ -291,18 +281,7 @@
               <!-- id_list_of_prod_req begin -->
               <div class="card shadow mb-4" id="id_list_of_prod_req">
 
-                <div class="card-header py-3">
-                  <div class="dropdown mb-4">
-                    <button style="margin-left: 45%" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Farm Produce
-                    </button>
-                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
-                      style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                      <a class="dropdown-item" href="#">Tomatoes</a>
-                    </div>
-                  </div>
-                </div>
+
                 <div class="card-body">
                   <div class="table-responsive">
                     <div class="card shadow mb-4">
@@ -311,50 +290,11 @@
                       </div>
                       <div class="card-body">
                         <div class="product-sec1">
-                          <h3 class="heading-tittle margin-bottom:4%">Tomatoes</h3>
                           <div class="col-md-4 product-men">
-                            <div class="men-pro-item simpleCart_shelfItem">
-                              <div class="men-thumb-item">
-                                <img src="" alt="">
-                                <div class="men-cart-pro">
-                                </div>
-                              </div>
-                              <div class="item-info-product ">
-                                <h4>
-                                  <a href="single.html" class="text-success">Tomatos/10kg</a>
-                                </h4>
-                                <div class="info-product-price">
-                                  <span class="item_price">Rs.160</span>
-                                </div>
-                                <div style="margin:auto;" class="BuyButton">
-                                  <a style="margin-bottom:5%" href="#" class="btn btn-success btn-icon-split btn-xs">
-                                    <span class="text">Sell</span>
-                                  </a>
-                                </div>
-                                <div class="men-thumb-item">
-                                  <img src="" alt="">
-                                  <div class="men-cart-pro">
-                                    <div class="inner-men-cart-pro">
-                                      <a href="single.html" class="link-product-add-cart">Quick View</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="item-info-product ">
-                                  <h4>
-                                    <a href="single.html">Tomatoes/10kg</a>
-                                  </h4>
-                                  <div class="info-product-price">
-                                    <span class="item_price">Rs.110</span>
-                                  </div>
-                                  <div style="margin:auto;" class="BuyButton">
-                                    <a style="margin-bottom:5%" href="#" class="btn btn-primary btn-icon-split btn-xs">
-                                      <span class="text">Sell</span>
-                                    </a>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="clearfix"></div>
-                            </div>
+                            <ul style="list-style:none;" id="id_list_of_all_mandi">
+
+                            </ul>
+                            
                           </div>
                         </div>
                       </div>
@@ -371,7 +311,7 @@
               <!-- End of Content Wrapper -->
               <!-- id_btn_show_all_buy_prod begin -->
               <div class="card shadow mb-4" id="id_btn_show_all_buy_prod">
-                <div class="card-header py-3">
+                <!-- <div class="card-header py-3">
                   <div class="dropdown mb-4">
                     <button style="margin-left: 45%" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -382,7 +322,7 @@
                       <a class="dropdown-item" href="#">Fertilizers</a>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="card-body">
                   <div class="table-responsive">
                     <div class="card shadow mb-4">
@@ -401,18 +341,6 @@
 
               <!-- id_btn_show_all_buy_prod_opt begin-->
               <div class="card shadow mb-4" id="id_btn_show_all_buy_prod_opt">
-                <div class="card-header py-3">
-                  <div class="dropdown mb-4">
-                    <button style="margin-left: 45%" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Farm tools
-                    </button>
-                    <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" x-placement="bottom-start"
-                      style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                      <a class="dropdown-item" href="#">Fertilizers</a>
-                    </div>
-                  </div>
-                </div>
                 <div class="card-body">
                   <div class="table-responsive">
                     <div class="card shadow mb-4" id="id_show_all_buy_prod">
@@ -420,30 +348,10 @@
                         <h6 class="m-0 font-weight-bold text-primary">Fertilizers</h6>
                       </div>
                       <div class="card-body">
-                        <div class="product-sec1">
-                          <h3 class="heading-tittle">Fertilizers</h3>
-                          <div class="col-md-4 product-men">
-                            <div class="men-pro-item simpleCart_shelfItem">
-                              <div class="men-thumb-item">
-                                <img src="" alt="">
-                                <div class="men-cart-pro">
-                                  <div class="inner-men-cart-pro">
-                                  </div>
-                                </div>
-                                <span class="product-new-top">New</span>
-                              </div>
-                              <div class="item-info-product ">
-                                <h4>
-                                  <a href="single.html">xyz/10kg</a>
-                                </h4>
-                                <div class="info-product-price">
-                                  <span class="item_price">Rs.xxx</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="clearfix"></div>
-                        </div>
+                        <ul id="list_of_farm_tools" style="list-style:none;">
+                    
+                        </ul>
+  
                       </div>
                     </div>
                   </div>
@@ -455,6 +363,8 @@
             <div>
             </div>
           </div>
+        </div>
+        <div id="id_ordered">
         </div>
 
         <div class="card-body">
@@ -642,8 +552,12 @@
   </script>
   <script>
     $(document).ready(function () {
+      var url = "http://127.0.0.1:8000";
 
       $("#btn_sell_your_farm").click(function () {
+        $("#id_ordered").empty();
+
+
         $("#id_show_all_prod").show();
 
         user_data = JSON.parse(localStorage.getItem('user')).PAN;
@@ -651,7 +565,7 @@
         $("#inv_PAN").val(user_data);
         var formData = JSON.stringify($("#inv_form").serializeArray());
         console.log(formData)
-        $.post("http://127.0.0.1:8000/get_prod_list/", formData, function (data, status) {
+        $.post(url + "/get_prod_list/", formData, function (data, status) {
 
           alert("Data: " + data[0].upid + "\nStatus: " + status);
           if (data.wasSuccess == "false") {
@@ -664,7 +578,7 @@
                 '<div class="col-md-4 product-men">' +
                 '<div class="men-pro-item simpleCart_shelfItem">' +
                 '<div class="men-thumb-item">' +
-                '<img src=http://127.0.0.1:8000' + value.img_url + ' width="300px" height="200px">' +
+                '<img src="'+url + value.img_url +'" width="300px" height="200px">' +
                 '<div class="men-cart-pro">' +
                 ' </div>' +
                 '<div class="item-info-product">' +
@@ -676,8 +590,74 @@
                 '</div> </div> </div></li>')
 
               $("#prod_" + index).click(function () {
+                $("#id_ordered").empty();
+
                 $("#id_show_all_prod").hide();
                 $("#id_list_of_prod_req").show();
+                user_data = JSON.parse(localStorage.getItem('user')).PAN;
+                $("#inv_PAN").val(user_data);
+                $("#inv_upid").val(value.upid);
+                var formData = JSON.stringify($("#inv_form").serializeArray());
+                console.log(formData)
+                $.post(url + "/get_req_list/", formData, function (data, status) {
+
+                  if (data.wasSuccess == "false") {
+                    alert("Please try again, you might not be registered.")
+                  } else {
+                    console.log(data);
+                    $("#id_list_of_all_mandi").empty();
+                    $(data).each(function (index, value) {
+                      $('#id_list_of_all_mandi').append('<li>' + 
+                                  '<div class="men-pro-item simpleCart_shelfItem">'+ 
+                                      '<div class="item-info-product ">'+ 
+                                        '<h4>'+ 
+                                            '<span class="mandi_name">Mandi name: '+ value.mandi_name +'</span>'+ 
+                                        '</h4>'+ 
+                                        '<div class="info-product-price">'+ 
+                                          '<span class="current_bid"> Current bid: Rs. '+ value.current_bid +'</span>'+ 
+                                        '</div>'+ 
+                                        '<div class="info-product-price">'+ 
+                                            '<span class="delivery_cost">Delivery cost: Rs. '+ value.delivery_cost +'</span>'+ 
+                                          '</div>'+ 
+                                          '<div class="info-product-price">'+ 
+                                              '<span class="final_price">Final Price: Rs. '+ value.final_price +'</span>'+ 
+                                            '</div>'+ 
+                                        '<div style="margin:auto;" class="BuyButton">'+ 
+                                          '<a style="margin-bottom:5%" href="#" class="btn btn-success btn-icon-split btn-xs" id="btn_sell_'+index+'">'+ 
+                                            '<span class="text">Sell</span>'+ 
+                                          '</a>'+ 
+                                        '</div>'+ 
+                                      '</div>'+ 
+                                    '</div>'+ 
+                              '</li>');
+
+                              $("#btn_sell_"+index).click(function(){
+                                $("#id_ordered").empty();
+
+                                $("#id_list_of_prod_req").hide();
+
+                                user_data = JSON.parse(localStorage.getItem('user')).PAN;
+                                $("#inv_PAN").val(user_data);
+                                $("#inv_upid").val(value.upid);
+                                $("#inv_urid").val(value.urid);
+                                var formData = JSON.stringify($("#inv_form").serializeArray());
+
+                                $.post(url + "/add_f_m_consignment/", formData, function (data, status) {
+
+                                  if (data.wasSuccess == "false") {
+                                    alert("Please try again, you might not be registered.")
+                                  } else {
+                                    alert("success")
+                                    console.log(data);
+                                    $("#id_ordered").empty();
+                                    $("#id_ordered").append('<h4>Item ordered <br> Consignment Id: '+ data.ucid +'<h4>')
+                                  }
+                                });
+
+                              });
+                    });
+                  }
+                });
               });
 
               // $("#list_of_all_req").append('<li>' + value.FE_name + '</li>')
@@ -697,6 +677,7 @@
 
 
       $("#btn_buy_farm_tools").click(function () {
+        $("#id_ordered").empty();
 
         $("#id_btn_show_all_buy_prod").show();
 
@@ -705,7 +686,7 @@
         $("#inv_PAN").val(user_data);
         var formData = JSON.stringify($("#inv_form").serializeArray());
         console.log(formData)
-        $.post("http://127.0.0.1:8000/get_ftool_list/", formData, function (data, status) {
+        $.post(url + "/get_ftool_list/", formData, function (data, status) {
 
           alert("Data: " + data[0].upid + "\nStatus: " + status);
           if (data.wasSuccess == "false") {
@@ -720,27 +701,80 @@
                                   '<div class="col-md-4 product-men">' +
                                     '<div class="men-pro-item simpleCart_shelfItem">' +
                                       '<div class="men-thumb-item">' +
+                                      '<a href="#" id = "buy_prod_' + index + '">' + 
                                           '<span class="product-new-top">'+value.name+'</span>' +
-                                        '<img src="http://127.0.0.1:8000'+ value.img_url+ '" width="300px" height="200px">' +
-                                      '</div>' +
-                                      '<div class="item-info-product ">' +
-                                        '<div class="info-product-price">' +
-                                          '<span class="item_price">Rs. ' + value.price + '</span>' +
-                                        '</div>' +
+                                          '</a>' +
+                                        '<img src="'+url + value.img_url+ '" width="300px" height="200px">' +
                                       '</div>' +
                                     '</div>' +
                                   '</div>' +
                                 '</div>' +
                               '</div>' +
                         '</li>')
+                        $("#buy_prod_" + index).click(function(){
+                          $("#id_ordered").empty();
+                            $("#id_btn_show_all_buy_prod").hide();
+                            $("#id_btn_show_all_buy_prod_opt").show();
 
-                //       $("#prod_"+ index).click(function(){
-                // $("#id_show_all_prod").hide();
-                // $("#id_list_of_prod_req").show();
-          // });
+                            user_data = JSON.parse(localStorage.getItem('user')).PAN;
+                            $("#inv_PAN").val(user_data);
+                            $("#inv_ufid").val(value.ufid)
+                            var formData = JSON.stringify($("#inv_form").serializeArray());
+                            // console.log(formData)
+                            $.post(url + "/get_ft_buy_list/", formData, function (data, status) {
 
-                      // $("#list_of_all_req").append('<li>' + value.FE_name + '</li>')
-                  console.log(value)
+                              if (data.wasSuccess == "false") {
+                                alert("Please try again, you might not be registered.")
+                              }
+                                      else{
+                                        
+                                        $("#list_of_farm_tools").empty();
+                                        $(data).each(function(index, value){
+                                          $('#list_of_farm_tools').append('<li>' +
+                              '<div class="product-sec1">'+
+                                  '<h3 class="seller_name">Seller name: '+ value.seller_name+'</h3>'+
+                                  '<div class="col-md-4 product-men">'+
+                                    '<div class="men-pro-item simpleCart_shelfItem">'+
+                                      '<div class="item-info-product ">'+
+                                          '<a href="#" id="price_'+index+'">Seller Price: Rs. '+value.price+'</a>'+
+                                        '<div class="info-product-price">'+
+                                        '<h4>' + 
+                                          '<span class="final_price">Final price: Rs. '+value.final_price+'</span>'+
+                                          '</h4>' +
+                                        '</div>'+
+                                      '</div>'+
+                                   ' </div>'+
+                                  '</div>'+
+                                '</div>'+
+                          '</li>');
+
+                          $("#price_"+index).click(function(){
+                            $("#id_btn_show_all_buy_prod_opt").hide();
+
+                            user_data = JSON.parse(localStorage.getItem('user')).PAN;
+                            alert(value.upid);
+                            $("#inv_PAN").val(user_data);
+                            $("#inv_upid").val(value.upid);
+                            var formData = JSON.stringify($("#inv_form").serializeArray());
+
+                            $.post(url + "/add_fts_f_consignment/", formData, function (data, status) {
+
+                              if (data.wasSuccess == "false") {
+                                alert("Please try again, you might not be registered.")
+                              } else {
+                                alert("success")
+                                console.log(data);
+                                $("#id_ordered").empty();
+                                $("#id_ordered").append('<h4>Item ordered <br> Consignment Id: '+ data.ucid +'<h4>')
+                              }
+                            });
+                          });
+  
+                                    });
+                              }
+                            });
+
+                        });
                 });
           }
         });
@@ -756,6 +790,34 @@
         $("#id_view_farm_tools").hide();
       })
 
+//consignment place edit
+      user_data = JSON.parse(localStorage.getItem('user'));
+      
+      
+      // console.log(user_data.available_capacity)
+      console.log(user_data)
+        user_data = JSON.parse(localStorage.getItem('user')).PAN; 
+        console.log("User data \n")
+        console.log(user_data)
+        $("#inv_PAN").val(user_data);
+        var formData = JSON.stringify($("#inv_form").serializeArray());
+        console.log(formData)
+        // console.log("TEST")
+        $.post(url+"/get_past_consignments/", formData, function (data, status) {
+          $("#id_list_of_all_transaction").empty();
+
+          $(data).each(function (index, value) {
+            // console.log("LOL")
+            if (data.wasSuccess == "false") {
+              alert("Please try again, you might not be registered.")
+                }else{
+                  $("#id_list_of_all_transaction").append('<h5> Consignment ID: ' + value.ucid + '</h5>' +
+                  '<h5> Commodity ' + value.entity_type + '</h5>' +   
+                  '<h5> Consignment type: ' + value.cons_type + '</h5>' + 
+                  '<h5> With person: ' + value.sec_party + '</h5> <br>');
+                }
+              })
+            })
 
     });
   </script>
@@ -771,6 +833,8 @@
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
+
+
 
 </body>
 

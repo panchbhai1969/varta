@@ -1,6 +1,6 @@
 backports.shutil-get-terminal-size==1.0.0
 decorator==4.0.10
-Django==2.1
+Django==2.2.24
 pymemcache
 enum34==1.1.6
 ipython-genutils==0.1.0
